@@ -7,7 +7,7 @@ $(function(){
     $("#bouton").click(function(){
         console.info("click")
         $.getJSON("/4103C/server/request.php?no_req=0",function(data){
-            console.log(data);
+            alert(data);
         });
 
     });
