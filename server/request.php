@@ -10,9 +10,14 @@ header('Content-Type: application/json');
 switch($_GET['no_req']){
     
     case 0:
-        echo json_encode('Contenu JSON encodé');
+        echo json_encode(array("1"=>"bonjour","2"=>"aurevoir"));
         break;
 
+    case 1:
+        echo json_encode('Récupérer le contenu du tableau 2');
+        break;
+
+    
     default:
         break;
 }
