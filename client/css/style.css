@@ -1,5 +1,12 @@
-th {
-    border: 1px solid black;
+th,td{
+    border: 1px solid white;
     text-align: center;
+    padding: 0px;
+    width: 20px;
+}
+
+.btn-small {
+    height: 20px;
+    padding: 20px;
 }
 
