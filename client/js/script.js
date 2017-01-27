@@ -22,10 +22,11 @@ $(function(){
                 console.log('erreur')
             }
         }
-
-        $(".btn").click(function(){
-            $(this).addClass("red");
-        });
     },1000);
    
+    $(".btn").click(function(){
+        $(this).removeClass("teal");
+        $(this).removeClass("lighten-2");            
+        $(this).addClass("red");
+    });
 });
