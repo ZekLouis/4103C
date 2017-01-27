@@ -5,6 +5,11 @@ th,td{
     width: 20px;
 }
 
+table{
+    width:auto !important;
+    margin:auto;
+}
+
 .btn-small {
     height: 20px;
     padding: 20px;
