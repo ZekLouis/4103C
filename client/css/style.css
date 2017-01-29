@@ -15,3 +15,7 @@ table{
     padding: 20px;
 }
 
+
+.boat{
+  z-index:999;
+}

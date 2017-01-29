@@ -2,7 +2,7 @@
  * Created by zeklouis on 23/01/17.
  */
 
-// Requete 0 : récupération des données 
+// Requete 0 : récupération des données
 
 $(function(){
     setInterval(function(){
@@ -23,10 +23,35 @@ $(function(){
             }
         }
     },1000);
-   
+
     $(".btn").click(function(){
         $(this).removeClass("teal");
-        $(this).removeClass("lighten-2");            
+        $(this).removeClass("lighten-2");
         $(this).addClass("red");
+    });
+
+
+
+    // PLACEMENT DES bateaux
+    $(".boat").draggable({revert: 'invalid'});
+
+    $('.frame-drop').droppable({
+      drop : function(event, ui){
+        $(this).removeClass("teal");
+        $(this).removeClass("lighten-2");
+        $(this).addClass("green");
+        $(ui.draggable).remove();
+        $(this).css('background', 'url("/4103C/client/images/boat.png") no-repeat center');
+      },
+      over : function(){
+        $(this).removeClass("teal");
+        $(this).removeClass("lighten-2");
+        $(this).addClass("blue");
+      },
+      out : function(){
+        $(this).removeClass("blue");
+        $(this).addClass("teal");
+        $(this).addClass("lighten-2");
+      }
     });
 });
