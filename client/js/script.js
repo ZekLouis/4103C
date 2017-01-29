@@ -24,7 +24,7 @@ $(function(){
         }
     },1000);
    
-    $(".btn").click(function(){
+    $(".btn").on("click", function(){
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");            
         $(this).addClass("red");
