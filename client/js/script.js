@@ -2,6 +2,9 @@
  * Created by zeklouis on 23/01/17.
  */
 
+// TODO Correction Cas B2 C2 I ...
+// Dimensions des bateaux dynamiques avec un petit for
+
 // Requete 0 : récupération des données
 
 // Fonction permettant d'incrémenter un char !
@@ -50,6 +53,10 @@ $(function(){
         // On récupère data x et data y du td parent
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
+
+        // Case ui data height
+
+        // Stocker les séléecteurs dans une variable
 
         // On affecte le changement de couleur a la case en dessous
         $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("teal");
