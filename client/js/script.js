@@ -4,6 +4,12 @@
 
 // Requete 0 : récupération des données
 
+// Fonction permettant d'incrémenter un char !
+function nextChar(c) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
+
+
 $(function(){
     setInterval(function(){
         var xhr = new XMLHttpRequest();
@@ -30,28 +36,53 @@ $(function(){
         $(this).addClass("red");
     });
 
+/*  Placement des bateaux */
 
-
-    // PLACEMENT DES bateaux
+    // Rend les bateaux "draggable"
     $(".boat").draggable({revert: 'invalid'});
 
+    // Définit les cases comme zone de "drop"
+      // Au drop : changement de couleur de la case + suppression de l'image
+      // Au survol : changement de la couleur de la case momentané.
     $('.frame-drop').droppable({
       drop : function(event, ui){
+
+        // On récupère data x et data y du td parent
+        var dataX = $(this).parent().data('x');
+        var dataY = $(this).parent().data('y');
+
+        // On affecte le changement de couleur a la case en dessous
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("teal");
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("lighten-2");
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("green");
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').droppable( 'disable' );
+
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
         $(ui.draggable).remove();
         $(this).css('background', 'url("/4103C/client/images/boat.png") no-repeat center');
+        $(this).droppable( 'disable' );
       },
       over : function(){
+        var dataX = $(this).parent().data('x');
+        var dataY = $(this).parent().data('y');
+
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("teal");
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("blue");
+
         $(this).removeClass("teal");
-        $(this).removeClass("lighten-2");
         $(this).addClass("blue");
       },
       out : function(){
+        var dataX = $(this).parent().data('x');
+        var dataY = $(this).parent().data('y');
+
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("blue");
+        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("teal");
+
         $(this).removeClass("blue");
         $(this).addClass("teal");
-        $(this).addClass("lighten-2");
       }
     });
 });
