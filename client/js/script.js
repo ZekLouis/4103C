@@ -39,6 +39,12 @@ $(function(){
         $(this).addClass("red");
     });
 
+    $("#last_name").on("change",function(){
+        $("#my_pseudo").text(function(){
+            return $("#last_name").val();
+        });
+    });
+
 /*  Placement des bateaux */
 
     // Rend les bateaux "draggable"
@@ -59,34 +65,47 @@ $(function(){
         // Stocker les séléecteurs dans une variable
 
         // On affecte le changement de couleur a la case en dessous
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("teal");
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("lighten-2");
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("green");
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').droppable( 'disable' );
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
+            under_case.removeClass("teal");
+            under_case.removeClass("lighten-2");
+            under_case.addClass("green");
+            under_case.droppable('disable');
+            dataY = nextChar(dataY)
+        }
 
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
         $(ui.draggable).remove();
-        $(this).css('background', 'url("/4103C/client/images/boat.png") no-repeat center');
+        $(this).css('background', 'url("../../4103C/client/images/boat.png") no-repeat center');
         $(this).droppable( 'disable' );
       },
-      over : function(){
+      over : function(event,ui){
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
+        
 
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("teal");
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("blue");
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); 
+            under_case.addClass("blue");
+            under_case.removeClass("teal");
+            dataY = nextChar(dataY)
+            console.log(i);
+        }
 
         $(this).removeClass("teal");
         $(this).addClass("blue");
       },
-      out : function(){
+      out : function(event,ui){
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
-
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').removeClass("blue");
-        $('td[data-y="'+nextChar(dataY)+'"][data-x="'+dataX+'"] button').addClass("teal");
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
+            under_case.removeClass("blue");
+            under_case.addClass("teal");
+            dataY = nextChar(dataY)
+        }
 
         $(this).removeClass("blue");
         $(this).addClass("teal");
