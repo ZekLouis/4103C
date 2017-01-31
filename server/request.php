@@ -13,7 +13,7 @@ $tableauJoueur = array("Nbjoueur" => 0, "liste" => array("joueur1" => "tata", "j
 switch($_GET['no_req']){
     
     case 0:
-        echo json_encode(array("1"=>"bonjour","2"=>"aurevoir"));
+        echo json_encode(array("bite"=>"bonjour","2"=>"aurevoir"));
         break;
 
     case 1:

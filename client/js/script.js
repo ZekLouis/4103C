@@ -26,7 +26,7 @@ $(function(){
 
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(JSON.parse(xhr.responseText)[1])
+                console.log(JSON.parse(xhr.responseText)["bite"])
             }else if(xhr.readyState == 4 && xhr.status != 200){
                 console.log('erreur')
             }
