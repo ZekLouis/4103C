@@ -82,6 +82,7 @@ $(function(){
         $(this).droppable( 'disable' );
       },
       over : function(event,ui){
+        // Code executé au survol d'une case
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
         
@@ -98,6 +99,7 @@ $(function(){
         $(this).addClass("blue");
       },
       out : function(event,ui){
+        // Code executé à l'arrêt du survol de la case (sortie/out)
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
         for(var i = 0; i<$(ui.draggable).data('height');i++){
