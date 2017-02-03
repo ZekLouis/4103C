@@ -26,33 +26,44 @@ switch($_GET['no_req']){
         break;
 
     case 4:
-    	$json = json_decode(file_get_contents('data.json'));
 
-    	foreach ($json->liste as $joueur) {
-	    	echo $joueur;
-		}
+            resetFichierPartie('partieTest.json');
         break;
 
     case 5:
-
-        error_reporting(~0); ini_set('display_errors', 1);
-        $string = htmlspecialchars(file_get_contents('beta.json'));
-        $json = json_decode($string, true);
-        echo "Json".$json;
-        foreach($json as $key=>$value) {
-            if (!is_array($value)) {
-                echo $key . '=>' . $value . '<br />';
-            } else {
-                foreach ($value as $key=>$val) {
-                    echo $key . '=>' . $val . '<br />';
-                }
-            }
-        }
+        $partie = 'partieTest.json';
+        SaisirJoueur("titi",$partie);
+        SaisirJoueur("toto",$partie);
+        
         break;
-
     default:
         echo "Erreur : pas de param";
 
 }
 
+
+function SaisirJoueur($pseudoJ, $fichierPartie){
+        $json = json_decode(file_get_contents($fichierPartie));
+     
+        if($json->{'infos_partie'}->{'nbjoueurs'}==0){
+
+            $json->{'infos_partie'}->{'pseudo_j1'}=$pseudoJ;
+            $json->{'infos_partie'}->{'nbjoueurs'}="1";
+        }
+        else{
+
+            $json->{'infos_partie'}->{'pseudo_j2'}=$pseudoJ;
+            $json->{'infos_partie'}->{'nbjoueurs'}="2";
+        }
+
+        $json = json_encode($json);
+        var_dump($json);
+        file_put_contents($fichierPartie,$json);
+}
+
+function resetFichierPartie($fichierPartie){
+
+    $modele = file_get_contents('modele.json');
+    file_put_contents($fichierPartie, $modele);
+}
 ?>
