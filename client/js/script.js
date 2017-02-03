@@ -60,55 +60,82 @@ $(function(){
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
 
-        // Case ui data height
-
-        // Stocker les séléecteurs dans une variable
-
         // On affecte le changement de couleur a la case en dessous
         for(var i = 0; i<$(ui.draggable).data('height');i++){
-            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
             under_case.removeClass("teal");
             under_case.removeClass("lighten-2");
             under_case.addClass("green");
             under_case.droppable('disable');
+            // On passe a la case suivante
             dataY = nextChar(dataY)
         }
-
+        // On affecte les changements à la case visée par le drop
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
+        // On supprime l'image draggable droppée
         $(ui.draggable).remove();
         $(this).css('background', 'url("../../4103C/client/images/boat.png") no-repeat center');
         $(this).droppable( 'disable' );
       },
       over : function(event,ui){
+
         // Code executé au survol d'une case
+
+        // On sélectionne la valeur data x et data y du td parent au bouton survolé
+
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
-        
 
-        for(var i = 0; i<$(ui.draggable).data('height');i++){
-            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); 
-            under_case.addClass("blue");
-            under_case.removeClass("teal");
-            dataY = nextChar(dataY)
-            console.log(i);
+        var length = $(ui.draggable).data('height');
+
+        var lastElementBoat = dataY;
+        for(var i = 1; i<length;i++){
+          lastElementBoat = nextChar(lastElementBoat);
         }
-
-        $(this).removeClass("teal");
-        $(this).addClass("blue");
+        if(lastElementBoat>"J"){
+          // On change de couleur sur la longueur du bateau drag
+          for(var i = 0; i<length;i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
+              under_case.addClass("red");
+              under_case.removeClass("teal");
+              dataY = nextChar(dataY)
+          }
+          // On change la couleur sur la case survolée
+          $(this).removeClass("teal");
+          $(this).addClass("red");
+          // Droppable désactivé si la derniere case du bateau dépasse le J
+          $(this).droppable( 'disable' );
+        }else{
+          // On change de couleur sur la longueur du bateau drag
+          for(var i = 0; i<length;i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
+              under_case.addClass("blue");
+              under_case.removeClass("teal");
+              dataY = nextChar(dataY)
+          }
+          // On change la couleur sur la case survolée
+          $(this).removeClass("teal");
+          $(this).addClass("blue");
+        }
       },
       out : function(event,ui){
+
         // Code executé à l'arrêt du survol de la case (sortie/out)
+
+        // On sélectionne la valeur data x et data y du td parent au bouton quitté
+
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
+        // On rétablit la couleur sur la longueur du bateau drag
         for(var i = 0; i<$(ui.draggable).data('height');i++){
             var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button');
             under_case.removeClass("blue");
             under_case.addClass("teal");
             dataY = nextChar(dataY)
         }
-
+        // On rétablit la couleur sur la case quittée
         $(this).removeClass("blue");
         $(this).addClass("teal");
       }
