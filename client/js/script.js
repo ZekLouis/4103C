@@ -6,6 +6,13 @@
 // Dimensions des bateaux dynamiques avec un petit for
 
 // Requete 0 : récupération des données
+// Requete 1 : Bidon
+// Requete 2 : Empty
+// Requete 3 : Test
+// Requete 4 : Test
+// Requete 5 : Test
+// Requete 6 : Inscription d'un joueur
+// Requete 7 : Desincription d'un joueur
 
 // Fonction permettant d'incrémenter un char !
 function nextChar(c) {
@@ -26,7 +33,7 @@ $(function(){
 
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(JSON.parse(xhr.responseText)["bite"])
+                console.log(JSON.parse(xhr.responseText)["1"])
             }else if(xhr.readyState == 4 && xhr.status != 200){
                 console.log('erreur')
             }
@@ -40,9 +47,22 @@ $(function(){
     });
 
     $("#last_name").on("change",function(){
-        $("#my_pseudo").text(function(){
-            return $("#last_name").val();
-        });
+
+        //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/4103C/server/request.php?no_req=6&pseudo='+$("#last_name").val());
+        xhr.send(null);
+
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var pseudo = JSON.parse(xhr.responseText)['pseudo'];
+                $("#my_pseudo").text(function(){
+                    return pseudo;
+                });
+            }else if(xhr.readyState == 4 && xhr.status != 200){
+                console.log('erreur')
+            }
+        }
     });
 
 /*  Placement des bateaux */
@@ -147,4 +167,23 @@ $(function(){
     function finDePartie(){
         return null;
     };
+
+    $(window).on("unload",function(){
+        // Reset de tous le fichier JSON
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/4103C/server/request.php?no_req=7&pseudo='+$("#last_name").val());
+        xhr.send(null);
+
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var pseudo = JSON.parse(xhr.responseText)['pseudo'];
+                $("#my_pseudo").text(function(){
+                    return pseudo;
+                });
+            }else if(xhr.readyState == 4 && xhr.status != 200){
+                console.log('erreur')
+            }
+        }
+        alert("bye");
+    });
 });

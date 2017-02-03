@@ -13,7 +13,7 @@ $tableauJoueur = array("Nbjoueur" => 0, "liste" => array("joueur1" => "tata", "j
 switch($_GET['no_req']){
     
     case 0:
-        echo json_encode(array("bite"=>"bonjour","2"=>"aurevoir"));
+        echo json_encode(array("1"=>"bonjour","2"=>"aurevoir"));
         break;
 
     case 1:
@@ -50,6 +50,19 @@ switch($_GET['no_req']){
         }
         break;
 
+
+        case 6:
+            echo json_encode(array("pseudo"=>$_GET['pseudo']));
+            //Insertion de $_GET['pseudo'] dans le json
+            //Incrémentation du nb joueurs dans le json
+
+            // return le nom d'un autre joueur s'il y a
+            // return le nombre de joueurs
+            break;
+
+        case 7:
+            // Réinitialisation du fichier JSON
+            break;
     default:
         echo "Erreur : pas de param";
 
