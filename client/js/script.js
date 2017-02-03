@@ -10,7 +10,7 @@
 // Fonction permettant d'incrémenter un char !
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
-}
+};
 
 
 $(function(){
@@ -140,4 +140,11 @@ $(function(){
         $(this).addClass("teal");
       }
     });
+
+
+
+    // Fonction de fin de partie TODO
+    function finDePartie(){
+        return null;
+    };
 });

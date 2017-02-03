@@ -31,6 +31,27 @@ switch($_GET['no_req']){
     	foreach ($json->liste as $joueur) {
 	    	echo $joueur;
 		}
+        break;
+
+    case 5:
+
+        error_reporting(~0); ini_set('display_errors', 1);
+        $string = htmlspecialchars(file_get_contents('beta.json'));
+        $json = json_decode($string, true);
+        echo "Json".$json;
+        foreach($json as $key=>$value) {
+            if (!is_array($value)) {
+                echo $key . '=>' . $value . '<br />';
+            } else {
+                foreach ($value as $key=>$val) {
+                    echo $key . '=>' . $val . '<br />';
+                }
+            }
+        }
+        break;
+
+    default:
+        echo "Erreur : pas de param";
 
 }
 
