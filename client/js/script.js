@@ -20,6 +20,22 @@ function nextChar(c) {
 };
 
 
+/**
+ * Cette fonction permet de modifier le HTML en fonction des données reçues par le server
+ */
+function affecte(nbJoueurs,j1,j2){
+    $("#j1").text(function(){
+        return j1;
+    });
+    $("#j2").text(function(){
+        return j2;
+    });
+    $("#nbJoueurs").text(function(){
+        return nbJoueurs;
+    });
+};
+
+
 $(function(){
     setInterval(function(){
         var xhr = new XMLHttpRequest();
@@ -28,8 +44,8 @@ $(function(){
             console.info(data[2]);
         });*/
 
-        xhr.open('GET', '/4103C/server/request.php?no_req=0');
-        xhr.send(null);
+        //xhr.open('GET', '/4103C/server/request.php?no_req=0');
+        //xhr.send(null);
 
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
@@ -55,10 +71,7 @@ $(function(){
 
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
-                var pseudo = JSON.parse(xhr.responseText)['pseudo'];
-                $("#my_pseudo").text(function(){
-                    return pseudo;
-                });
+                affecte(JSON.parse(xhr.responseText)["Nb"],JSON.parse(xhr.responseText)["j1"],JSON.parse(xhr.responseText)["j2"]);
             }else if(xhr.readyState == 4 && xhr.status != 200){
                 console.log('erreur')
             }
