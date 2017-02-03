@@ -40,12 +40,9 @@ switch($_GET['no_req']){
 
 
         case 6:
-            echo json_encode(array("pseudo"=>$_GET['pseudo']));
-            //Insertion de $_GET['pseudo'] dans le json
-            //Incrémentation du nb joueurs dans le json
-
-            // return le nom d'un autre joueur s'il y a
-            // return le nombre de joueurs
+            SaisirJoueur($_GET['pseudo'],'partieTest.json');
+            echo json_encode(getNomAndNbJoueurs('partieTest.json'));
+            
             break;
 
         case 7:
@@ -80,5 +77,16 @@ function resetFichierPartie($fichierPartie){
 
     $modele = file_get_contents('modele.json');
     file_put_contents($fichierPartie, $modele);
+}
+
+function getNomAndNbJoueurs($Fichierpartie){
+
+    $result = array(
+        "Nb"=> $json->{'infos_partie'}->{'nbjoueurs'} ,
+        "j1"=>$json->{'infos_partie'}->{'pseudo_j1'},
+        "j2"=>$json->{'infos_partie'}->{'pseudo_j2'}
+        );
+    return $result;
+
 }
 ?>
