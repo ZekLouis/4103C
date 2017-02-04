@@ -179,6 +179,7 @@ $(function(){
                 var pseudo = JSON.parse(xhr.responseText)['pseudo'];
                 $("#my_pseudo").text(function(){
                     return pseudo;
+
                 });
             }else if(xhr.readyState == 4 && xhr.status != 200){
                 console.log('erreur')
@@ -186,4 +187,14 @@ $(function(){
         }
         alert("bye");
     });
+
+    $('.btnValider').click(function(){
+    
+        $(".btn").each(function(){
+            if ($(this).hasClass("green")){
+                console.log(this)
+            }
+        });
+    });
 });
+
