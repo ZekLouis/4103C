@@ -26,28 +26,24 @@ switch($_GET['no_req']){
         break;
 
     case 4:
-
-            resetFichierPartie('partieTest.json');
+        resetFichierPartie('partieTest.json');
         break;
 
     case 5:
         $partie = 'partieTest.json';
         SaisirJoueur("titi",$partie);
         SaisirJoueur("toto",$partie);
-        
         break;
 
+    case 6:
+        SaisirJoueur($_GET['pseudo'],'partieTest.json');
+        echo json_encode(getNomAndNbJoueurs('partieTest.json'));
+        break;
 
+    case 7:
+        // Réinitialisation du fichier JSON
+        break;
 
-        case 6:
-            SaisirJoueur($_GET['pseudo'],'partieTest.json');
-            echo json_encode(getNomAndNbJoueurs('partieTest.json'));
-            
-            break;
-
-        case 7:
-            // Réinitialisation du fichier JSON
-            break;
     default:
         echo "Erreur : pas de param";
 
@@ -62,14 +58,16 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
             $json->{'infos_partie'}->{'pseudo_j1'}=$pseudoJ;
             $json->{'infos_partie'}->{'nbjoueurs'}="1";
         }
-        else{
+        else if($json->{'infos_partie'}->{'nbjoueurs'}==1){
 
             $json->{'infos_partie'}->{'pseudo_j2'}=$pseudoJ;
             $json->{'infos_partie'}->{'nbjoueurs'}="2";
+        }else{
+            //Création d'un nouveau fichier pour une nouvelle partie
+            echo "Erreur : partie pleine";
         }
 
         $json = json_encode($json);
-        var_dump($json);
         file_put_contents($fichierPartie,$json);
 }
 
@@ -80,12 +78,13 @@ function resetFichierPartie($fichierPartie){
 }
 
 function getNomAndNbJoueurs($Fichierpartie){
+    $json = json_decode(file_get_contents($Fichierpartie));
 
     $result = array(
-        "Nb"=> $json->{'infos_partie'}->{'nbjoueurs'} ,
+        "Nb"=>$json->{'infos_partie'}->{'nbjoueurs'},
         "j1"=>$json->{'infos_partie'}->{'pseudo_j1'},
         "j2"=>$json->{'infos_partie'}->{'pseudo_j2'}
-        );
+    );
     return $result;
 
 }
