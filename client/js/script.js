@@ -91,8 +91,7 @@ $(function(){
         // On récupère data x et data y du td parent
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
-        console.log(dataX);
-        console.log(dataY);
+
 
         // On affecte le changement de couleur a la case en dessous
         for(var i = 0; i<$(ui.draggable).data('height');i++){
@@ -103,10 +102,8 @@ $(function(){
             under_case.droppable('disable');
 
             var id = $(ui.draggable).attr('id');
-            console.log(id);
 
-            under_case.attr('id', id);
-            console.log($(this).attr('id'));
+            under_case.addClass(id);
             // On passe a la case suivante
             dataY += 1;
         }
