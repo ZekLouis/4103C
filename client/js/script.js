@@ -104,6 +104,9 @@ $(function(){
 
             var id = $(ui.draggable).attr('id');
             console.log(id);
+
+            under_case.attr('id', id);
+            console.log($(this).attr('id'));
             // On passe a la case suivante
             dataY += 1;
         }
