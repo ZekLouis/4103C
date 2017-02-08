@@ -36,8 +36,7 @@ switch($_GET['no_req']){
         break;
 
     case 6:
-        SaisirJoueur($_GET['pseudo'],'partieTest.json');
-        echo json_encode(getNomAndNbJoueurs('partieTest.json'));
+        echo json_encode(array("res"=>true));
         break;
 
     case 7:

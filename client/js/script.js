@@ -16,7 +16,7 @@
 // Requete 8 : Récupération de la liste des parties
 
 /**
- * Fonction permettant d'incrémenter un char !
+ * Fonction permettant d'incrémenter un char
  */
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
@@ -92,12 +92,16 @@ $(function(){
     generateTabJou();
     generateTabAdv();
 
+    /*
+        Requete permettant de récupérer la liste des parties
+    */
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         var nbParties = data['nb_parties'];
         var listePartie = data['liste_partie'];
         for(var i = 0; i < nbParties; i ++){
                 var statut = "";
                 var classe = "";
+
                 switch (listePartie[i]['nbJoueurs']){
                     case 0:
                         statut = "Partie vide";
@@ -116,31 +120,52 @@ $(function(){
                         statut = "Erreur";
                         break;
                 }
-                $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
-                +'"><td>'+listePartie[i]['name']
+                /*
+                    On modifie le tableau pour y faire figurer toutes les infos de chaque partie
+                */
+
+                var nomDePartie = listePartie[i]['name'];
+                nomDePartie = nomDePartie.split(".");
+                nomDePartie = nomDePartie[0];
+                $("#listePartieTab").append('<tr id="'+nomDePartie
+                +'"><td>'+nomDePartie
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button data-partie="'+listePartie[i]['name']+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
-                $(".join").click(function() {
-                    $("#modal1").modal('open');
-                });
+                +'/2</td><td><button data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
         };
+        $(".join").click(function() {
+            $("#modal1").modal('open');
+            nomPartie = $(this).data('partie');
+        });
     });
 
     $(".joinSuite").click(function() {
         var pseudo = $("#pseudo").val();
 
-        // requete
-
         if(pseudo==""){
-            alert("Erreur : pseudo ne doit pas être vide");
+            Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
-            console.info("Joining : "+$(this).data('partie'));
-            $(".join").addClass("disabled");
+            console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
-            setTimeout(function(){
-                $("#init").slideUp(300);
-                $("#main").slideDown(300);
-            },3000);
+            $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+                console.log(data);
+                if(data['res']==true){
+                    $("#init").slideUp(300);
+                    $("#main").slideDown(300);
+                    Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
+                    setTimeout(function(){
+                        Materialize.toast('Commencez par placer vos bateaux', 5000);
+                    },1000);
+                    setTimeout(function(){
+                        Materialize.toast('Validez une fois le placement terminé', 5000);
+                    },3000);
+                    setTimeout(function(){
+                        Materialize.toast('Vous pouvez faire tourner vos bateaux avec la touche R tout en faisant glisser le bateau', 5000);
+                    },6000);
+                }else{
+                    $(".loader").slideUp(300);
+                    Materialize.toast('Échec de la connexion', 4000);
+                }
+            });
         }
     });
 
@@ -267,6 +292,7 @@ $(function(){
         return null;
     };
 
+    /* Déconnexion d'un joueur
     $(window).on("unload",function(){
         // Reset de tous le fichier JSON
         var xhr = new XMLHttpRequest();
@@ -278,14 +304,13 @@ $(function(){
                 var pseudo = JSON.parse(xhr.responseText)['pseudo'];
                 $("#my_pseudo").text(function(){
                     return pseudo;
-
                 });
             }else if(xhr.readyState == 4 && xhr.status != 200){
                 console.log('erreur')
             }
         }
         alert("bye");
-    });
+    });*/
 
     $('.btnValider').click(function(){
         var boat2 = [];
