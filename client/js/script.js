@@ -22,6 +22,10 @@ function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 };
 
+
+/**
+ * Fonction permettant de générer le tableau de jeu de l'adversaire
+ */
 function generateTabAdv(){
     var j = 1;
     var char = "A";
@@ -39,6 +43,9 @@ function generateTabAdv(){
     }
 };
 
+/**
+ *  Fonction permettant de générer le tableau de jeu du joueur
+ */
 function generateTabJou(){
     var j = 1;
     var char = "A";
@@ -78,9 +85,10 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
+    // Initialise le fonctionnement de la pop-up
     $('.modal').modal();
 
-
+    // Génération des tableaux de jeux
     generateTabJou();
     generateTabAdv();
 
@@ -120,6 +128,9 @@ $(function(){
 
     $(".joinSuite").click(function() {
         var pseudo = $("#pseudo").val();
+
+        // requete
+
         if(pseudo==""){
             alert("Erreur : pseudo ne doit pas être vide");
         }else{
