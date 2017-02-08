@@ -13,6 +13,7 @@
 // Requete 5 : Test
 // Requete 6 : Inscription d'un joueur
 // Requete 7 : Desincription d'un joueur
+// Requete 8 : Récupération de la liste des parties
 
 // Fonction permettant d'incrémenter un char !
 function nextChar(c) {
@@ -42,7 +43,34 @@ $(function(){
     */
 
 
+    $.getJSON("/4103C/server/request.php?no_req=8",function(data){
+        var nbParties = data['nb_parties'];
+        var listePartie = data['liste_partie'];
+        for(var i = 0; i < nbParties; i ++){
+                var statut = "";
+                switch (listePartie[i]['nbJoueurs']){
+                    case 0:
+                        statut = "Partie vide";
+                        break;
 
+                    case 1:
+                        statut = "Partie en attente";
+                        break;
+
+                    case 2:
+                        statut = "Partie complète";
+                        break;
+
+                    default:
+                        statut = "Erreur";
+                        break;
+                }
+                $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
+                +'"><td>'+listePartie[i]['name']
+                +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
+                +'/2</td><td><button class="btn waves-effect waves-light">Rejoindre</button></td></tr>')
+        };
+    });
 
     setInterval(function(){
         var xhr = new XMLHttpRequest();

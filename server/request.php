@@ -11,7 +11,7 @@ $tableauJoueur = array("Nbjoueur" => 0, "liste" => array("joueur1" => "tata", "j
 
 
 switch($_GET['no_req']){
-    
+
     case 0:
         creerPartie();
         break;
@@ -44,6 +44,11 @@ switch($_GET['no_req']){
         // Réinitialisation du fichier JSON
         break;
 
+    case 8:
+        $json = json_decode(file_get_contents('config.json'));
+        echo json_encode($json);
+        break;
+
     default:
         echo "Erreur : pas de param";
 
@@ -63,7 +68,7 @@ function creerPartie(){
 
 function SaisirJoueur($pseudoJ, $fichierPartie){
         $json = json_decode(file_get_contents($fichierPartie));
-     
+
         if($json->{'infos_partie'}->{'nbjoueurs'}==0){
 
             $json->{'infos_partie'}->{'pseudo_j1'}="$pseudoJ";
