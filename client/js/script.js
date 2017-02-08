@@ -92,9 +92,23 @@ $(function(){
     $(".boat").draggable({
       revert: 'invalid',
       start: function(event, ui){
-          var hauteur = $(this).data('height');
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
 
-          console.log(heightTab-hauteur);
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
+        }
+
+      },
+      stop: function(event, ui){
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
+
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", false );
+        }
 
       }
     });
@@ -126,6 +140,17 @@ $(function(){
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
+
+        // Centrer le bateau lors du drop
+        var $this = $(this);
+        ui.draggable.position({
+          my: "center",
+          at: "center",
+          of: $this,
+          using: function(pos) {
+            $(this).animate(pos, 200, "linear");
+          }
+        });
       },
       over: function(event,ui){
 
