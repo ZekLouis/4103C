@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"liste_partie":[{"name":"partie1.json","nbJoueurs":0}]}
+=======
+{"liste_partie":[{"name":"partie1.json","nbJoueurs":2},{"name":"partie2.json","nbJoueurs":2},{"name":"partie3.json","nbJoueurs":2}]}
+>>>>>>> c4ece2c6ec7f5f2ce655da9c1d004730c1f97a29

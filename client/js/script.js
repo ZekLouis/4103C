@@ -26,6 +26,13 @@ function nextChar(c) {
  * Fonction qui permet de générer dynamiquement le tableau de l'adversaire
  */
 function generateTabAdv(){
+    var k = 1;
+    $("#adversaire").append("<tr id="+j+">");
+    $("#adversaire").append("<th></th>");
+    for(k=1; k<=10; k=k+1){
+        $("#adversaire").append("<th>"+k+"</th>");
+    }
+    $("#adversaire").append("</tr>");
     var j = 1;
     var char = "A";
     for(j=11; j<=20; j=j+1){
@@ -45,6 +52,13 @@ function generateTabAdv(){
  *  Fonction permettant de générer le tableau de jeu du joueur
  */
 function generateTabJou(){
+    var k = 1;
+    $("#joueur").append("<tr id="+j+">");
+    $("#joueur").append("<th></th>");
+    for(k=1; k<=10; k=k+1){
+        $("#joueur").append("<th>"+k+"</th>");
+    }
+    $("#joueur").append("</tr>");
     var j = 1;
     var char = "A";
     for(j=1; j<=10; j=j+1){
@@ -53,7 +67,7 @@ function generateTabJou(){
             $("#"+j+"").append("<th>"+char+"</th>");
             var i = 1;
             for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td data-y="'+char+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
+                $("#"+j+"").append('<td data-y="'+j+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
             }
             char = nextChar(char);
         $("#joueur").append("</tr>");
