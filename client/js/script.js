@@ -114,9 +114,18 @@ $(function(){
     });
 
 /*  Placement des bateaux */
+    var heightTab = 10;
 
     // Rend les bateaux "draggable"
-    $(".boat").draggable({revert: 'invalid'});
+    $(".boat").draggable({
+      revert: 'invalid',
+      start: function(event, ui){
+          var hauteur = $(this).data('height');
+
+          console.log(heightTab-hauteur);
+
+      }
+    });
 
     // Définit les cases comme zone de "drop"
       // Au drop : changement de couleur de la case + suppression de l'image
@@ -127,6 +136,7 @@ $(function(){
         var dataX = $(this).parent().data('x');
         var dataY = $(this).parent().data('y');
 
+        var id = $(ui.draggable).attr('id');
 
         // On affecte le changement de couleur a la case en dessous
         for(var i = 0; i<$(ui.draggable).data('height');i++){
@@ -135,22 +145,15 @@ $(function(){
             under_case.removeClass("lighten-2");
             under_case.addClass("green");
             under_case.droppable('disable');
-
-            var id = $(ui.draggable).attr('id');
-
             under_case.addClass(id);
             // On passe a la case suivante
             dataY += 1;
         }
-
+        $(this).addClass(id);
         // On affecte les changements à la case visée par le drop
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
-        // On supprime l'image draggable droppée
-        $(ui.draggable).remove();
-        $(this).css('background', 'url("../../4103C/client/images/boat.png") no-repeat center');
-        $(this).droppable( 'disable' );
       },
       over: function(event,ui){
 
