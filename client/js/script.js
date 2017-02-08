@@ -22,6 +22,40 @@ function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 };
 
+function generateTabAdv(){
+    var j = 1;
+    var char = "A";
+    for(j=11; j<=20; j=j+1){
+        $("#adversaire").append("<tr id="+j+">");
+
+            $("#"+j+"").append("<th>"+char+"</th>");
+            //var char = nextChar($("#A").attr('id'));
+            var i = 1;
+            for(i=1; i<=10; i = i+1){
+                $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+            }
+            char = nextChar(char);
+        $("#adversaire").append("</tr>");
+    }
+};
+
+function generateTabJou(){
+    var j = 1;
+    var char = "A";
+    for(j=1; j<=10; j=j+1){
+        $("#joueur").append("<tr id="+j+">");
+
+            $("#"+j+"").append("<th>"+char+"</th>");
+            //var char = nextChar($("#A").attr('id'));
+            var i = 1;
+            for(i=1; i<=10; i = i+1){
+                $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+            }
+            char = nextChar(char);
+        $("#joueur").append("</tr>");
+    }
+};
+
 
 /**
  * Cette fonction permet de modifier le HTML en fonction des données reçues par le server
@@ -45,6 +79,10 @@ $(function(){
     */
 
     $('.modal').modal();
+
+
+    generateTabJou();
+    generateTabAdv();
 
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         var nbParties = data['nb_parties'];
@@ -248,7 +286,7 @@ $(function(){
             if ($(this).hasClass("green")){
                 var dataX = $(this).parent().data('x');
                 var dataY = $(this).parent().data('y');
-               
+
                 var position = {
                     x: dataX,
                     y: dataY
@@ -258,19 +296,19 @@ $(function(){
                     boat2.push(position);
                 }
                 if ($(this).hasClass("bateau3a")){
-                    boat3a.push(position);                
+                    boat3a.push(position);
                 }
 
                 if ($(this).hasClass("bateau3b")){
-                    boat3b.push(position);  
+                    boat3b.push(position);
                 }
 
                 if ($(this).hasClass("bateau4")){
-                    boat4.push(position);  
+                    boat4.push(position);
                 }
 
                 if ($(this).hasClass("bateau5")){
-                    boat5.push(position);  
+                    boat5.push(position);
                 }
             }
         });
