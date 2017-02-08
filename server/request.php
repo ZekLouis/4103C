@@ -80,10 +80,16 @@ function creerPartie(){
     echo $taille;
 
     if($i == $taille){
+        //création de l'objet
         $object = new stdClass();
-        $object->name="partiejson";
+        $object->name="partie".($taille+1).".json";
         $object->nbJoueurs=1;
         $config->{"liste_partie"}[$i]=$object;
+
+
+        //création du fichier
+        //fopen("partie".($taille+1).".json", "a+");
+        shell_exec('cp ./model.json ./partie'.($taille+1).".json");
     }
 
     file_put_contents('config.json', json_encode($config));
