@@ -76,6 +76,8 @@ function affecte(nbJoueurs,j1,j2){
     });
 };
 
+var nomPartie = "";
+var pseudo = "";
 
 $(function(){
     /*
@@ -93,9 +95,10 @@ $(function(){
         Requete permettant de récupérer la liste des parties
     */
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
-        var nbParties = data['nb_parties'];
+        console.log(data);
         var listePartie = data['liste_partie'];
-        for(var i = 0; i < nbParties; i ++){
+        var taillePartie = listePartie.length;
+        for(var i = 0; i < taillePartie; i ++){
                 var statut = "";
                 var classe = "";
 
@@ -136,7 +139,7 @@ $(function(){
     });
 
     $(".joinSuite").click(function() {
-        var pseudo = $("#pseudo").val();
+        pseudo = $("#pseudo").val();
 
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
@@ -289,25 +292,12 @@ $(function(){
         return null;
     };
 
-    /* Déconnexion d'un joueur
-    $(window).on("unload",function(){
-        // Reset de tous le fichier JSON
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/4103C/server/request.php?no_req=7&pseudo='+$("#last_name").val());
-        xhr.send(null);
-
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                var pseudo = JSON.parse(xhr.responseText)['pseudo'];
-                $("#my_pseudo").text(function(){
-                    return pseudo;
-                });
-            }else if(xhr.readyState == 4 && xhr.status != 200){
-                console.log('erreur')
-            }
-        }
-        alert("bye");
-    });*/
+    $("#quit").on("click",function(){
+        $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+        });
+    });
 
     $('.btnValider').click(function(){
         var boat2 = [];
