@@ -163,11 +163,45 @@ $(function(){
     });
 
     $('.btnValider').click(function(){
-
+        var boat2 = [];
+        var boat3a = [];
+        var boat3b = [];
+        var boat4 = [];
+        var boat5 = [];
         $(".btn").each(function(){
             if ($(this).hasClass("green")){
-                console.log(this)
+                var dataX = $(this).parent().data('x');
+                var dataY = $(this).parent().data('y');
+               
+                var position = {
+                    x: dataX,
+                    y: dataY
+                }
+
+                if ($(this).hasClass("bateau2")){
+                    boat2.push(position);
+                }
+                if ($(this).hasClass("bateau3a")){
+                    boat3a.push(position);                
+                }
+
+                if ($(this).hasClass("bateau3b")){
+                    boat3b.push(position);  
+                }
+
+                if ($(this).hasClass("bateau4")){
+                    boat4.push(position);  
+                }
+
+                if ($(this).hasClass("bateau5")){
+                    boat5.push(position);  
+                }
             }
         });
+        console.log(boat2);
+        console.log(boat3a);
+        console.log(boat3b);
+        console.log(boat4);
+        console.log(boat5);
     });
 });
