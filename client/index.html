@@ -87,7 +87,7 @@
                     <img class="boat" data-height="3" src="images/boat.png" alt="Bateau à placer">
                     <img class="boat" data-height="2" src="images/boat.png" alt="Bateau à placer">
                     </div>
-                    <table class="row">
+                    <table id="joueur" class="row">
                         <tr>
                             <th></th>
                             <th>1</th>
@@ -101,103 +101,32 @@
                             <th>9</th>
                             <th>10</th>
                         </tr>
-                        <tr id="1">
-                            <script>
-                            $("#1").append("<th>A</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#1").append('<td data-y="1"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="2">
-                            <script>
-                            $("#2").append("<th>B</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#2").append('<td data-y="2"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="3">
-                            <script>
-                            $("#3").append("<th>C</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#3").append('<td data-y="3"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="4">
-                            <script>
-                            $("#4").append("<th>D</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#4").append('<td data-y="4"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="5">
-                            <script>
-                            $("#5").append("<th>E</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#5").append('<td data-y="5"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="6">
-                            <script>
-                            $("#6").append("<th>F</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#6").append('<td data-y="6"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="7">
-                            <script>
-                            $("#7").append("<th>G</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#7").append('<td data-y="7"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="8">
-                            <script>
-                            $("#8").append("<th>H</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#8").append('<td data-y="8"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="9">
-                            <script>
-                            $("#9").append("<th>I</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#9").append('<td data-y="9"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="10">
-                            <script>
-                            $("#10").append("<th>J</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#10").append('<td data-y="10"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
+
+                        <script>
+                        //var char = "A";
+                        var j = 1;
+                        var char = "A";
+                        for(j=1; j<=10; j=j+1){
+                            $("#joueur").append("<tr id="+j+">");
+                            
+                                $("#"+j+"").append("<th>"+char+"</th>");
+                                //var char = nextChar($("#A").attr('id'));
+                                var i = 1;
+                                for(i=1; i<=10; i = i+1){
+                                    $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+                                }
+                                char = nextChar(char);
+                            $("#joueur").append("</tr>");        
+                        }
+                        </script>
+
                     </table>
                     <div class="row divider"></div>
                     <button class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4 btnValider" type="submit" name="action">Valider</button>
                 </div>
                 <div class="col s6">
                     <h2 class="center-align">Adversaire</h2>
-                    <table>
+                    <table id="adversaire">
                         <tr>
                             <th></th>
                             <th>1</th>
@@ -211,106 +140,23 @@
                             <th>9</th>
                             <th>10</th>
                         </tr>
-                        <tr id="A">
-                            <script>
-                            $("#J").append("<th>J</th>");
-                            var i = 1;
-                            for(i=1; i<=10; i = i+1){
-                                $("#J").append('<td data-y="J"+"data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-                            }
-                            </script>
-                        </tr>
-                        <tr id="A">
-                            <script>
-                                $("#A").append("<th>A</th>");
+                        <script>
+                        //var char = "A";
+                        var j = 11;
+                        var char = "A";
+                        for(j=11; j<=20; j=j+1){
+                            $("#adversaire").append("<tr id="+j+">");
+                                $("#"+j+"").append("<th>"+char+"</th>");
+                                //var char = nextChar($("#A").attr('id'));
                                 var i = 1;
                                 for(i=1; i<=10; i = i+1){
-                                    $("#A").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+                                    $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
                                 }
-                            </script>
-                        <tr id="B">
-                            <script>
-                                $("#B").append("<th>B</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#B").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="C">
-                            <script>
-                                $("#C").append("<th>C</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#C").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr>
-                            <tr id="D">
-                            <script>
-                                $("#D").append("<th>D</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#D").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        </tr>
-                            <tr id="E">
-                            <script>
-                                $("#E").append("<th>E</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#E").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="F">
-                            <script>
-                                $("#F").append("<th>F</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#F").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="G">
-                            <script>
-                                $("#G").append("<th>G</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#G").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="H">
-                            <script>
-                                $("#H").append("<th>H</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#H").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="I">
-                            <script>
-                                $("#I").append("<th>I</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#I").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
-                        <tr id="J">
-                            <script>
-                                $("#J").append("<th>J</th>");
-                                var i = 1;
-                                for(i=1; i<=10; i = i+1){
-                                    $("#J").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-                                }
-                            </script>
-                        </tr>
+                                char = nextChar(char);
+                            $("#adversaire").append("</tr>");        
+                        }
+                        </script>
+                        
                     </table>
                 </div>
             </div>
@@ -322,8 +168,8 @@
             </div>
         </div>
 
-        <script>
+        <!--<script>
             $("#main").hide();
-        </script>
+        </script>-->
     </body>
 </html>
