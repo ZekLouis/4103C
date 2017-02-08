@@ -13,6 +13,7 @@
 // Requete 5 : Test
 // Requete 6 : Inscription d'un joueur
 // Requete 7 : Desincription d'un joueur
+// Requete 8 : Récupération de la liste des parties
 
 // Fonction permettant d'incrémenter un char !
 function nextChar(c) {
@@ -42,7 +43,34 @@ $(function(){
     */
 
 
+    $.getJSON("/4103C/server/request.php?no_req=8",function(data){
+        var nbParties = data['nb_parties'];
+        var listePartie = data['liste_partie'];
+        for(var i = 0; i < nbParties; i ++){
+                var statut = "";
+                switch (listePartie[i]['nbJoueurs']){
+                    case 0:
+                        statut = "Partie vide";
+                        break;
 
+                    case 1:
+                        statut = "Partie en attente";
+                        break;
+
+                    case 2:
+                        statut = "Partie complète";
+                        break;
+
+                    default:
+                        statut = "Erreur";
+                        break;
+                }
+                $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
+                +'"><td>'+listePartie[i]['name']
+                +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
+                +'/2</td><td><button class="btn waves-effect waves-light">Rejoindre</button></td></tr>')
+        };
+    });
 
     setInterval(function(){
         var xhr = new XMLHttpRequest();
@@ -188,11 +216,45 @@ $(function(){
     });
 
     $('.btnValider').click(function(){
-
+        var boat2 = [];
+        var boat3a = [];
+        var boat3b = [];
+        var boat4 = [];
+        var boat5 = [];
         $(".btn").each(function(){
             if ($(this).hasClass("green")){
-                console.log(this)
+                var dataX = $(this).parent().data('x');
+                var dataY = $(this).parent().data('y');
+               
+                var position = {
+                    x: dataX,
+                    y: dataY
+                }
+
+                if ($(this).hasClass("bateau2")){
+                    boat2.push(position);
+                }
+                if ($(this).hasClass("bateau3a")){
+                    boat3a.push(position);                
+                }
+
+                if ($(this).hasClass("bateau3b")){
+                    boat3b.push(position);  
+                }
+
+                if ($(this).hasClass("bateau4")){
+                    boat4.push(position);  
+                }
+
+                if ($(this).hasClass("bateau5")){
+                    boat5.push(position);  
+                }
             }
         });
+        console.log(boat2);
+        console.log(boat3a);
+        console.log(boat3b);
+        console.log(boat4);
+        console.log(boat5);
     });
 });
