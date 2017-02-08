@@ -13,7 +13,7 @@ $tableauJoueur = array("Nbjoueur" => 0, "liste" => array("joueur1" => "tata", "j
 switch($_GET['no_req']){
     
     case 0:
-        echo json_encode(array("1"=>"bonjour","2"=>"aurevoir"));
+        creerPartie();
         break;
 
     case 1:
@@ -50,12 +50,23 @@ switch($_GET['no_req']){
 }
 
 
+function creerPartie(){
+     //$partiejson = json_decode(file_get_contents("./model.json"));
+     $config = json_decode(file_get_contents("./config.json"));
+
+    $config->{'nb_parties'}=3+1;
+    echo $config->{'nb_parties'}; 
+   
+    file_put_contents("./config.json",$config);
+
+}
+
 function SaisirJoueur($pseudoJ, $fichierPartie){
         $json = json_decode(file_get_contents($fichierPartie));
      
         if($json->{'infos_partie'}->{'nbjoueurs'}==0){
 
-            $json->{'infos_partie'}->{'pseudo_j1'}=$pseudoJ;
+            $json->{'infos_partie'}->{'pseudo_j1'}="$pseudoJ";
             $json->{'infos_partie'}->{'nbjoueurs'}="1";
         }
         else if($json->{'infos_partie'}->{'nbjoueurs'}==1){
