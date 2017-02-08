@@ -42,7 +42,7 @@ function generateTabAdv(){
 };
 
 /**
- * Fonction qui permet de générer dynamiquement le tableau du
+ *  Fonction permettant de générer le tableau de jeu du joueur
  */
 function generateTabJou(){
     var j = 1;
@@ -82,9 +82,10 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
+    // Initialise le fonctionnement de la pop-up
     $('.modal').modal();
 
-
+    // Génération des tableaux de jeux
     generateTabJou();
     generateTabAdv();
 
@@ -124,6 +125,9 @@ $(function(){
 
     $(".joinSuite").click(function() {
         var pseudo = $("#pseudo").val();
+
+        // requete
+
         if(pseudo==""){
             alert("Erreur : pseudo ne doit pas être vide");
         }else{

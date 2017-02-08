@@ -3,41 +3,34 @@
     <head>
         <meta charset="UTF-8">
         <title>Bataille navale</title>
-        <!-- imports css -->
-        <link rel="stylesheet" href="css/materialize.min.css">
         <!-- imports js -->
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/jquery-ui.min.js" charset="utf-8"></script>
         <script src="js/script.js"></script>
         <script src="js/materialize.min.js"></script>
+        <!-- imports css -->
+        <link rel="stylesheet" href="css/materialize.min.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
 
 
         <!-- Barre de navigation -->
-        <ul id="dropdown1" class="dropdown-content">
-            <li><a href="#!">one</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider"></li>
-            <li><a href="#!">three</a></li>
-        </ul>
         <div class="row">
             <nav>
                 <div class="nav-wrapper teal lighten-2">
                     <a href="#" class="brand-logo right">Bataille Navale</a>
                     <ul id="nav-mobile" class="left hide-on-med-and-down">
-                        <li class="col s4 center-align"><span id="nbJoueurs">0</span> joueurs</li>
-                        <li id="j1" class="col s3 center-align">Louis</li>
+                        <li class="col s4 center-align"><span id="nbJoueurs">none</span> joueurs</li>
+                        <li id="j1" class="col s3 center-align">none</li>
                         <li class="col s2 center-align">vs</li>
-                        <li id="j2" class="col s3 center-align">Alexandre</li>
+                        <li id="j2" class="col s3 center-align">none</li>
                     </ul>
                 </div>
             </nav>
         </div>
 
         <!-- POP UP -->
-
         <div id="modal1" class="modal">
             <div class="modal-content">
               <h4>Saisir un pseudo avant de rejoindre</h4>
@@ -74,33 +67,15 @@
                     <tbody id="listePartieTab">
 
                     </tbody>
-                        <!--<tr id="partie1">
-                            <td>Partie 1</td>
-                            <td>En cours</td>
-                            <td>2/2</td>
-                            <td><button class="btn disabled waves-effect waves-light">Rejoindre</button></td>
-                        </tr>
-                        <tr id="partie2">
-                            <td>Partie 2</td>
-                            <td>En attente</td>
-                            <td>1/2</td>
-                            <td><button class="btn waves-effect waves-light">Rejoindre</button></td>
-                        </tr>
-                        <tr id="partie3">
-                            <td>Partie 3</td>
-                            <td>Vide</td>
-                            <td>0/2</td>
-                            <td><button class="btn waves-effect waves-light">Rejoindre</button></td>
-                        </tr>
-                    </tbody>-->
                   </table>
                 </div>
             </div>
 
         <!-- Contenu de la page de jeu -->
-
         <div id="main">
             <div class="row">
+
+                <!-- Côté jouable -->
                 <div class="col s6">
                     <h2 class="center-align">Vous</h2>
                     <div class="boats">
@@ -128,6 +103,8 @@
                     <div class="row divider"></div>
                     <button class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4 btnValider" type="submit" name="action">Valider</button>
                 </div>
+
+                <!-- Côté adversaire -->
                 <div class="col s6">
                     <h2 class="center-align">Adversaire</h2>
                     <table id="adversaire">
