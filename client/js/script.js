@@ -15,9 +15,49 @@
 // Requete 7 : Desincription d'un joueur
 // Requete 8 : Récupération de la liste des parties
 
-// Fonction permettant d'incrémenter un char !
+/**
+ * Fonction permettant d'incrémenter un char !
+ */
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
+};
+
+/**
+ * Fonction qui permet de générer dynamiquement le tableau de l'adversaire
+ */
+function generateTabAdv(){
+    var j = 1;
+    var char = "A";
+    for(j=11; j<=20; j=j+1){
+        $("#adversaire").append("<tr id="+j+">");
+
+            $("#"+j+"").append("<th>"+char+"</th>");
+            var i = 1;
+            for(i=1; i<=10; i = i+1){
+                $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+            }
+            char = nextChar(char);
+        $("#adversaire").append("</tr>");
+    }
+};
+
+/**
+ *  Fonction permettant de générer le tableau de jeu du joueur
+ */
+function generateTabJou(){
+    var j = 1;
+    var char = "A";
+    for(j=1; j<=10; j=j+1){
+        $("#joueur").append("<tr id="+j+">");
+
+            $("#"+j+"").append("<th>"+char+"</th>");
+            var i = 1;
+            for(i=1; i<=10; i = i+1){
+                $("#"+j+"").append('<td data-y="'+char+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
+            }
+            char = nextChar(char);
+        $("#joueur").append("</tr>");
+    }
 };
 
 
@@ -42,12 +82,19 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
+    // Initialise le fonctionnement de la pop-up
+    $('.modal').modal();
+
+    // Génération des tableaux de jeux
+    generateTabJou();
+    generateTabAdv();
 
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         var nbParties = data['nb_parties'];
         var listePartie = data['liste_partie'];
         for(var i = 0; i < nbParties; i ++){
                 var statut = "";
+                var classe = "";
                 switch (listePartie[i]['nbJoueurs']){
                     case 0:
                         statut = "Partie vide";
@@ -59,6 +106,7 @@ $(function(){
 
                     case 2:
                         statut = "Partie complète";
+                        classe = "disabled";
                         break;
 
                     default:
@@ -68,8 +116,29 @@ $(function(){
                 $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
                 +'"><td>'+listePartie[i]['name']
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button class="btn waves-effect waves-light">Rejoindre</button></td></tr>')
+                +'/2</td><td><button data-partie="'+listePartie[i]['name']+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+                $(".join").click(function() {
+                    $("#modal1").modal('open');
+                });
         };
+    });
+
+    $(".joinSuite").click(function() {
+        var pseudo = $("#pseudo").val();
+
+        // requete
+
+        if(pseudo==""){
+            alert("Erreur : pseudo ne doit pas être vide");
+        }else{
+            console.info("Joining : "+$(this).data('partie'));
+            $(".join").addClass("disabled");
+            $(".loader").slideDown(300);
+            setTimeout(function(){
+                $("#init").slideUp(300);
+                $("#main").slideDown(300);
+            },3000);
+        }
     });
 
     setInterval(function(){
@@ -97,7 +166,7 @@ $(function(){
         $(this).addClass("red");
     });
 
-    $("#last_name").on("change",function(){
+    /*$("#last_name").on("change",function(){
 
         //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
         var xhr = new XMLHttpRequest();
@@ -111,7 +180,7 @@ $(function(){
                 console.log('erreur')
             }
         }
-    });
+    });*/
 
 /*  Placement des bateaux */
     var heightTab = 10;
@@ -120,9 +189,23 @@ $(function(){
     $(".boat").draggable({
       revert: 'invalid',
       start: function(event, ui){
-          var hauteur = $(this).data('height');
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
 
-          console.log(heightTab-hauteur);
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
+        }
+
+      },
+      stop: function(event, ui){
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
+
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", false );
+        }
 
       }
     });
@@ -154,6 +237,17 @@ $(function(){
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
+
+        // Centrer le bateau lors du drop
+        var $this = $(this);
+        ui.draggable.position({
+          my: "center",
+          at: "center",
+          of: $this,
+          using: function(pos) {
+            $(this).animate(pos, 200, "linear");
+          }
+        });
       },
       over: function(event,ui){
 
@@ -191,11 +285,45 @@ $(function(){
     });
 
     $('.btnValider').click(function(){
-
+        var boat2 = [];
+        var boat3a = [];
+        var boat3b = [];
+        var boat4 = [];
+        var boat5 = [];
         $(".btn").each(function(){
             if ($(this).hasClass("green")){
-                console.log(this)
+                var dataX = $(this).parent().data('x');
+                var dataY = $(this).parent().data('y');
+
+                var position = {
+                    x: dataX,
+                    y: dataY
+                }
+
+                if ($(this).hasClass("bateau2")){
+                    boat2.push(position);
+                }
+                if ($(this).hasClass("bateau3a")){
+                    boat3a.push(position);
+                }
+
+                if ($(this).hasClass("bateau3b")){
+                    boat3b.push(position);
+                }
+
+                if ($(this).hasClass("bateau4")){
+                    boat4.push(position);
+                }
+
+                if ($(this).hasClass("bateau5")){
+                    boat5.push(position);
+                }
             }
         });
+        console.log(boat2);
+        console.log(boat3a);
+        console.log(boat3b);
+        console.log(boat4);
+        console.log(boat5);
     });
 });
