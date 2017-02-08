@@ -143,9 +143,23 @@ $(function(){
     $(".boat").draggable({
       revert: 'invalid',
       start: function(event, ui){
-          var hauteur = $(this).data('height');
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
 
-          console.log(heightTab-hauteur);
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
+        }
+
+      },
+      stop: function(event, ui){
+        var hauteur = $(this).data('height');
+        ligneDesact = (heightTab-hauteur)+2;
+
+        for(var i = ligneDesact; i<=10; i++){
+          console.log(i);
+          $('td[data-y="'+i+'"] button').droppable( "option", "disabled", false );
+        }
 
       }
     });
@@ -177,6 +191,17 @@ $(function(){
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
+
+        // Centrer le bateau lors du drop
+        var $this = $(this);
+        ui.draggable.position({
+          my: "center",
+          at: "center",
+          of: $this,
+          using: function(pos) {
+            $(this).animate(pos, 200, "linear");
+          }
+        });
       },
       over: function(event,ui){
 
@@ -214,11 +239,45 @@ $(function(){
     });
 
     $('.btnValider').click(function(){
-
+        var boat2 = [];
+        var boat3a = [];
+        var boat3b = [];
+        var boat4 = [];
+        var boat5 = [];
         $(".btn").each(function(){
             if ($(this).hasClass("green")){
-                console.log(this)
+                var dataX = $(this).parent().data('x');
+                var dataY = $(this).parent().data('y');
+               
+                var position = {
+                    x: dataX,
+                    y: dataY
+                }
+
+                if ($(this).hasClass("bateau2")){
+                    boat2.push(position);
+                }
+                if ($(this).hasClass("bateau3a")){
+                    boat3a.push(position);                
+                }
+
+                if ($(this).hasClass("bateau3b")){
+                    boat3b.push(position);  
+                }
+
+                if ($(this).hasClass("bateau4")){
+                    boat4.push(position);  
+                }
+
+                if ($(this).hasClass("bateau5")){
+                    boat5.push(position);  
+                }
             }
         });
+        console.log(boat2);
+        console.log(boat3a);
+        console.log(boat3b);
+        console.log(boat4);
+        console.log(boat5);
     });
 });
