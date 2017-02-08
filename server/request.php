@@ -57,12 +57,37 @@ switch($_GET['no_req']){
 
 function creerPartie(){
      //$partiejson = json_decode(file_get_contents("./model.json"));
-     $config = json_decode(file_get_contents("./config.json"));
+    $config = json_decode(file_get_contents("./config.json"));
 
-    $config->{'nb_parties'}=3+1;
-    echo $config->{'nb_parties'}; 
-   
-    file_put_contents("./config.json",$config);
+    $i = 0;
+    $taille=count($config->{"liste_partie"});
+    
+    foreach($config->{"liste_partie"} as $partie){
+        //var_dump($partie);
+        var_dump($partie->{"nbJoueurs"});
+        if($partie->{"nbJoueurs"} <= 1){
+            $partie->{"nbJoueurs"}+=1;
+            file_put_contents('config.json', json_encode($config));
+            break;
+        }
+        else if($partie->{"nbJoueurs"} == 2){
+            //rien
+        }      
+      $i += 1;
+    }
+
+    echo $i;
+    echo $taille;
+
+    if($i == $taille){
+        $object = new stdClass();
+        $object->name="partiejson";
+        $object->nbJoueurs=1;
+        $config->{"liste_partie"}[$i]=$object;
+    }
+
+    file_put_contents('config.json', json_encode($config));
+
 
 }
 
