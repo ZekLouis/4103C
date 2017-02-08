@@ -36,10 +36,31 @@
             </nav>
         </div>
 
+        <!-- POP UP -->
+
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>Saisir un pseudo avant de rejoindre</h4>
+              <div class="input-field col offset-s4 s4">
+                  <input id="pseudo" type="text" data-length="10">
+                  <label for="pseudo">Pseudo</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="joinSuite modal-action modal-close waves-effect waves-green btn-flat">Continuer</a>
+            </div>
+        </div>
+
         <!-- Page permettant de lister les parties disponibles -->
         <div class="row">
             <div class="col offset-s3 s6" id="init">
                 <h2>Liste des parties</h2>
+                <div class="progress loader">
+                    <div class="indeterminate"></div>
+                </div>
+                <script>
+                    $(".loader").hide();
+                </script>
                 <table>
                     <thead>
                         <tr>
@@ -50,8 +71,10 @@
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <tr id="partie1">
+                    <tbody id="listePartieTab">
+
+                    </tbody>
+                        <!--<tr id="partie1">
                             <td>Partie 1</td>
                             <td>En cours</td>
                             <td>2/2</td>
@@ -69,10 +92,10 @@
                             <td>0/2</td>
                             <td><button class="btn waves-effect waves-light">Rejoindre</button></td>
                         </tr>
-                    </tbody>
+                    </tbody>-->
                   </table>
                 </div>
-            </div>        
+            </div>
 
         <!-- Contenu de la page de jeu -->
 
@@ -81,11 +104,11 @@
                 <div class="col s6">
                     <h2 class="center-align">Vous</h2>
                     <div class="boats">
-                    <img class="boat" data-height="5" src="images/boat.png" alt="Bateau à placer">
-                    <img class="boat" data-height="4" src="images/boat.png" alt="Bateau à placer">
-                    <img class="boat" data-height="3" src="images/boat.png" alt="Bateau à placer">
-                    <img class="boat" data-height="3" src="images/boat.png" alt="Bateau à placer">
-                    <img class="boat" data-height="2" src="images/boat.png" alt="Bateau à placer">
+                      <img class="boat" id="bateau5" data-height="5" src="images/boat.png" alt="Bateau à placer">
+                      <img class="boat" id="bateau4" data-height="4" src="images/boat.png" alt="Bateau à placer">
+                      <img class="boat" id="bateau3b" data-height="3" src="images/boat.png" alt="Bateau à placer">
+                      <img class="boat" id="bateau3a" data-height="3" src="images/boat.png" alt="Bateau à placer">
+                      <img class="boat" id="bateau2" data-height="2" src="images/boat.png" alt="Bateau à placer">
                     </div>
                     <table id="joueur" class="row">
                         <tr>
@@ -101,7 +124,6 @@
                             <th>9</th>
                             <th>10</th>
                         </tr>
-
                         <script>
                         //var char = "A";
                         var j = 1;
@@ -142,10 +164,11 @@
                         </tr>
                         <script>
                         //var char = "A";
-                        var j = 11;
+                        var j = 1;
                         var char = "A";
                         for(j=11; j<=20; j=j+1){
                             $("#adversaire").append("<tr id="+j+">");
+                            
                                 $("#"+j+"").append("<th>"+char+"</th>");
                                 //var char = nextChar($("#A").attr('id'));
                                 var i = 1;
@@ -160,16 +183,11 @@
                     </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col offset-s4 s4">
-                    <input id="last_name" type="text" data-length="10">
-                    <label for="last_name">Ton pseudo</label>
-                </div>
-            </div>
         </div>
+      
+        <script>
+            //$("#main").hide();
+        </script>
 
-        <!--<script>
-            $("#main").hide();
-        </script>-->
     </body>
 </html>
