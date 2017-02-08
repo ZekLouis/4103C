@@ -37,6 +37,13 @@ function affecte(nbJoueurs,j1,j2){
 
 
 $(function(){
+    /*
+      INITIALISATION DE LA PARTIE
+    */
+
+
+
+
     setInterval(function(){
         var xhr = new XMLHttpRequest();
         /*$.getJSON("/4103C/server/request.php?no_req=0",function(data){
@@ -202,7 +209,7 @@ $(function(){
     });
 
     $('.btnValider').click(function(){
-    
+
         $(".btn").each(function(){
             if ($(this).hasClass("green")){
                 console.log(this)
@@ -210,4 +217,3 @@ $(function(){
         });
     });
 });
-

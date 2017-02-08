@@ -1,11 +1,11 @@
-th,td{
+div#main th, div#main td{
     border: 1px solid white;
     text-align: center;
     padding: 0px;
     width: 20px;
 }
 
-table{
+div#main table{
     width:auto !important;
     margin:auto;
 }
