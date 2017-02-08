@@ -36,10 +36,31 @@
             </nav>
         </div>
 
+        <!-- POP UP -->
+
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>Saisir un pseudo avant de rejoindre</h4>
+              <div class="input-field col offset-s4 s4">
+                  <input id="pseudo" type="text" data-length="10">
+                  <label for="pseudo">Pseudo</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="joinSuite modal-action modal-close waves-effect waves-green btn-flat">Continuer</a>
+            </div>
+        </div>
+
         <!-- Page permettant de lister les parties disponibles -->
         <div class="row">
             <div class="col offset-s3 s6" id="init">
                 <h2>Liste des parties</h2>
+                <div class="progress loader">
+                    <div class="indeterminate"></div>
+                </div>
+                <script>
+                    $(".loader").hide();
+                </script>
                 <table>
                     <thead>
                         <tr>
@@ -307,17 +328,11 @@
                     </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col offset-s4 s4">
-                    <input id="last_name" type="text" data-length="10">
-                    <label for="last_name">Ton pseudo</label>
-                </div>
-            </div>
         </div>
-      <!--
+      
         <script>
             $("#main").hide();
         </script>
-      -->>
+
     </body>
 </html>

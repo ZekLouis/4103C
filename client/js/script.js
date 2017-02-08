@@ -15,7 +15,9 @@
 // Requete 7 : Desincription d'un joueur
 // Requete 8 : Récupération de la liste des parties
 
-// Fonction permettant d'incrémenter un char !
+/**
+ * Fonction permettant d'incrémenter un char !
+ */
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 };
@@ -42,12 +44,14 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
+    $('.modal').modal();
 
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         var nbParties = data['nb_parties'];
         var listePartie = data['liste_partie'];
         for(var i = 0; i < nbParties; i ++){
                 var statut = "";
+                var classe = "";
                 switch (listePartie[i]['nbJoueurs']){
                     case 0:
                         statut = "Partie vide";
@@ -59,6 +63,7 @@ $(function(){
 
                     case 2:
                         statut = "Partie complète";
+                        classe = "disabled";
                         break;
 
                     default:
@@ -68,8 +73,26 @@ $(function(){
                 $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
                 +'"><td>'+listePartie[i]['name']
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button class="btn waves-effect waves-light">Rejoindre</button></td></tr>')
+                +'/2</td><td><button data-partie="'+listePartie[i]['name']+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+                $(".join").click(function() {
+                    $("#modal1").modal('open');
+                });
         };
+    });
+
+    $(".joinSuite").click(function() {
+        var pseudo = $("#pseudo").val();
+        if(pseudo==""){
+            alert("Erreur : pseudo ne doit pas être vide");
+        }else{
+            console.info("Joining : "+$(this).data('partie'));
+            $(".join").addClass("disabled");
+            $(".loader").slideDown(300);
+            setTimeout(function(){
+                $("#init").slideUp(300);
+                $("#main").slideDown(300);
+            },3000);
+        }
     });
 
     setInterval(function(){
@@ -97,7 +120,7 @@ $(function(){
         $(this).addClass("red");
     });
 
-    $("#last_name").on("change",function(){
+    /*$("#last_name").on("change",function(){
 
         //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
         var xhr = new XMLHttpRequest();
@@ -111,7 +134,7 @@ $(function(){
                 console.log('erreur')
             }
         }
-    });
+    });*/
 
 /*  Placement des bateaux */
     var heightTab = 10;

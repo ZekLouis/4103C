@@ -77,7 +77,6 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 }
 
 function resetFichierPartie($fichierPartie){
-
     $modele = file_get_contents('modele.json');
     file_put_contents($fichierPartie, $modele);
 }
