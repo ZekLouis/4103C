@@ -235,14 +235,23 @@ $(function(){
         ligneDesact = (heightTab-hauteur)+2;
 
         for(var i = ligneDesact; i<=10; i++){
-          console.log(i);
           $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
         }
 
 
         var listeOccupe = $('[class*="bateau"]');
-        console.log(listeOccupe);
 
+        for(var i = 0; i < listeOccupe.length; i++){
+          var currentFrame = $(listeOccupe[i]).parent();
+          var xCurrentFrame = currentFrame.data('x');
+          var yCurrentFrame = currentFrame.data('y');
+
+          for(var j = 0; j < hauteur; j++){
+            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+            frameAbove.droppable( "option", "disabled", true );
+            console.log(frameAbove);
+          }
+        }
 
       },
       stop: function(event, ui){
@@ -250,8 +259,9 @@ $(function(){
         ligneDesact = (heightTab-hauteur)+2;
 
         for(var i = ligneDesact; i<=10; i++){
-          console.log(i);
           $('td[data-y="'+i+'"] button').droppable( "option", "disabled", false );
+          $('td[data-y="'+i+'"] button').removeClass('red');
+          $('td[data-y="'+i+'"] button').addClass('teal');
         }
 
       }
@@ -275,6 +285,7 @@ $(function(){
             under_case.removeClass("lighten-2");
             under_case.addClass("green");
             under_case.droppable( "option", "disabled", true );
+
             under_case.addClass(id);
             // On passe a la case suivante
             dataY += 1;
@@ -304,20 +315,20 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
-        // On affecte le changement de couleur a la case en dessous
-        for(var i = 0; i<$(ui.draggable).data('height');i++){
-            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
-            under_case.removeClass("teal");
-            under_case.addClass("blue");
-            under_case.addClass(id);
-            // On passe a la case suivante
-            dataY += 1;
-        }
-        $(this).addClass(id);
-        // On affecte les changements à la case visée par le drop
-        $(this).removeClass("teal");
 
-        $(this).addClass("blue");
+
+          // On affecte le changement de couleur a la case en dessous
+          for(var i = 0; i<$(ui.draggable).data('height');i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+              under_case.removeClass("teal");
+              under_case.addClass("blue");
+              // On passe a la case suivante
+              dataY += 1;
+          }
+          // On affecte les changements à la case visée par le drop
+          $(this).removeClass("teal");
+
+          $(this).addClass("blue");
 
       },
       out: function(event,ui){
@@ -327,21 +338,20 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
-        // On affecte le changement de couleur a la case en dessous
-        for(var i = 0; i<$(ui.draggable).data('height');i++){
-            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
-            under_case.removeClass("blue");
-            under_case.addClass("teal");
-            under_case.addClass(id);
-            // On passe a la case suivante
-            dataY += 1;
 
 
-        }
-        $(this).addClass(id);
-        // On affecte les changements à la case visée par le drop
-        $(this).removeClass("blue");
-        $(this).addClass("teal");
+          // On affecte le changement de couleur a la case en dessous
+          for(var i = 0; i<$(ui.draggable).data('height');i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+              under_case.removeClass("blue");
+              under_case.addClass("teal");
+              // On passe a la case suivante
+              dataY += 1;
+
+          }
+          // On affecte les changements à la case visée par le drop
+          $(this).removeClass("blue");
+          $(this).addClass("teal");
       }
     })
 
