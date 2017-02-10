@@ -16,7 +16,7 @@
 // Requete 8 : Récupération de la liste des parties
 
 /**
- * Fonction permettant d'incrémenter un char !
+ * Fonction permettant d'incrémenter un char
  */
 function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
@@ -26,6 +26,13 @@ function nextChar(c) {
  * Fonction qui permet de générer dynamiquement le tableau de l'adversaire
  */
 function generateTabAdv(){
+    var k = 1;
+    $("#adversaire").append("<tr id="+j+">");
+    $("#adversaire").append("<th></th>");
+    for(k=1; k<=10; k=k+1){
+        $("#adversaire").append("<th>"+k+"</th>");
+    }
+    $("#adversaire").append("</tr>");
     var j = 1;
     var char = "A";
     for(j=11; j<=20; j=j+1){
@@ -45,6 +52,13 @@ function generateTabAdv(){
  *  Fonction permettant de générer le tableau de jeu du joueur
  */
 function generateTabJou(){
+    var k = 1;
+    $("#joueur").append("<tr id="+j+">");
+    $("#joueur").append("<th></th>");
+    for(k=1; k<=10; k=k+1){
+        $("#joueur").append("<th>"+k+"</th>");
+    }
+    $("#joueur").append("</tr>");
     var j = 1;
     var char = "A";
     for(j=1; j<=10; j=j+1){
@@ -53,7 +67,7 @@ function generateTabJou(){
             $("#"+j+"").append("<th>"+char+"</th>");
             var i = 1;
             for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td data-y="'+char+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
+                $("#"+j+"").append('<td data-y="'+j+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
             }
             char = nextChar(char);
         $("#joueur").append("</tr>");
@@ -76,6 +90,8 @@ function affecte(nbJoueurs,j1,j2){
     });
 };
 
+var nomPartie = "";
+var pseudo = "";
 
 $(function(){
     /*
@@ -89,12 +105,17 @@ $(function(){
     generateTabJou();
     generateTabAdv();
 
+    /*
+        Requete permettant de récupérer la liste des parties
+    */
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
-        var nbParties = data['nb_parties'];
+        console.log(data);
         var listePartie = data['liste_partie'];
-        for(var i = 0; i < nbParties; i ++){
+        var taillePartie = listePartie.length;
+        for(var i = 0; i < taillePartie; i ++){
                 var statut = "";
                 var classe = "";
+
                 switch (listePartie[i]['nbJoueurs']){
                     case 0:
                         statut = "Partie vide";
@@ -113,31 +134,52 @@ $(function(){
                         statut = "Erreur";
                         break;
                 }
-                $("#listePartieTab").append('<tr id="'+listePartie[i]['name']
-                +'"><td>'+listePartie[i]['name']
+                /*
+                    On modifie le tableau pour y faire figurer toutes les infos de chaque partie
+                */
+
+                var nomDePartie = listePartie[i]['name'];
+                nomDePartie = nomDePartie.split(".");
+                nomDePartie = nomDePartie[0];
+                $("#listePartieTab").append('<tr id="'+nomDePartie
+                +'"><td>'+nomDePartie
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button data-partie="'+listePartie[i]['name']+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
-                $(".join").click(function() {
-                    $("#modal1").modal('open');
-                });
+                +'/2</td><td><button data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
         };
+        $(".join").click(function() {
+            $("#modal1").modal('open');
+            nomPartie = $(this).data('partie');
+        });
     });
 
     $(".joinSuite").click(function() {
-        var pseudo = $("#pseudo").val();
-
-        // requete
+        pseudo = $("#pseudo").val();
 
         if(pseudo==""){
-            alert("Erreur : pseudo ne doit pas être vide");
+            Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
-            console.info("Joining : "+$(this).data('partie'));
-            $(".join").addClass("disabled");
+            console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
-            setTimeout(function(){
-                $("#init").slideUp(300);
-                $("#main").slideDown(300);
-            },3000);
+            $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+                console.log(data);
+                if(data['res']==true){
+                    $("#init").slideUp(300);
+                    $("#main").slideDown(300);
+                    Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
+                    setTimeout(function(){
+                        Materialize.toast('Commencez par placer vos bateaux', 5000);
+                    },1000);
+                    setTimeout(function(){
+                        Materialize.toast('Validez une fois le placement terminé', 5000);
+                    },3000);
+                    setTimeout(function(){
+                        Materialize.toast('Vous pouvez faire tourner vos bateaux avec la touche R tout en faisant glisser le bateau', 5000);
+                    },6000);
+                }else{
+                    $(".loader").slideUp(300);
+                    Materialize.toast('Échec de la connexion', 4000);
+                }
+            });
         }
     });
 
@@ -264,24 +306,11 @@ $(function(){
         return null;
     };
 
-    $(window).on("unload",function(){
-        // Reset de tous le fichier JSON
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/4103C/server/request.php?no_req=7&pseudo='+$("#last_name").val());
-        xhr.send(null);
-
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                var pseudo = JSON.parse(xhr.responseText)['pseudo'];
-                $("#my_pseudo").text(function(){
-                    return pseudo;
-
-                });
-            }else if(xhr.readyState == 4 && xhr.status != 200){
-                console.log('erreur')
-            }
-        }
-        alert("bye");
+    $("#quit").on("click",function(){
+        $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+        });
     });
 
     $('.btnValider').click(function(){
