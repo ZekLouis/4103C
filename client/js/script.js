@@ -239,7 +239,6 @@ $(function(){
           $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
         }
 
-        $
 
         var listeOccupe = $('[class*="bateau"]');
         console.log(listeOccupe);
