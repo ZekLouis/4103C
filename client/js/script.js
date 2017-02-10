@@ -14,6 +14,7 @@
 // Requete 6 : Inscription d'un joueur
 // Requete 7 : Desincription d'un joueur
 // Requete 8 : Récupération de la liste des parties
+// Requete 9 : Insertion des bateaux
 
 /**
  * Fonction permettant d'incrémenter un char

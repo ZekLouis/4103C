@@ -5,10 +5,23 @@ header('Content-Type: application/json');
 // Ce fichier permettra de traiter toutes les requêtes provenant de différents
 //
 
+/**
+ * Liste des requêtes
+ */
+
+// Requete 0 : récupération des données
+// Requete 1 : Bidon
+// Requete 2 : Empty
+// Requete 3 : Test
+// Requete 4 : Test
+// Requete 5 : Test
+// Requete 6 : Inscription d'un joueur
+// Requete 7 : Desincription d'un joueur
+// Requete 8 : Récupération de la liste des parties
+// Requete 9 : Insertion des bateaux
+
+
 // Le type de la requete sera défini par $_GET['no_req']
-
-$tableauJoueur = array("Nbjoueur" => 0, "liste" => array("joueur1" => "tata", "joueur2" => "titi"));
-
 
 switch($_GET['no_req']){
 
@@ -52,6 +65,28 @@ switch($_GET['no_req']){
     case 8:
         $json = json_decode(file_get_contents('config.json'));
         echo json_encode($json);
+        break;
+
+    case 9:
+        $nomPartie = $_GET['nomPartie'];
+        $pseudo = $_GET['pseudo'];
+        $boat2 = $_GET['boat2'];
+        $boat3a = $_GET['boat3a'];
+        $boat3b = $_GET['boat3b'];
+        $boat4 = $_GET['boat4'];
+        $boat5 = $_GET['boat5'];
+        $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
+        foreach ($bateaux as $nomBateau => $bateau) {
+            insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
+        }
+        break;
+
+    case 10:
+        $nomPartie = $_GET['nomPartie'];
+        $pseudo = $_GET['pseudo'];
+        $x = $_GET['x'];
+        $y = $_GET['y'];
+        $resultat = checkCase($pseudo,$nomPartie,$x,$y);
         break;
 
     default:
@@ -144,11 +179,20 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
         file_put_contents($fichierPartie,$json);
 }
 
+/**
+ * Cette fonction permet de reinitialiser le fichier de partie
+ * @param fichier $fichierPartie le fichier a reset
+ */
 function resetFichierPartie($fichierPartie){
     $modele = file_get_contents('modele.json');
     file_put_contents($fichierPartie, $modele);
 }
 
+/**
+ * Cette fonction permet de retourner un tableau qui contient les informations d'une partie
+ * @param  fichier $Fichierpartie le fichier à traiter
+ * @return [array]                le tableau
+ */
 function getNomAndNbJoueurs($Fichierpartie){
     $json = json_decode(file_get_contents($Fichierpartie));
 
@@ -159,5 +203,33 @@ function getNomAndNbJoueurs($Fichierpartie){
     );
     return $result;
 
+}
+
+/**
+ * Cette fonction permet d'insérer un bateau dans le fichier en fonction du joueur et de la partie
+ */
+function insererBateau($bateau,$idBateau,$joueur,$partie){
+    $json = json_decode(file_get_contents($partie.".json"));
+    //print_r($json);
+    if($json->{'infos_partie'}->{'pseudo_j1'}==$joueur){
+        $idJoueur = "joueur1";
+    }else{
+        $idJoueur = "joueur2";
+    }
+    $bateauFichier = $json->{$idJoueur}->{$idBateau};
+    for($i = 0; $i<sizeof($bateauFichier);$i++){
+        $json->{$idJoueur}->{$idBateau} = json_decode($bateau);
+    }
+
+
+    var_dump($json);
+    file_put_contents($partie.".json", json_encode($json));
+
+    echo "for ".$joueur." dans ".$partie."\n";
+}
+
+function checkCase($pseudo,$nomPartie,$x,$y){
+
+    return true;
 }
 ?>
