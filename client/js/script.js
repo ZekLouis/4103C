@@ -353,6 +353,11 @@ $(function(){
         return null;
     };
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Les deux fonctions qui suivent on pour but de déconnecter les joueurs
+    //
+    //La première lorque le client clic sur quitter
+    //La seconde lorsque qu'il raffraichit ou quitte son naviguateur
     $("#quit").on("click",function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
@@ -366,9 +371,10 @@ $(function(){
           $("#init").slideDown(300);
           $("#main").slideUp(300);
       });
-      
-    });
 
+    });
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Fonction qui s'éxécute lorsque l'on appui sur le bouton valider
     //Elle permet d'envoyer les bateaux
     $('.btnValider').click(function(){
