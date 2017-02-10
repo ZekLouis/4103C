@@ -360,9 +360,17 @@ $(function(){
         });
     });
 
-  
+    $(window).on("beforeunload", function() {
+      console.log("ON FAIT UNLOAD");
+      $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+          $("#init").slideDown(300);
+          $("#main").slideUp(300);
+      });
+      
+    });
+
     //Fonction qui s'éxécute lorsque l'on appui sur le bouton valider
-    //Elle permet d'envoyer les bateaux 
+    //Elle permet d'envoyer les bateaux
     $('.btnValider').click(function(){
         var boat2 = [];
         var boat3a = [];
