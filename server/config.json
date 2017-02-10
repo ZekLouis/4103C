@@ -1,13 +1,1 @@
-{
-  "nb_parties":2,
-  "liste_partie":{
-    "0":{
-        "name":"partie1.json",
-        "nbJoueurs":2
-    },
-    "1":{
-        "name":"partie2.json",
-        "nbJoueurs":1
-    }
-  }
-}
+{"liste_partie":[{"name":"partie1.json","nbJoueurs":0}]}
