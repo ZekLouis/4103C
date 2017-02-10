@@ -314,7 +314,8 @@ $(function(){
     });
 
   
-
+    //Fonction qui s'éxécute lorsque l'on appui sur le bouton valider
+    //Elle permet d'envoyer les bateaux 
     $('.btnValider').click(function(){
         var boat2 = [];
         var boat3a = [];
