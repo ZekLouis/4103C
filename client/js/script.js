@@ -53,7 +53,7 @@ function generateTabJou(){
             $("#"+j+"").append("<th>"+char+"</th>");
             var i = 1;
             for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td data-y="'+char+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
+                $("#"+j+"").append('<td data-y="'+j+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
             }
             char = nextChar(char);
         $("#joueur").append("</tr>");
@@ -197,6 +197,12 @@ $(function(){
           $('td[data-y="'+i+'"] button').droppable( "option", "disabled", true );
         }
 
+        $
+
+        var listeOccupe = $('[class*="bateau"]');
+        console.log(listeOccupe);
+
+
       },
       stop: function(event, ui){
         var hauteur = $(this).data('height');
@@ -227,7 +233,7 @@ $(function(){
             under_case.removeClass("teal");
             under_case.removeClass("lighten-2");
             under_case.addClass("green");
-            under_case.droppable('disable');
+            under_case.droppable( "option", "disabled", true );
             under_case.addClass(id);
             // On passe a la case suivante
             dataY += 1;
@@ -237,6 +243,7 @@ $(function(){
         $(this).removeClass("teal");
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
+        $(this).droppable( "option", "disabled", true );
 
         // Centrer le bateau lors du drop
         var $this = $(this);
@@ -250,12 +257,53 @@ $(function(){
         });
       },
       over: function(event,ui){
+        // On récupère data x et data y du td parent
+        var dataX = $(this).parent().data('x');
+        var dataY = $(this).parent().data('y');
+
+        var id = $(ui.draggable).attr('id');
+
+        // On affecte le changement de couleur a la case en dessous
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+            under_case.removeClass("teal");
+            under_case.addClass("blue");
+            under_case.addClass(id);
+            // On passe a la case suivante
+            dataY += 1;
+        }
+        $(this).addClass(id);
+        // On affecte les changements à la case visée par le drop
+        $(this).removeClass("teal");
+
+        $(this).addClass("blue");
 
       },
       out: function(event,ui){
+        // On récupère data x et data y du td parent
+        var dataX = $(this).parent().data('x');
+        var dataY = $(this).parent().data('y');
 
+        var id = $(ui.draggable).attr('id');
+
+        // On affecte le changement de couleur a la case en dessous
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+            under_case.removeClass("blue");
+            under_case.addClass("teal");
+            under_case.addClass(id);
+            // On passe a la case suivante
+            dataY += 1;
+
+
+        }
+        $(this).addClass(id);
+        // On affecte les changements à la case visée par le drop
+        $(this).removeClass("blue");
+        $(this).addClass("teal");
       }
     })
+
 
 
 
