@@ -313,6 +313,8 @@ $(function(){
         });
     });
 
+  
+
     $('.btnValider').click(function(){
         var boat2 = [];
         var boat3a = [];
@@ -354,5 +356,17 @@ $(function(){
         console.log(boat3b);
         console.log(boat4);
         console.log(boat5);
+
+
+        resB2 = JSON.stringify(boat2);
+        resB3 = JSON.stringify(boat3a);
+        resB3b = JSON.stringify(boat3b);
+        resB4 = JSON.stringify(boat4);
+        resB5 =JSON.stringify(boat5);
+
+        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+        });
     });
 });
