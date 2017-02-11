@@ -160,7 +160,7 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
-        
+
         if ($config->{"liste_partie"}[0]->{"nbJoueurs"} > 0 ){
           $config->{"liste_partie"}[0]->{"nbJoueurs"} -= 1;
         }
