@@ -89,15 +89,40 @@ switch($_GET['no_req']){
         }else{
             $idJoueur = $_GET['pseudo'];
         }
+
         $x = $_GET['x'];
         $y = $_GET['y'];
-        var_dump($idJoueur,$nomPartie,$x,$y);
         $resultat = checkCase($idJoueur,$nomPartie,$x,$y);
+
+        //On va maintenant intervertir les tours
+        modifierLeTourDeJeu($nomPartie);
+
         break;
 
     default:
         echo "Erreur : pas de param";
 
+}
+
+/////////////////////////////////////////////////////////////////
+//Cette fonction permute le tour de jeu
+//Elle doit être appelée à chaque clic d'un des participants
+//dès lors que les bateaux ont été placés
+function modifierLeTourDeJeu($fichierPartie){
+  $partie = $fichierPartie.".json";
+
+  echo $partie;
+
+  $json =json_decode(file_get_contents($partie));
+
+  if($json->{'infos_partie'}->{'tour'} == "j1"){
+      $json->{'infos_partie'}->{'tour'} = "j2";
+  }
+  else{
+      $json->{'infos_partie'}->{'tour'} = "j1";
+  }
+
+  file_put_contents($fichierPartie.".json",json_encode($json));
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -152,6 +177,8 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 
             $json->{'infos_partie'}->{'pseudo_j1'}="$pseudoJ";
             $json->{'infos_partie'}->{'nbjoueurs'}=1;
+            $json->{'infos_partie'}->{'tour'}="j1";
+
         }else if($json->{'infos_partie'}->{'nbjoueurs'}==1){
             $json->{'infos_partie'}->{'pseudo_j2'}=$pseudoJ;
             $json->{'infos_partie'}->{'nbjoueurs'}=2;
@@ -239,6 +266,7 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 
     echo "for ".$joueur." dans ".$partie."\n";
 }
+
 
 function checkCase($pseudo,$nomPartie,$x,$y){
 
