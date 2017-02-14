@@ -320,7 +320,7 @@ $(function(){
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
         $(this).droppable( "option", "disabled", true );
-
+        $(ui.draggable).draggable("option", "disabled", true);
         // Centrer le bateau lors du drop
         var $this = $(this);
         ui.draggable.position({
