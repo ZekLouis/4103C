@@ -204,12 +204,6 @@ $(function(){
         }
     },1000);
 
-    $(".btn").on("click", function(){
-        $(this).removeClass("teal");
-        $(this).removeClass("lighten-2");
-        $(this).addClass("red");
-    });
-
     /*$("#last_name").on("change",function(){
 
         //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
@@ -256,11 +250,7 @@ $(function(){
 
 
         var listeOccupe = $('[class*="bateau"]');
-<<<<<<< HEAD
 
-        
-=======
->>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
 
         for(var i = 0; i < listeOccupe.length; i++){
           var currentFrame = $(listeOccupe[i]).parent();
@@ -300,7 +290,6 @@ $(function(){
         var id = $(ui.draggable).attr('id');
 
         // On affecte le changement de couleur a la case en dessous
-<<<<<<< HEAD
        if(sens=='vertical'){
             for(var i = 0; i<$(ui.draggable).data('height');i++){
                 var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
@@ -323,18 +312,7 @@ $(function(){
                 // On passe a la case suivante
                 dataX += 1;
             }
-=======
-        for(var i = 0; i<$(ui.draggable).data('height');i++){
-            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
-            under_case.removeClass("teal");
-            under_case.removeClass("lighten-2");
-            under_case.addClass("green");
-            under_case.droppable( "option", "disabled", true );
 
-            under_case.addClass(id);
-            // On passe a la case suivante
-            dataY += 1;
->>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
         }
         $(this).addClass(id);
         // On affecte les changements à la case visée par le drop
@@ -364,7 +342,6 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
-<<<<<<< HEAD
         // On affecte le changement de couleur a la case en dessous
         if(sens=='vertical'){
             for(var i = 0; i<$(ui.draggable).data('height');i++){
@@ -404,23 +381,7 @@ $(function(){
         $(this).removeClass("teal");
 
         $(this).addClass("blue");
-        
-=======
 
-
-          // On affecte le changement de couleur a la case en dessous
-          for(var i = 0; i<$(ui.draggable).data('height');i++){
-              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
-              under_case.removeClass("teal");
-              under_case.addClass("blue");
-              // On passe a la case suivante
-              dataY += 1;
-          }
-          // On affecte les changements à la case visée par le drop
-          $(this).removeClass("teal");
-
-          $(this).addClass("blue");
->>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
 
       },
       out: function(event,ui){
@@ -430,9 +391,8 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
-<<<<<<< HEAD
         // On affecte le changement de couleur a la case en dessous
-        
+
        if(sens=='vertical'){
             for(var i = 0; i<$(ui.draggable).data('height');i++){
                 var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
@@ -458,22 +418,6 @@ $(function(){
         // On affecte les changements à la case visée par le drop
         $(this).removeClass("blue");
         $(this).addClass("teal");
-=======
-
-
-          // On affecte le changement de couleur a la case en dessous
-          for(var i = 0; i<$(ui.draggable).data('height');i++){
-              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
-              under_case.removeClass("blue");
-              under_case.addClass("teal");
-              // On passe a la case suivante
-              dataY += 1;
-
-          }
-          // On affecte les changements à la case visée par le drop
-          $(this).removeClass("blue");
-          $(this).addClass("teal");
->>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
       }
     })
 
@@ -497,10 +441,7 @@ $(function(){
         });
     });
 
-<<<<<<< HEAD
-    
 
-=======
     $(window).on("beforeunload", function() {
       console.log("ON FAIT UNLOAD");
       $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
@@ -509,11 +450,10 @@ $(function(){
       });
 
     });
-    
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Fonction qui s'éxécute lorsque l'on appui sur le bouton valider
     //Elle permet d'envoyer les bateaux
->>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
     $('.btnValider').click(function(){
         var boat2 = [];
         var boat3a = [];
