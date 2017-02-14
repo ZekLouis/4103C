@@ -512,10 +512,8 @@ $(function(){
         });
     });
 
-
-
     ///////////////////////////////////////////////////////////////////
     //Cette fonction récupère le texte situé dans la barre de nav
     //Elle gère aussi le tour du joueurs
-    $("#situationTour").text("TESTMAGUEULE");
+    $("#situationTour")
 });

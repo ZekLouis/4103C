@@ -83,10 +83,16 @@ switch($_GET['no_req']){
 
     case 10:
         $nomPartie = $_GET['nomPartie'];
-        $pseudo = $_GET['pseudo'];
+        $json = json_decode(file_get_contents($nomPartie.".json"));
+        if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
+            $idJoueur = $json->{'infos_partie'}->{'pseudo_j2'};
+        }else{
+            $idJoueur = $_GET['pseudo'];
+        }
         $x = $_GET['x'];
         $y = $_GET['y'];
-        $resultat = checkCase($pseudo,$nomPartie,$x,$y);
+        var_dump($idJoueur,$nomPartie,$x,$y);
+        $resultat = checkCase($idJoueur,$nomPartie,$x,$y);
         break;
 
     default:
