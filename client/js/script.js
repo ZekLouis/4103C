@@ -15,6 +15,7 @@
 // Requete 7 : Desincription d'un joueur
 // Requete 8 : Récupération de la liste des parties
 // Requete 9 : Insertion des bateaux
+// Requete 10 : Envoies des coordonnées du click sur le tableau adversaire
 
 /**
  * Fonction permettant d'incrémenter un char
@@ -42,7 +43,7 @@ function generateTabAdv(){
             $("#"+j+"").append("<th>"+char+"</th>");
             var i = 1;
             for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td><button class="btn teal lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
+                $("#"+j+"").append('<td><button data-yA='+(j-10)+' data-xA='+i+' class="btn teal btnAdv lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
             }
             char = nextChar(char);
         $("#adversaire").append("</tr>");
@@ -203,6 +204,7 @@ $(function(){
             }
         }
     },1000);
+
 
     /*$("#last_name").on("change",function(){
 
@@ -421,8 +423,26 @@ $(function(){
       }
     })
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+///Cette fonction est activé lorsque l'utilisateur appuie sur une des cases du tableau de l'adversaire
+///
+///
+    $(".btnAdv").click(function(){
+      console.log("vous avez appuyez sur une case de l'adv");
 
+      var dataX = $(this).data('xa');
+      var dataY = $(this).data('ya');
+      $(this).removeClass("teal");
+      $(this).removeClass("lighten-2");
+      $(this).addClass("red");
 
+      $.getJSON("/4103C/server/request.php?no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,function(data){
+        console.log(dataX);
+        console.log(dataY);
+      });
+
+    });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Fonction de fin de partie TODO
     function finDePartie(){

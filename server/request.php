@@ -39,7 +39,7 @@ switch($_GET['no_req']){
         break;
 
     case 4:
-        resetFichierPartie('partieTest.json');
+        resetFichierPartie('partie1.json');
         break;
 
     case 5:
@@ -187,7 +187,7 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
  * @param fichier $fichierPartie le fichier a reset
  */
 function resetFichierPartie($fichierPartie){
-    $modele = file_get_contents('modele.json');
+    $modele = file_get_contents('model.json');
     file_put_contents($fichierPartie, $modele);
 }
 
@@ -213,7 +213,7 @@ function getNomAndNbJoueurs($Fichierpartie){
  */
 function insererBateau($bateau,$idBateau,$joueur,$partie){
     $json = json_decode(file_get_contents($partie.".json"));
-    //print_r($json);
+    
     if($json->{'infos_partie'}->{'pseudo_j1'}==$joueur){
         $idJoueur = "joueur1";
     }else{
