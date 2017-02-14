@@ -14,6 +14,7 @@
 // Requete 6 : Inscription d'un joueur
 // Requete 7 : Desincription d'un joueur
 // Requete 8 : Récupération de la liste des parties
+// Requete 9 : Insertion des bateaux
 
 /**
  * Fonction permettant d'incrémenter un char
@@ -255,9 +256,23 @@ $(function(){
 
 
         var listeOccupe = $('[class*="bateau"]');
+<<<<<<< HEAD
 
         
+=======
+>>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
 
+        for(var i = 0; i < listeOccupe.length; i++){
+          var currentFrame = $(listeOccupe[i]).parent();
+          var xCurrentFrame = currentFrame.data('x');
+          var yCurrentFrame = currentFrame.data('y');
+
+          for(var j = 0; j < hauteur; j++){
+            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+            frameAbove.droppable( "option", "disabled", true );
+            console.log(frameAbove);
+          }
+        }
 
       },
       stop: function(event, ui){
@@ -265,8 +280,9 @@ $(function(){
         ligneDesact = (heightTab-hauteur)+2;
 
         for(var i = ligneDesact; i<=10; i++){
-          console.log(i);
           $('td[data-y="'+i+'"] button').droppable( "option", "disabled", false );
+          $('td[data-y="'+i+'"] button').removeClass('red');
+          $('td[data-y="'+i+'"] button').addClass('teal');
         }
 
       }
@@ -284,6 +300,7 @@ $(function(){
         var id = $(ui.draggable).attr('id');
 
         // On affecte le changement de couleur a la case en dessous
+<<<<<<< HEAD
        if(sens=='vertical'){
             for(var i = 0; i<$(ui.draggable).data('height');i++){
                 var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
@@ -306,6 +323,18 @@ $(function(){
                 // On passe a la case suivante
                 dataX += 1;
             }
+=======
+        for(var i = 0; i<$(ui.draggable).data('height');i++){
+            var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+            under_case.removeClass("teal");
+            under_case.removeClass("lighten-2");
+            under_case.addClass("green");
+            under_case.droppable( "option", "disabled", true );
+
+            under_case.addClass(id);
+            // On passe a la case suivante
+            dataY += 1;
+>>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
         }
         $(this).addClass(id);
         // On affecte les changements à la case visée par le drop
@@ -335,6 +364,7 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
+<<<<<<< HEAD
         // On affecte le changement de couleur a la case en dessous
         if(sens=='vertical'){
             for(var i = 0; i<$(ui.draggable).data('height');i++){
@@ -375,6 +405,22 @@ $(function(){
 
         $(this).addClass("blue");
         
+=======
+
+
+          // On affecte le changement de couleur a la case en dessous
+          for(var i = 0; i<$(ui.draggable).data('height');i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+              under_case.removeClass("teal");
+              under_case.addClass("blue");
+              // On passe a la case suivante
+              dataY += 1;
+          }
+          // On affecte les changements à la case visée par le drop
+          $(this).removeClass("teal");
+
+          $(this).addClass("blue");
+>>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
 
       },
       out: function(event,ui){
@@ -384,6 +430,7 @@ $(function(){
 
         var id = $(ui.draggable).attr('id');
 
+<<<<<<< HEAD
         // On affecte le changement de couleur a la case en dessous
         
        if(sens=='vertical'){
@@ -411,6 +458,22 @@ $(function(){
         // On affecte les changements à la case visée par le drop
         $(this).removeClass("blue");
         $(this).addClass("teal");
+=======
+
+
+          // On affecte le changement de couleur a la case en dessous
+          for(var i = 0; i<$(ui.draggable).data('height');i++){
+              var under_case = $('td[data-y="'+dataY+'"][data-x="'+dataX+'"] button'); // selecteur du bouton de la case
+              under_case.removeClass("blue");
+              under_case.addClass("teal");
+              // On passe a la case suivante
+              dataY += 1;
+
+          }
+          // On affecte les changements à la case visée par le drop
+          $(this).removeClass("blue");
+          $(this).addClass("teal");
+>>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
       }
     })
 
@@ -422,6 +485,11 @@ $(function(){
         return null;
     };
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Les deux fonctions qui suivent on pour but de déconnecter les joueurs
+    //
+    //La première lorque le client clic sur quitter
+    //La seconde lorsque qu'il raffraichit ou quitte son naviguateur
     $("#quit").on("click",function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
@@ -429,8 +497,23 @@ $(function(){
         });
     });
 
+<<<<<<< HEAD
     
 
+=======
+    $(window).on("beforeunload", function() {
+      console.log("ON FAIT UNLOAD");
+      $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+          $("#init").slideDown(300);
+          $("#main").slideUp(300);
+      });
+
+    });
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Fonction qui s'éxécute lorsque l'on appui sur le bouton valider
+    //Elle permet d'envoyer les bateaux
+>>>>>>> 5efadb86baa6f09cfc1ed33cead95274ea3e073c
     $('.btnValider').click(function(){
         var boat2 = [];
         var boat3a = [];
@@ -472,5 +555,17 @@ $(function(){
         console.log(boat3b);
         console.log(boat4);
         console.log(boat5);
+
+
+        resB2 = JSON.stringify(boat2);
+        resB3 = JSON.stringify(boat3a);
+        resB3b = JSON.stringify(boat3b);
+        resB4 = JSON.stringify(boat4);
+        resB5 =JSON.stringify(boat5);
+
+        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+        });
     });
 });
