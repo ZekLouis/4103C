@@ -85,17 +85,21 @@ switch($_GET['no_req']){
         $nomPartie = $_GET['nomPartie'];
         $json = json_decode(file_get_contents($nomPartie.".json"));
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
-            $idJoueur = $json->{'infos_partie'}->{'pseudo_j2'};
+            $idJoueur = "joueur2";
         }else{
-            $idJoueur = $_GET['pseudo'];
+            $idJoueur = "joueur1";
         }
 
         $x = $_GET['x'];
         $y = $_GET['y'];
         $resultat = checkCase($idJoueur,$nomPartie,$x,$y);
 
+
         //On va maintenant intervertir les tours
         modifierLeTourDeJeu($nomPartie);
+
+
+        echo json_encode(array("res"=>$resultat));
 
         break;
 
@@ -269,7 +273,14 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 
 
 function checkCase($pseudo,$nomPartie,$x,$y){
-
-    return true;
+    $json = json_decode(file_get_contents($nomPartie.".json"));
+    foreach($json->{$pseudo} as $key => $value){
+        foreach($json->{$pseudo}->{$key} as $key => $value){
+            if($value->{"x"}==$x and $value->{"y"}==$y){
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
 }
 ?>
