@@ -205,23 +205,6 @@ $(function(){
         }
     },1000);
 
-
-    /*$("#last_name").on("change",function(){
-
-        //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/4103C/server/request.php?no_req=6&pseudo='+$("#last_name").val());
-        xhr.send(null);
-
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                affecte(JSON.parse(xhr.responseText)["Nb"],JSON.parse(xhr.responseText)["j1"],JSON.parse(xhr.responseText)["j2"]);
-            }else if(xhr.readyState == 4 && xhr.status != 200){
-                console.log('erreur')
-            }
-        }
-    });*/
-
 /*  Placement des bateaux */
     var heightTab = 10;
     $(document).keyup(function(e){
@@ -528,4 +511,11 @@ $(function(){
             $("#main").slideUp(300);
         });
     });
+
+
+
+    ///////////////////////////////////////////////////////////////////
+    //Cette fonction récupère le texte situé dans la barre de nav
+    //Elle gère aussi le tour du joueurs
+    $("#situationTour").text("TESTMAGUEULE");
 });

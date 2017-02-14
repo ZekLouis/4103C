@@ -94,7 +94,10 @@ switch($_GET['no_req']){
 
 }
 
-
+//////////////////////////////////////////////////////////////////////////////
+//Cette fonction permet de remplir le fichier config.json
+//Il insère les joueurs en cours, les parties en cours, et créé des fichiers
+//de parties si nécessaire
 function creerPartie(){
      //$partiejson = json_decode(file_get_contents("./model.json"));
     $config = json_decode(file_get_contents("./config.json"));
@@ -213,7 +216,7 @@ function getNomAndNbJoueurs($Fichierpartie){
  */
 function insererBateau($bateau,$idBateau,$joueur,$partie){
     $json = json_decode(file_get_contents($partie.".json"));
-    
+
     if($json->{'infos_partie'}->{'pseudo_j1'}==$joueur){
         $idJoueur = "joueur1";
     }else{
