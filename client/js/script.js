@@ -204,11 +204,6 @@ $(function(){
         }
     },1000);
 
-    $(".btn").on("click", function(){
-        $(this).removeClass("teal");
-        $(this).removeClass("lighten-2");
-        $(this).addClass("red");
-    });
 
     /*$("#last_name").on("change",function(){
 
@@ -366,7 +361,10 @@ $(function(){
 
       var dataX = $(this).data('xa');
       var dataY = $(this).data('ya');
-
+      $(this).removeClass("teal");
+      $(this).removeClass("lighten-2");
+      $(this).addClass("red");
+      
       $.getJSON("/4103C/server/request.php?no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,function(data){
         console.log(dataX);
         console.log(dataY);
