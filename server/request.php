@@ -284,10 +284,10 @@ function recupInfosPartie($fichierPartie){
         $json = json_decode(file_get_contents($fichierPartie));
 
         if ($json->{'infos_partie'}->{'tour'} == "j1"){
-            $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j1'}
+            $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j1'};
         }
         else{
-          $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j2'}
+          $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j2'};
         }
         //récupération des informations
         $tab_result = array(
@@ -297,7 +297,6 @@ function recupInfosPartie($fichierPartie){
         );
 
         return $tab_result;
-
 }
 
 function checkCase($pseudo,$nomPartie,$x,$y){

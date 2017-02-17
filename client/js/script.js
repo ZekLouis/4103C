@@ -16,6 +16,7 @@
 // Requete 9 : Insertion des bateaux
 // Requete 10 : Envoies des coordonnées du click sur le tableau adversaire
 
+
 var nomPartie = "";
 var pseudo = "";
 var sens= "";
@@ -25,10 +26,103 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
-    init()
+    $('.modal').modal();
+
+    // Génération des tableaux de jeux
+    generateTabJou();
+    generateTabAdv();
+
+    /*
+        Requete permettant de récupérer la liste des parties
+    */
+    $.getJSON("/4103C/server/request.php?no_req=8",function(data){
+        console.log(data);
+        console.log("Bonjour")
+        var listePartie = data['liste_partie'];
+        var taillePartie = listePartie.length;
+        for(var i = 0; i < taillePartie; i ++){
+                var statut = "";
+                var classe = "";
+
+                switch (listePartie[i]['nbJoueurs']){
+                    case 0:
+                        statut = "Partie vide";
+                        break;
+
+                    case 1:
+                        statut = "Partie en attente";
+                        break;
+
+                    case 2:
+                        statut = "Partie complète";
+                        classe = "disabled";
+                        break;
+
+                    default:
+                        statut = "Erreur";
+                        break;
+                }
+                /*
+                    On modifie le tableau pour y faire figurer toutes les infos de chaque partie
+                */
+
+                var nomDePartie = listePartie[i]['name'];
+                nomDePartie = nomDePartie.split(".");
+                nomDePartie = nomDePartie[0];
+                $("#listePartieTab").append('<tr id="'+nomDePartie
+                +'"><td>'+nomDePartie
+                +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
+                +'/2</td><td><button data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+        };
+
+        /**
+         * Quand on click sur rejoindre une partie
+         */
+        $(".join").click(function() {
+            $("#modal1").modal('open');
+            nomPartie = $(this).data('partie');
+        });
+    });
+
+    /**
+     * Quand on confirme après avoir rentré un pseudo
+     */
+    $(".joinSuite").click(function() {
+        pseudo = $("#pseudo").val();
+
+        if(pseudo==""){
+            Materialize.toast('Erreur : saisissez un pseudo', 4000);
+        }else{
+            console.info("Joining : "+nomPartie);
+            $(".loader").slideDown(300);
+
+            /**
+             * Requete permettant d'insérer un un joueur dans une partie
+             */
+            $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+                console.log(data);
+                if(data['res']==true){
+                    $("#init").slideUp(300);
+                    $("#main").slideDown(300);
+                    Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
+                    setTimeout(function(){
+                        Materialize.toast('Commencez par placer vos bateaux', 5000);
+                    },1000);
+                    setTimeout(function(){
+                        Materialize.toast('Validez une fois le placement terminé', 5000);
+                    },3000);
+                    setTimeout(function(){
+                        Materialize.toast('Vous pouvez faire tourner vos bateaux avec la touche R tout en faisant glisser le bateau', 5000);
+                    },6000);
+                }else{
+                    $(".loader").slideUp(300);
+                    Materialize.toast('Échec de la connexion', 4000);
+                }
+            });
+        }
+    });
 
     setInterval(function(){
-<<<<<<< HEAD
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
             console.info(data);
@@ -44,12 +138,6 @@ $(function(){
             }
 
         });
-=======
-        /*$.getJSON("/4103C/server/request.php?no_req=0",function(data){
-
-        });*/
-
->>>>>>> 6f87dad26b41acd21b569385bb5820e99521d4f1
     },1000);
 
 /*  Placement des bateaux */
