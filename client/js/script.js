@@ -2,7 +2,6 @@
  * Created by zeklouis on 23/01/17.
  */
 
-// TODO Correction Cas B2 C2 I ...
 // Dimensions des bateaux dynamiques avec un petit for
 
 // Requete 0 : récupération des données
@@ -17,80 +16,6 @@
 // Requete 9 : Insertion des bateaux
 // Requete 10 : Envoies des coordonnées du click sur le tableau adversaire
 
-/**
- * Fonction permettant d'incrémenter un char
- */
-function nextChar(c) {
-    return String.fromCharCode(c.charCodeAt(0) + 1);
-};
-
-/**
- * Fonction qui permet de générer dynamiquement le tableau de l'adversaire
- */
-function generateTabAdv(){
-    var k = 1;
-    $("#adversaire").append("<tr id="+j+">");
-    $("#adversaire").append("<th></th>");
-    for(k=1; k<=10; k=k+1){
-        $("#adversaire").append("<th>"+k+"</th>");
-    }
-    $("#adversaire").append("</tr>");
-    var j = 1;
-    var char = "A";
-    for(j=11; j<=20; j=j+1){
-        $("#adversaire").append("<tr id="+j+">");
-
-            $("#"+j+"").append("<th>"+char+"</th>");
-            var i = 1;
-            for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td><button data-yA='+(j-10)+' data-xA='+i+' class="btn teal btnAdv lighten-2 btn-small waves-effect waves-light" name="action"></button></td>');
-            }
-            char = nextChar(char);
-        $("#adversaire").append("</tr>");
-    }
-};
-
-/**
- *  Fonction permettant de générer le tableau de jeu du joueur
- */
-function generateTabJou(){
-    var k = 1;
-    $("#joueur").append("<tr id="+j+">");
-    $("#joueur").append("<th></th>");
-    for(k=1; k<=10; k=k+1){
-        $("#joueur").append("<th>"+k+"</th>");
-    }
-    $("#joueur").append("</tr>");
-    var j = 1;
-    var char = "A";
-    for(j=1; j<=10; j=j+1){
-        $("#joueur").append("<tr id="+j+">");
-
-            $("#"+j+"").append("<th>"+char+"</th>");
-            var i = 1;
-            for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td data-y="'+j+'"+" data-x="'+i+'"><button class="btn teal lighten-2 btn-small waves-effect waves-light frame-drop" name="action"></button></td>');
-            }
-            char = nextChar(char);
-        $("#joueur").append("</tr>");
-    }
-};
-
-
-/**
- * Cette fonction permet de modifier le HTML en fonction des données reçues par le server
- */
-function affecte(nbJoueurs,j1,j2){
-    $("#j1").text(function(){
-        return j1;
-    });
-    $("#j2").text(function(){
-        return j2;
-    });
-    $("#nbJoueurs").text(function(){
-        return nbJoueurs;
-    });
-};
 
 var nomPartie = "";
 var pseudo = "";
@@ -101,7 +26,6 @@ $(function(){
       INITIALISATION DE LA PARTIE
     */
 
-    // Initialise le fonctionnement de la pop-up
     $('.modal').modal();
     $('.modal').modal({
                 dismissible: false, // Modal can be dismissed by clicking outside of the modal
@@ -116,6 +40,7 @@ $(function(){
     */
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         console.log(data);
+        console.log("Bonjour")
         var listePartie = data['liste_partie'];
         var taillePartie = listePartie.length;
         for(var i = 0; i < taillePartie; i ++){
@@ -152,26 +77,34 @@ $(function(){
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
                 +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
         };
+
+        /**
+         * Quand on click sur rejoindre une partie
+         */
         $(".join").click(function() {
             $("#modal1").modal('open');
             nomPartie = $(this).data('partie');
         });
     });
 
+    /**
+     * Quand on confirme après avoir rentré un pseudo
+     */
     $(".joinSuite").click(function() {
         pseudo = $("#pseudo").val();
-        console.log($('#modal2').length);
-        console.log("modal2");
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
             console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
+            $("#modal2").modal('open');
+            /**
+             * Requete permettant d'insérer un un joueur dans une partie
+             */
             $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
                 if(data['res']==true){
                     $("#init").slideUp(300);
                     $("#main").slideDown(300);
-                    $("#modal2").modal('open');
                     Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
                     setTimeout(function(){
                         Materialize.toast('Commencez par placer vos bateaux', 5000);
@@ -194,40 +127,25 @@ $(function(){
     });
 
     setInterval(function(){
-        var xhr = new XMLHttpRequest();
-        /*$.getJSON("/4103C/server/request.php?no_req=0",function(data){
-            console.info(data[1]);
-            console.info(data[2]);
-        });*/
 
-        //xhr.open('GET', '/4103C/server/request.php?no_req=0');
-        //xhr.send(null);
-
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(JSON.parse(xhr.responseText)["1"])
-            }else if(xhr.readyState == 4 && xhr.status != 200){
-                console.log('erreur')
+        $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
+            console.info(data);
+            if (data['pseudotour'] == pseudo){
+              jouer = true;
+              //modifs d'affichages
             }
-        }
+            else{
+              jouer = false;
+              //modifs d'affichages
+
+            }
+
+            if (data['nbJoueurs'] == 2 ){
+                $("#modal2").modal('close');
+            }
+
+        });
     },1000);
-
-
-    /*$("#last_name").on("change",function(){
-
-        //Requete qui modifie le fichier JSON et affecte le nom j1 et incrémente le nombre de joueur
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/4103C/server/request.php?no_req=6&pseudo='+$("#last_name").val());
-        xhr.send(null);
-
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                affecte(JSON.parse(xhr.responseText)["Nb"],JSON.parse(xhr.responseText)["j1"],JSON.parse(xhr.responseText)["j2"]);
-            }else if(xhr.readyState == 4 && xhr.status != 200){
-                console.log('erreur')
-            }
-        }
-    });*/
 
 /*  Placement des bateaux */
     var heightTab = 10;
@@ -288,8 +206,8 @@ $(function(){
     });
 
     // Définit les cases comme zone de "drop"
-      // Au drop : changement de couleur de la case + suppression de l'image
-      // Au survol : changement de la couleur de la case momentané.
+    // Au drop : changement de couleur de la case + suppression de l'image
+    // Au survol : changement de la couleur de la case momentané.
    $('.frame-drop').droppable({
       drop: function(event,ui){
         // On récupère data x et data y du td parent
@@ -441,20 +359,18 @@ $(function(){
       var dataY = $(this).data('ya');
       $(this).removeClass("teal");
       $(this).removeClass("lighten-2");
-      $(this).addClass("red");
 
       $.getJSON("/4103C/server/request.php?no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,function(data){
-        console.log(dataX);
-        console.log(dataY);
+        if(data.res){
+            $(this).addClass("green");
+        }else{
+            $(this).addClass("red");
+        }
       });
 
     });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Fonction de fin de partie TODO
-    function finDePartie(){
-        return null;
-    };
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Les deux fonctions qui suivent on pour but de déconnecter les joueurs
@@ -535,4 +451,9 @@ $(function(){
             $("#main").slideUp(300);
         });
     });
+
+    ///////////////////////////////////////////////////////////////////
+    //Cette fonction récupère le texte situé dans la barre de nav
+    //Elle gère aussi le tour du joueurs
+    $("#situationTour")
 });
