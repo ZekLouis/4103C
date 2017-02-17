@@ -134,7 +134,7 @@ $(function(){
         $(this).removeClass("lighten-2");
         $(this).addClass("green");
         $(this).droppable( "option", "disabled", true );
-        $(ui.draggable).draggable("option", "disabled", true);
+
         // Centrer le bateau lors du drop
         var $this = $(this);
         ui.draggable.position({
@@ -338,4 +338,9 @@ $(function(){
             $("#main").slideUp(300);
         });
     });
+
+    ///////////////////////////////////////////////////////////////////
+    //Cette fonction récupère le texte situé dans la barre de nav
+    //Elle gère aussi le tour du joueurs
+    $("#situationTour")
 });

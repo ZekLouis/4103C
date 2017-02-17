@@ -89,10 +89,18 @@ switch($_GET['no_req']){
         }else{
             $idJoueur = "joueur1";
         }
+
         $x = $_GET['x'];
         $y = $_GET['y'];
         $resultat = checkCase($idJoueur,$nomPartie,$x,$y);
+
+
+        //On va maintenant intervertir les tours
+        modifierLeTourDeJeu($nomPartie);
+
+
         echo json_encode(array("res"=>$resultat));
+
         break;
 
     default:
@@ -100,7 +108,31 @@ switch($_GET['no_req']){
 
 }
 
+/////////////////////////////////////////////////////////////////
+//Cette fonction permute le tour de jeu
+//Elle doit être appelée à chaque clic d'un des participants
+//dès lors que les bateaux ont été placés
+function modifierLeTourDeJeu($fichierPartie){
+  $partie = $fichierPartie.".json";
 
+  echo $partie;
+
+  $json =json_decode(file_get_contents($partie));
+
+  if($json->{'infos_partie'}->{'tour'} == "j1"){
+      $json->{'infos_partie'}->{'tour'} = "j2";
+  }
+  else{
+      $json->{'infos_partie'}->{'tour'} = "j1";
+  }
+
+  file_put_contents($fichierPartie.".json",json_encode($json));
+}
+
+//////////////////////////////////////////////////////////////////////////////
+//Cette fonction permet de remplir le fichier config.json
+//Il insère les joueurs en cours, les parties en cours, et créé des fichiers
+//de parties si nécessaire
 function creerPartie(){
      //$partiejson = json_decode(file_get_contents("./model.json"));
     $config = json_decode(file_get_contents("./config.json"));
@@ -149,6 +181,8 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 
             $json->{'infos_partie'}->{'pseudo_j1'}="$pseudoJ";
             $json->{'infos_partie'}->{'nbjoueurs'}=1;
+            $json->{'infos_partie'}->{'tour'}="j1";
+
         }else if($json->{'infos_partie'}->{'nbjoueurs'}==1){
             $json->{'infos_partie'}->{'pseudo_j2'}=$pseudoJ;
             $json->{'infos_partie'}->{'nbjoueurs'}=2;
@@ -236,6 +270,7 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 
     echo "for ".$joueur." dans ".$partie."\n";
 }
+
 
 function checkCase($pseudo,$nomPartie,$x,$y){
     $json = json_decode(file_get_contents($nomPartie.".json"));
