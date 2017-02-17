@@ -28,7 +28,12 @@ $(function(){
 
     $('.modal').modal();
     $('.modal').modal({
-                dismissible: false, // Modal can be dismissed by clicking outside of the modal
+                dismissible: false,
+                opacity: .5, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '4%', // Starting top style attribute
+                endingTop: '10%', // Ending top style attribute // Modal can be dismissed by clicking outside of the modal
     });
 
     // Génération des tableaux de jeux
@@ -97,7 +102,6 @@ $(function(){
         }else{
             console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
-            $("#modal2").modal('open');
             /**
              * Requete permettant d'insérer un un joueur dans une partie
              */
@@ -105,6 +109,7 @@ $(function(){
                 if(data['res']==true){
                     $("#init").slideUp(300);
                     $("#main").slideDown(300);
+                    $("#modal2").modal('open');
                     Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
                     setTimeout(function(){
                         Materialize.toast('Commencez par placer vos bateaux', 5000);
@@ -115,9 +120,6 @@ $(function(){
                     setTimeout(function(){
                         Materialize.toast('Vous pouvez faire tourner vos bateaux avec la touche R tout en faisant glisser le bateau', 5000);
                     },6000);
-                    setTimeout(function(){
-                        $('#modal2').modal('open');
-                    },7000);
                 }else{
                     $(".loader").slideUp(300);
                     Materialize.toast('Échec de la connexion', 4000);
