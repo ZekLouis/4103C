@@ -26,7 +26,10 @@ header('Content-Type: application/json');
 switch($_GET['no_req']){
 
     case 0:
-        creerPartie();
+        $partie = $_GET['nomPartie'];
+        $tab = recupInfosPartie($partie);
+
+        echo json_encode($tab);
         break;
 
     case 1:
@@ -35,7 +38,7 @@ switch($_GET['no_req']){
 
     //inscrire nouveau joueur dans fichier JSON
     case 3:
-    	file_put_contents('data.json', json_encode($tableauJoueur));
+    	 file_put_contents('data.json', json_encode($tableauJoueur));
         break;
 
     case 4:
@@ -271,6 +274,31 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
     echo "for ".$joueur." dans ".$partie."\n";
 }
 
+//////////////////////////////////////////////////////////////////////////////
+//Cette fonction récupère les infos du fichier de la partie
+//Ils seront récupérer côté client toutes les secondes
+//pour mettre à jour l'état de la partie
+function recupInfosPartie($fichierPartie){
+        //ouverture du fichier
+        $fichierPartie = $fichierPartie.".json";
+        $json = json_decode(file_get_contents($fichierPartie));
+
+        if ($json->{'infos_partie'}->{'tour'} == "j1"){
+            $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j1'}
+        }
+        else{
+          $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j2'}
+        }
+        //récupération des informations
+        $tab_result = array(
+          "tour"=> $json->{'infos_partie'}->{'tour'},
+          "nbJoueurs"=> $json->{'infos_partie'}->{'nbjoueurs'},
+          "pseudotour"=> $pseudoArecuperer
+        );
+
+        return $tab_result;
+
+}
 
 function checkCase($pseudo,$nomPartie,$x,$y){
     $json = json_decode(file_get_contents($nomPartie.".json"));
