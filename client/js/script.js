@@ -193,9 +193,12 @@ $(function(){
 
             if (data['pseudotour'] == pseudo){
               jouer = true;
+              //modifs d'affichages
             }
             else{
               jouer = false;
+              //modifs d'affichages
+
             }
 
         });
