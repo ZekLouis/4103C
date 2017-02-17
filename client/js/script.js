@@ -103,6 +103,9 @@ $(function(){
 
     // Initialise le fonctionnement de la pop-up
     $('.modal').modal();
+    $('.modal').modal({
+                dismissible: false, // Modal can be dismissed by clicking outside of the modal
+    });
 
     // Génération des tableaux de jeux
     generateTabJou();
@@ -147,7 +150,7 @@ $(function(){
                 $("#listePartieTab").append('<tr id="'+nomDePartie
                 +'"><td>'+nomDePartie
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+                +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
         };
         $(".join").click(function() {
             $("#modal1").modal('open');
@@ -157,17 +160,18 @@ $(function(){
 
     $(".joinSuite").click(function() {
         pseudo = $("#pseudo").val();
-
+        console.log($('#modal2').length);
+        console.log("modal2");
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
             console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
             $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
-                console.log(data);
                 if(data['res']==true){
                     $("#init").slideUp(300);
                     $("#main").slideDown(300);
+                    $("#modal2").modal('open');
                     Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
                     setTimeout(function(){
                         Materialize.toast('Commencez par placer vos bateaux', 5000);
@@ -178,6 +182,9 @@ $(function(){
                     setTimeout(function(){
                         Materialize.toast('Vous pouvez faire tourner vos bateaux avec la touche R tout en faisant glisser le bateau', 5000);
                     },6000);
+                    setTimeout(function(){
+                        $('#modal2').modal('open');
+                    },7000);
                 }else{
                     $(".loader").slideUp(300);
                     Materialize.toast('Échec de la connexion', 4000);
