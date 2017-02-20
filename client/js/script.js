@@ -27,6 +27,14 @@ $(function(){
     */
 
     $('.modal').modal();
+    $('.modal').modal({
+                dismissible: false,
+                opacity: .5, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '4%', // Starting top style attribute
+                endingTop: '10%', // Ending top style attribute // Modal can be dismissed by clicking outside of the modal
+    });
 
     // Génération des tableaux de jeux
     generateTabJou();
@@ -71,7 +79,7 @@ $(function(){
                 $("#listePartieTab").append('<tr id="'+nomDePartie
                 +'"><td>'+nomDePartie
                 +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+                +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
         };
 
         /**
@@ -88,21 +96,19 @@ $(function(){
      */
     $(".joinSuite").click(function() {
         pseudo = $("#pseudo").val();
-
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
             console.info("Joining : "+nomPartie);
             $(".loader").slideDown(300);
-
             /**
              * Requete permettant d'insérer un un joueur dans une partie
              */
             $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
-                console.log(data);
                 if(data['res']==true){
                     $("#init").slideUp(300);
                     $("#main").slideDown(300);
+                    $("#modal2").modal('open');
                     Materialize.toast('Connexion réussie, Démarrage de la partie ...', 2000);
                     setTimeout(function(){
                         Materialize.toast('Commencez par placer vos bateaux', 5000);
@@ -125,7 +131,6 @@ $(function(){
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
             console.info(data);
-
             if (data['pseudotour'] == pseudo){
               jouer = true;
               //modifs d'affichages
@@ -134,6 +139,10 @@ $(function(){
               jouer = false;
               //modifs d'affichages
 
+            }
+
+            if (data['nbJoueurs'] == 2 ){
+                $("#modal2").modal('close');
             }
 
         });
