@@ -20,6 +20,7 @@
 var nomPartie = "";
 var pseudo = "";
 var sens= "";
+var full = false;
 
 $(function(){
     /*
@@ -126,7 +127,6 @@ $(function(){
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
             console.info(data);
-            full = false;
             if (data['pseudotour'] == pseudo){
               jouer = true;
               //modifs d'affichages
@@ -139,9 +139,10 @@ $(function(){
 
             if (data['nbJoueurs'] == 2 ){
                 $("#modal2").modal('close');
+                full = true;
             } else if (data['nbJoueurs'] == 1 && full == true ){
-                $("#modal2").modal('close');
-            }// Ajouter event de fermeture de la fenêtre
+                $("#modal3").modal('open');
+            }
 
         });
     },1000);
@@ -380,6 +381,14 @@ $(function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
             $("#main").slideUp(300);
+        });
+    });
+
+    $("#quit_player_left").on("click",function(){
+        $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+            $("#modal3").modal('close');
         });
     });
 
