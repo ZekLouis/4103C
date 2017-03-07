@@ -20,6 +20,7 @@
 var nomPartie = "";
 var pseudo = "";
 var sens= "";
+var full = false;
 
 $(function(){
     /*
@@ -29,11 +30,6 @@ $(function(){
     $('.modal').modal();
     $('.modal').modal({
                 dismissible: false,
-                opacity: .5, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '4%', // Starting top style attribute
-                endingTop: '10%', // Ending top style attribute // Modal can be dismissed by clicking outside of the modal
     });
 
     // Génération des tableaux de jeux
@@ -142,6 +138,9 @@ $(function(){
 
             if (data['nbJoueurs'] == 2 ){
                 $("#modal2").modal('close');
+                full = true;
+            } else if (data['nbJoueurs'] == 1 && full == true ){
+                $("#modal3").modal('open');
             }
 
         });
@@ -381,6 +380,14 @@ $(function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
             $("#main").slideUp(300);
+        });
+    });
+
+    $("#quit_player_left").on("click",function(){
+        $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+            $("#init").slideDown(300);
+            $("#main").slideUp(300);
+            $("#modal3").modal('close');
         });
     });
 
