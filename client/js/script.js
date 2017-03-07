@@ -40,7 +40,6 @@ $(function(){
     */
     $.getJSON("/4103C/server/request.php?no_req=8",function(data){
         console.log(data);
-        console.log("Bonjour")
         var listePartie = data['liste_partie'];
         var taillePartie = listePartie.length;
         for(var i = 0; i < taillePartie; i ++){

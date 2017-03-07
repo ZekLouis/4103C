@@ -287,7 +287,7 @@ function recupInfosPartie($fichierPartie){
             $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j1'};
         }
         else{
-          $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j2'};
+            $pseudoArecuperer = $json->{'infos_partie'}->{'pseudo_j2'};
         }
         //récupération des informations
         $tab_result = array(
