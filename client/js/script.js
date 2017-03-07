@@ -29,11 +29,6 @@ $(function(){
     $('.modal').modal();
     $('.modal').modal({
                 dismissible: false,
-                opacity: .5, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '4%', // Starting top style attribute
-                endingTop: '10%', // Ending top style attribute // Modal can be dismissed by clicking outside of the modal
     });
 
     // Génération des tableaux de jeux
@@ -132,6 +127,7 @@ $(function(){
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
             console.info(data);
+            full = false;
             if (data['pseudotour'] == pseudo){
               jouer = true;
               //modifs d'affichages
@@ -144,7 +140,9 @@ $(function(){
 
             if (data['nbJoueurs'] == 2 ){
                 $("#modal2").modal('close');
-            }
+            } else if (data['nbJoueurs'] == 1 && full == true ){
+                $("#modal2").modal('close');
+            }// Ajouter event de fermeture de la fenêtre
 
         });
     },1000);
