@@ -128,13 +128,12 @@ $(function(){
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
             console.info(data);
             if (data['pseudotour'] == pseudo){
-              jouer = true;
               //modifs d'affichages
+              $(".btnAdv").removeClass("disabled");
             }
             else{
-              jouer = false;
               //modifs d'affichages
-
+              $(".btnAdv").addClass("disabled");
             }
 
             if (data['nbJoueurs'] == 2 ){
@@ -145,7 +144,7 @@ $(function(){
             }
 
         });
-    },1000);
+    },100);
 
 /*  Placement des bateaux */
     var heightTab = 10;
