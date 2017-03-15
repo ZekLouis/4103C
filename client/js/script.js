@@ -126,14 +126,13 @@ $(function(){
     setInterval(function(){
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
-            console.info(data);
             if (data['pseudotour'] == pseudo){
               //modifs d'affichages
               $(".btnAdv").removeClass("disabled");
             }
             else{
               //modifs d'affichages
-              $(".btnAdv").addClass("disabled");
+              //$(".btnAdv").addClass("disabled");
             }
 
             if (data['nbJoueurs'] == 2 ){
@@ -144,7 +143,7 @@ $(function(){
             }
 
         });
-    },100);
+    },1000);
 
 /*  Placement des bateaux */
     var heightTab = 10;
@@ -359,12 +358,22 @@ $(function(){
       $(this).removeClass("teal");
       $(this).removeClass("lighten-2");
 
-      $.getJSON("/4103C/server/request.php?no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,function(data){
+      $this = $(this);
+      console.info("x:"+dataX+" ,y:"+ dataY);
+
+      $.ajax({"url":"/4103C/server/request.php","data":"no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,"dataType":"json",
+      "success": function(data){
         if(data.res){
-            $(this).addClass("green");
-        }else{
-            $(this).addClass("red");
+          $this.addClass("green");
         }
+        else{
+          $this.addClass("red");
+        }
+
+      },
+      error:function(xhr,err){
+        console.log(xhr);
+      }
       });
 
     });

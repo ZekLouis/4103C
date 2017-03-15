@@ -66,8 +66,8 @@ switch($_GET['no_req']){
         break;
 
     case 8:
-        $json = json_decode(file_get_contents('config.json'));
-        echo json_encode($json);
+        //$json = json_decode(file_get_contents('config.json'));
+        echo file_get_contents('config.json');
         break;
 
     case 9:
@@ -86,7 +86,7 @@ switch($_GET['no_req']){
 
     case 10:
         $nomPartie = $_GET['nomPartie'];
-        $json = json_decode(file_get_contents($nomPartie.".json"));
+        $json = file_get_contents($nomPartie.".json");
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
             $idJoueur = "joueur2";
         }else{
@@ -97,11 +97,8 @@ switch($_GET['no_req']){
         $y = $_GET['y'];
         $resultat = checkCase($idJoueur,$nomPartie,$x,$y);
 
-
         //On va maintenant intervertir les tours
         modifierLeTourDeJeu($nomPartie);
-
-
         echo json_encode(array("res"=>$resultat));
 
         break;
@@ -117,8 +114,6 @@ switch($_GET['no_req']){
 //dès lors que les bateaux ont été placés
 function modifierLeTourDeJeu($fichierPartie){
   $partie = $fichierPartie.".json";
-
-  echo $partie;
 
   $json =json_decode(file_get_contents($partie));
 
