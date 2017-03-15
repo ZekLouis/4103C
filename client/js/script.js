@@ -21,6 +21,7 @@ var nomPartie = "";
 var pseudo = "";
 var sens= "";
 var full = false;
+var modalTurn_opened = false;
 
 $(function(){
     /*
@@ -30,6 +31,11 @@ $(function(){
     $('.modal').modal();
     $('.modal').modal({
                 dismissible: false,
+    });
+
+    $('.modalTurn').modal({
+                dismissible: false,
+                opacity: .5,
     });
 
     // Génération des tableaux de jeux
@@ -129,11 +135,27 @@ $(function(){
             console.info(data);
             if (data['pseudotour'] == pseudo){
               //modifs d'affichages
-              $(".btnAdv").removeClass("disabled");
+                $(".btnAdv").removeClass("disabled");
+
+                if (full == true && modalTurn_opened == true){
+
+                    $("#modalTurn").modal('close');
+                    modalTurn_opened = false;
+
+                }
             }
             else{
               //modifs d'affichages
-              $(".btnAdv").addClass("disabled");
+                $(".btnAdv").addClass("disabled");
+                console.log(modalTurn_opened);
+                if (full == true && modalTurn_opened == false){
+
+                    $("#modalTurn").modal('open');
+                    modalTurn_opened = true;
+
+                }
+                
+
             }
 
             if (data['nbJoueurs'] == 2 ){
