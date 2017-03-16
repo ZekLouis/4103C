@@ -31,25 +31,5 @@ div#main table{
 }
 .boat{
   margin:3px;
-}
-
-/*#bateau5{
-  height: 190px;
-}
-#bateau4{
-  height: 150px;
-  width: 38px;
-}
-#bateau3a{
-  height: 100px;
-}
-#bateau3b{
-  height: 100px;
-}
-#bateau2{
-  height: 65px;
-}*/
-
-.boat{
   z-index:999;
 }
