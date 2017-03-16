@@ -15,6 +15,40 @@ div#main table{
     padding: 20px;
 }
 
+.rotate{
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+
+
+.boats{
+  padding: 15px 30px 15px 30px;
+  border-radius:3px;
+}
+.boat{
+  margin:3px;
+}
+
+/*#bateau5{
+  height: 190px;
+}
+#bateau4{
+  height: 150px;
+  width: 38px;
+}
+#bateau3a{
+  height: 100px;
+}
+#bateau3b{
+  height: 100px;
+}
+#bateau2{
+  height: 65px;
+}*/
 
 .boat{
   z-index:999;
