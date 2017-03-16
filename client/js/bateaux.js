@@ -177,14 +177,12 @@ $(function(){
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('green')
             nextFrame.removeClass('teal');
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
             nextFrame.addClass('green')
             nextFrame.removeClass('teal');
@@ -202,14 +200,12 @@ $(function(){
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('teal')
             nextFrame.removeClass('green');
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
             nextFrame.addClass('teal')
             nextFrame.removeClass('green');
@@ -239,7 +235,6 @@ $(function(){
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('green');
             nextFrame.removeClass('lighten-2');
@@ -248,7 +243,6 @@ $(function(){
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
-            console.log(nextFrame+" "+i);
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
             nextFrame.addClass('green')
             nextFrame.removeClass('lighten-2');
@@ -274,7 +268,7 @@ $(function(){
     })
 
     $('.btnValider').click(function(){
-      
+
           window.clearInterval(myVar);
     })
 
