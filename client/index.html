@@ -6,6 +6,7 @@
         <!-- imports js -->
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/jquery-ui.min.js" charset="utf-8"></script>
+        <script src="js/functions.js"></script>
         <script src="js/script.js"></script>
         <script src="js/bateaux.js"></script>
         <script src="js/materialize.min.js"></script>
@@ -22,7 +23,7 @@
                 <div class="nav-wrapper teal lighten-2">
                     <a href="#" class="brand-logo right">Bataille Navale</a>
                     <ul id="nav-mobile" class="left hide-on-med-and-down">
-                        <li class="col s4 center-align"><span id="nbJoueurs">none</span> joueurs</li>
+                        <li class="col s4 center-align"><span id="situationTour">none</span></li>
                         <li id="j1" class="col s3 center-align">none</li>
                         <li class="col s2 center-align">vs</li>
                         <li id="j2" class="col s3 center-align">none</li>
@@ -32,6 +33,17 @@
         </div>
 
         <!-- POP UP -->
+
+        <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <h4>En attente d'un joueur</h4>
+                    <p style="text-align:center">Veuillez patienter</p>
+                    <div class="progress">
+                          <div class="indeterminate"></div>
+                    </div>
+                </div>
+        </div>
+        
         <div id="modal1" class="modal">
             <div class="modal-content">
               <h4>Saisir un pseudo avant de rejoindre</h4>
@@ -42,6 +54,25 @@
             </div>
             <div class="modal-footer">
               <a href="#!" class="joinSuite modal-action modal-close waves-effect waves-green btn-flat">Continuer</a>
+            </div>
+        </div>
+
+        <div id="modal3" class="modal">
+                <div class="modal-content">
+                    <h4>Votre adversaire a quitté la partie</h4>
+                          <button id="quit_player_left" class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4" type="submit" name="quit">Quitter</button>
+                          <div class="indeterminate"></div>
+                    </div>
+                </div>
+        </div>
+
+        <div id="modalTurn" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h4>Au tour de l'adversaire</h4>
+                <p style="text-align:center">Veuillez patienter</p>
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
             </div>
         </div>
 
@@ -71,6 +102,7 @@
                   </table>
                 </div>
             </div>
+            <!--<button data-target="modal2" class="btn">Modal</button>-->
 
         <!-- Contenu de la page de jeu -->
         <div id="main">
@@ -105,8 +137,19 @@
                     <table id="adversaire"></table>
                 </div>
             </div>
+
+            <!--<a class="waves-effect waves-light btn" href="#modal2">Modal</a> -->
+
         </div>
+<<<<<<< HEAD
 <!--
+=======
+
+        <!--<script>
+
+        </script>-->
+
+>>>>>>> ac8bd07b6631d00936be276a7a164c61365041d0
         <script>
             $("#main").hide();
         </script>
