@@ -274,6 +274,7 @@ $(function(){
     })
 
     $('.btnValider').click(function(){
+      
           window.clearInterval(myVar);
     })
 
