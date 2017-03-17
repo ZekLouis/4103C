@@ -78,6 +78,8 @@ switch($_GET['no_req']){
         $boat3b = $_GET['boat3b'];
         $boat4 = $_GET['boat4'];
         $boat5 = $_GET['boat5'];
+        playersReady($pseudo, $nomPartie);
+
         $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
         foreach ($bateaux as $nomBateau => $bateau) {
             insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
@@ -86,6 +88,9 @@ switch($_GET['no_req']){
 
     case 10:
         $nomPartie = $_GET['nomPartie'];
+        if($nomPartie==""){
+            die("Le nom de partie est null.");
+        }
         $json = file_get_contents($nomPartie.".json");
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
             $idJoueur = "joueur2";
@@ -108,6 +113,21 @@ switch($_GET['no_req']){
 
 }
 
+function playersReady($pseudo, $nomPartie){
+    $partie = $nomPartie.".json";
+
+    $json =json_decode(file_get_contents($partie));
+
+    if($json->{'infos_partie'}->{'pseudo_j1'} == $pseudo){
+      $json->{'infos_partie'}->{'ready_j1'} = true;
+    }
+    else{
+      $json->{'infos_partie'}->{'ready_j2'} = true;
+    }
+
+    file_put_contents($partie,json_encode($json));
+}
+
 /////////////////////////////////////////////////////////////////
 //Cette fonction permute le tour de jeu
 //Elle doit être appelée à chaque clic d'un des participants
@@ -123,8 +143,11 @@ function modifierLeTourDeJeu($fichierPartie){
   else{
       $json->{'infos_partie'}->{'tour'} = "j1";
   }
-
-  file_put_contents($fichierPartie.".json",json_encode($json));
+  if($fichierPartie==null){
+      die("Le nom de partie est null.");
+  }else{
+      file_put_contents($fichierPartie.".json",json_encode($json));
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -165,11 +188,17 @@ function creerPartie(){
 }
 
 function SaisirJoueur($pseudoJ, $fichierPartie){
+        if($fichierPartie==""){
+            die("Le nom de partie est null.");
+        }
         $fichierPartie = $fichierPartie.".json";
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
-        $config->{"liste_partie"}[0]->{"nbJoueurs"} += 1;
+
+
+        //Cela ne marchera qu'avec la partie 1
+        $config->{"liste_partie"}[0]->{"nbJoueurs"} = $config->{"liste_partie"}[0]->{"nbJoueurs"}+1;
         file_put_contents('config.json', json_encode($config));
 
 
@@ -195,6 +224,9 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 
 function RetirerJoueur($pseudoJ, $fichierPartie){
         $fichierPartie = $fichierPartie.".json";
+        if($fichierPartie==""){
+            die("Le nom de partie est null.");
+        }
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
@@ -211,9 +243,13 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
 
             $json->{'infos_partie'}->{'pseudo_j1'}="";
             $json->{'infos_partie'}->{'nbjoueurs'} -=1;
+            $json->{'infos_partie'}->{'ready_j1'}=false;
+            $json->{'infos_partie'}->{'ready_j2'}=false;
         }else if($json->{'infos_partie'}->{'pseudo_j2'}==$pseudoJ){
             $json->{'infos_partie'}->{'pseudo_j2'}="";
             $json->{'infos_partie'}->{'nbjoueurs'} -=1;
+            $json->{'infos_partie'}->{'ready_j1'}=false;
+            $json->{'infos_partie'}->{'ready_j2'}=false;
         }
 
         $json = json_encode($json);
@@ -225,6 +261,9 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
  * @param fichier $fichierPartie le fichier a reset
  */
 function resetFichierPartie($fichierPartie){
+    if($fichierPartie==null){
+        die("Le nom de la partie est null.");
+    }
     $modele = file_get_contents('model.json');
     file_put_contents($fichierPartie, $modele);
 }
@@ -264,6 +303,9 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 
 
     var_dump($json);
+    if($partie==""){
+        die("Le nom de la partie est null.");
+    }
     file_put_contents($partie.".json", json_encode($json));
 
     echo "for ".$joueur." dans ".$partie."\n";
@@ -275,7 +317,11 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 //pour mettre à jour l'état de la partie
 function recupInfosPartie($fichierPartie){
         //ouverture du fichier
+        if($fichierPartie==""){
+            die("Le nom de la partie est null.");
+        }
         $fichierPartie = $fichierPartie.".json";
+
         $json = json_decode(file_get_contents($fichierPartie));
 
         if ($json->{'infos_partie'}->{'tour'} == "j1"){
@@ -286,9 +332,12 @@ function recupInfosPartie($fichierPartie){
         }
         //récupération des informations
         $tab_result = array(
+          
           "tour"=> $json->{'infos_partie'}->{'tour'},
           "nbJoueurs"=> $json->{'infos_partie'}->{'nbjoueurs'},
-          "pseudotour"=> $pseudoArecuperer
+          "pseudotour"=> $pseudoArecuperer,
+          "ready_j1"=> $json->{'infos_partie'}->{'ready_j1'},
+          "ready_j2"=> $json->{'infos_partie'}->{'ready_j2'},
         );
 
         return $tab_result;

@@ -2,7 +2,10 @@
     "infos_partie":{
         "nbjoueurs":0,
         "pseudo_j1":"",
-        "pseudo_j2":""
+        "pseudo_j2":"",
+        "tour":"j1",
+        "ready_j1":false,
+        "ready_j2":false
     },
 
     "joueur1":{
