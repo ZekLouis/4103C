@@ -19,7 +19,7 @@
 
 var nomPartie = "";
 var pseudo = "";
-var sens= "";
+var sens= "vertical";
 var full = false;
 var modalTurn_opened = false;
 
@@ -128,6 +128,7 @@ $(function(){
             });
         }
     });
+
 
     setInterval(function(){
 
@@ -366,6 +367,7 @@ $(function(){
       }
     })
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///Cette fonction est activé lorsque l'utilisateur appuie sur une des cases du tableau de l'adversaire
 ///
@@ -426,7 +428,6 @@ $(function(){
           $("#init").slideDown(300);
           $("#main").slideUp(300);
       });
-
     });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
