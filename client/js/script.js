@@ -163,6 +163,7 @@ $(function(){
                 full = true;
             } else if (data['nbJoueurs'] == 1 && full == true ){
                 $("#modal3").modal('open');
+                $("#modalTurn").modal('close');
             }
 
         });
