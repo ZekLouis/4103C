@@ -419,6 +419,7 @@ $(function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
             $("#main").slideUp(300);
+            $(".loader").slideUp(300);
             $("#modal3").modal('close');
         });
     });

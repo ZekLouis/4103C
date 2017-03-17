@@ -286,6 +286,7 @@ function recupInfosPartie($fichierPartie){
         }
         //récupération des informations
         $tab_result = array(
+          
           "tour"=> $json->{'infos_partie'}->{'tour'},
           "nbJoueurs"=> $json->{'infos_partie'}->{'nbjoueurs'},
           "pseudotour"=> $pseudoArecuperer
