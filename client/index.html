@@ -8,6 +8,7 @@
         <script src="js/jquery-ui.min.js" charset="utf-8"></script>
         <script src="js/functions.js"></script>
         <script src="js/script.js"></script>
+        <script src="js/bateaux.js"></script>
         <script src="js/materialize.min.js"></script>
         <!-- imports css -->
         <link rel="stylesheet" href="css/materialize.min.css">
@@ -42,7 +43,7 @@
                     </div>
                 </div>
         </div>
-        
+
         <div id="modal1" class="modal">
             <div class="modal-content">
               <h4>Saisir un pseudo avant de rejoindre</h4>
@@ -110,13 +111,20 @@
                 <!-- Côté jouable -->
                 <div class="col s6">
                     <h2 class="center-align">Vous</h2>
-                    <div class="boats">
-                      <img class="boat" id="bateau5" data-height="5" src="images/boat.png" alt="Bateau à placer">
-                      <img class="boat" id="bateau4" data-height="4" src="images/boat.png" alt="Bateau à placer">
-                      <img class="boat" id="bateau3b" data-height="3" src="images/boat.png" alt="Bateau à placer">
-                      <img class="boat" id="bateau3a" data-height="3" src="images/boat.png" alt="Bateau à placer">
-                      <img class="boat" id="bateau2" data-height="2" src="images/boat.png" alt="Bateau à placer">
+                    <div class="row boats-container">
+                      <div class="col push-s5">
+                        <div class="boats blue">
+                          <img class="boat" id="bateau5" data-height="5" src="images/boat.png" alt="Bateau à placer">
+                          <img class="boat" id="bateau4" data-height="4" src="images/boat.png" alt="Bateau à placer">
+                          <img class="boat" id="bateau3b" data-height="3" src="images/boat.png" alt="Bateau à placer">
+                          <img class="boat" id="bateau3a" data-height="3" src="images/boat.png" alt="Bateau à placer">
+                          <img class="boat" id="bateau2" data-height="2" src="images/boat.png" alt="Bateau à placer">
+                        </div>
+                      </div>
                     </div>
+
+
+
                     <table id="joueur" class="row"></table>
                     <div class="row divider"></div>
                     <button class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4 btnValider" type="submit" name="action">Valider</button>
@@ -133,11 +141,6 @@
             <!--<a class="waves-effect waves-light btn" href="#modal2">Modal</a> -->
 
         </div>
-
-        <!--<script>
-
-        </script>-->
-
         <script>
             $("#main").hide();
         </script>

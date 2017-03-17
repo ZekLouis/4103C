@@ -19,7 +19,7 @@
 
 var nomPartie = "";
 var pseudo = "";
-var sens= "";
+var sens= "vertical";
 var full = false;
 var modalTurn_opened = false;
 
@@ -129,6 +129,7 @@ $(function(){
         }
     });
 
+
     setInterval(function(){
 
         $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
@@ -171,8 +172,6 @@ $(function(){
     var heightTab = 10;
     $(document).keyup(function(e){
             e.preventDefault(true);
-            console.log("start");
-            console.log(e);
             if (e.which == 13){
                 if (sens == 'vertical'){
                     sens = 'horizontal';
@@ -368,6 +367,7 @@ $(function(){
       }
     })
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///Cette fonction est activé lorsque l'utilisateur appuie sur une des cases du tableau de l'adversaire
 ///
@@ -424,12 +424,10 @@ $(function(){
 
 
     $(window).on("beforeunload", function() {
-      console.log("ON FAIT UNLOAD");
       $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
           $("#init").slideDown(300);
           $("#main").slideUp(300);
       });
-
     });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,10 +482,9 @@ $(function(){
         resB4 = JSON.stringify(boat4);
         resB5 =JSON.stringify(boat5);
 
-        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5,function(data){
-            $("#init").slideDown(300);
-            $("#main").slideUp(300);
-        });
+        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
+
+        $(this).hide();
     });
 
     ///////////////////////////////////////////////////////////////////
