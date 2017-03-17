@@ -148,8 +148,8 @@ $(function(){
               //modifs d'affichages
 
                 $(".btnAdv").addClass("disabled");
-                console.log(modalTurn_opened);
-                if (full == true && modalTurn_opened == false){
+
+                if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
 
                     $("#modalTurn").modal('open');
                     modalTurn_opened = true;
@@ -419,16 +419,19 @@ $(function(){
         $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
             $("#init").slideDown(300);
             $("#main").slideUp(300);
+            $(".loader").slideUp(300);
             $("#modal3").modal('close');
         });
     });
 
 
     $(window).on("beforeunload", function() {
-      $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
-          $("#init").slideDown(300);
-          $("#main").slideUp(300);
-      });
+        if(nomPartie==""){
+            $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+                $("#init").slideDown(300);
+                $("#main").slideUp(300);
+            });
+        }
     });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -488,8 +491,4 @@ $(function(){
         $(this).hide();
     });
 
-    ///////////////////////////////////////////////////////////////////
-    //Cette fonction récupère le texte situé dans la barre de nav
-    //Elle gère aussi le tour du joueurs
-    $("#situationTour")
 });
