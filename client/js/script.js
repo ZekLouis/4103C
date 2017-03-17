@@ -18,6 +18,7 @@
 
 
 var nomPartie = "";
+var nomPartieTemp = "";
 var pseudo = "";
 var sens= "vertical";
 var full = false;
@@ -89,7 +90,7 @@ $(function(){
          */
         $(".join").click(function() {
             $("#modal1").modal('open');
-            nomPartie = $(this).data('partie');
+            nomPartieTemp = $(this).data('partie');
         });
     });
 
@@ -106,8 +107,9 @@ $(function(){
             /**
              * Requete permettant d'insérer un un joueur dans une partie
              */
-            $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
+            $.getJSON("/4103C/server/request.php?no_req=6&pseudo="+pseudo+"&nomPartie="+nomPartieTemp,function(data){
                 if(data['res']==true){
+                    nomPartie = nomPartieTemp;
                     $("#init").slideUp(300);
                     $("#main").slideDown(300);
                     $("#modal2").modal('open');
@@ -131,42 +133,44 @@ $(function(){
 
 
     setInterval(function(){
+        if(nomPartie!=""){
+            $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
+                if (data['pseudotour'] == pseudo){
+                  //modifs d'affichages
+                    $(".btnAdv").removeClass("disabled");
 
-        $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
-            if (data['pseudotour'] == pseudo){
-              //modifs d'affichages
-                $(".btnAdv").removeClass("disabled");
+                    if (full == true && modalTurn_opened == true){
 
-                if (full == true && modalTurn_opened == true){
+                        $("#modalTurn").modal('close');
+                        modalTurn_opened = false;
 
+                    }
+                }
+                else{
+                  //modifs d'affichages
+
+                    $(".btnAdv").addClass("disabled");
+
+                    if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
+
+                        $("#modalTurn").modal('open');
+                        modalTurn_opened = true;
+
+                    }
+
+                }
+
+                if (data['nbJoueurs'] == 2 ){
+                    $("#modal2").modal('close');
+                    full = true;
+                } else if (data['nbJoueurs'] == 1 && full == true ){
+                    $("#modal3").modal('open');
                     $("#modalTurn").modal('close');
-                    modalTurn_opened = false;
-
-                }
-            }
-            else{
-              //modifs d'affichages
-
-                $(".btnAdv").addClass("disabled");
-
-                if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
-
-                    $("#modalTurn").modal('open');
-                    modalTurn_opened = true;
-
                 }
 
-            }
+            });
+        }
 
-            if (data['nbJoueurs'] == 2 ){
-                $("#modal2").modal('close');
-                full = true;
-            } else if (data['nbJoueurs'] == 1 && full == true ){
-                $("#modal3").modal('open');
-                $("#modalTurn").modal('close');
-            }
-
-        });
     },1000);
 
 /*  Placement des bateaux */
@@ -426,7 +430,7 @@ $(function(){
 
 
     $(window).on("beforeunload", function() {
-        if(nomPartie==""){
+        if(nomPartie!=""){
             $.getJSON("/4103C/server/request.php?no_req=7&pseudo="+pseudo+"&nomPartie="+nomPartie,function(data){
                 $("#init").slideDown(300);
                 $("#main").slideUp(300);
