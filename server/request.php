@@ -78,6 +78,8 @@ switch($_GET['no_req']){
         $boat3b = $_GET['boat3b'];
         $boat4 = $_GET['boat4'];
         $boat5 = $_GET['boat5'];
+        playersReady($pseudo, $nomPartie);
+
         $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
         foreach ($bateaux as $nomBateau => $bateau) {
             insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
@@ -106,6 +108,21 @@ switch($_GET['no_req']){
     default:
         echo "Erreur : pas de param";
 
+}
+
+function playersReady($pseudo, $nomPartie){
+    $partie = $nomPartie.".json";
+
+    $json =json_decode(file_get_contents($partie));
+
+    if($json->{'infos_partie'}->{'pseudo_j1'} == $pseudo){
+      $json->{'infos_partie'}->{'ready_j1'} = true;
+    }
+    else{
+      $json->{'infos_partie'}->{'ready_j2'} = true;
+    }
+
+    file_put_contents($partie,json_encode($json));
 }
 
 /////////////////////////////////////////////////////////////////
@@ -214,9 +231,13 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
 
             $json->{'infos_partie'}->{'pseudo_j1'}="";
             $json->{'infos_partie'}->{'nbjoueurs'} -=1;
+            $json->{'infos_partie'}->{'ready_j1'}=false;
+            $json->{'infos_partie'}->{'ready_j2'}=false;
         }else if($json->{'infos_partie'}->{'pseudo_j2'}==$pseudoJ){
             $json->{'infos_partie'}->{'pseudo_j2'}="";
             $json->{'infos_partie'}->{'nbjoueurs'} -=1;
+            $json->{'infos_partie'}->{'ready_j1'}=false;
+            $json->{'infos_partie'}->{'ready_j2'}=false;
         }
 
         $json = json_encode($json);
@@ -292,7 +313,9 @@ function recupInfosPartie($fichierPartie){
           
           "tour"=> $json->{'infos_partie'}->{'tour'},
           "nbJoueurs"=> $json->{'infos_partie'}->{'nbjoueurs'},
-          "pseudotour"=> $pseudoArecuperer
+          "pseudotour"=> $pseudoArecuperer,
+          "ready_j1"=> $json->{'infos_partie'}->{'ready_j1'},
+          "ready_j2"=> $json->{'infos_partie'}->{'ready_j2'},
         );
 
         return $tab_result;

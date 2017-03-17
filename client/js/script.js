@@ -148,8 +148,8 @@ $(function(){
               //modifs d'affichages
 
                 $(".btnAdv").addClass("disabled");
-                console.log(modalTurn_opened);
-                if (full == true && modalTurn_opened == false){
+
+                if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
 
                     $("#modalTurn").modal('open');
                     modalTurn_opened = true;
