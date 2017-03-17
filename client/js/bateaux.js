@@ -57,19 +57,21 @@ $(function(){
           // Suppression de la couleur rouge sur les cases (en vertical)
           for(var i = 0; i <= 10; i++){
             for(var j = colDesact; j<=10; j++){
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').droppable( "option", "disabled", false );
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').addClass("teal");
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').removeClass("red");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').removeClass("dropDisabled");
+                nextFrame = $('td[data-x="'+i+'"][data-y="'+j+'"] button');
+                nextFrame.droppable( "option", "disabled", false );
+                nextFrame.addClass("teal");
+                nextFrame.removeClass("red");
+                nextFrame.removeClass("dropDisabled");
             }
           }
           // Ajout de la couleur rouge sur les cases (en horizontal)
           for(var i = 0; i <= 10; i++){
             for(var j = colDesact; j<=10; j++){
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').droppable( "option", "disabled", true );
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("dropDisabled");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("red");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').removeClass("teal");
+                nextFrame = $('td[data-y="'+i+'"][data-x="'+j+'"] button')
+                nextFrame.droppable( "option", "disabled", true );
+                nextFrame.addClass("dropDisabled");
+                nextFrame.addClass("red");
+                nextFrame.removeClass("teal");
             }
           }
         }
@@ -78,23 +80,26 @@ $(function(){
           // Suppression de la couleur rouge sur les cases (en horizontal)
           for(var i = 0; i <= 10; i++){
             for(var j = colDesact; j<=10; j++){
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').droppable( "option", "disabled", false );
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').removeClass("dropDisabled");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("teal");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').removeClass("red");
+                nextFrame = $('td[data-y="'+i+'"][data-x="'+j+'"] button')
+                nextFrame.droppable( "option", "disabled", false );
+                nextFrame.removeClass("dropDisabled");
+                nextFrame.addClass("teal");
+                nextFrame.removeClass("red");
             }
           }
           // Ajout de la couleur rouge sur les cases verticales (en vertical)
           for(var i = 0; i <= 10; i++){
             for(var j = colDesact; j<=10; j++){
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').droppable( "option", "disabled", true );
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("dropDisabled");
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').addClass("red");
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').removeClass("teal");
+                nextFrame = $('td[data-x="'+i+'"][data-y="'+j+'"] button');
+                nextFrame.droppable( "option", "disabled", true );
+                nextFrame.addClass("dropDisabled");
+                nextFrame.addClass("red");
+                nextFrame.removeClass("teal");
             }
           }
         }
       }
+      $("button[class*='bateau']").droppable('option', 'disabled', true);
     }
 
     // Démarrage du timer de check des cases
@@ -133,6 +138,7 @@ $(function(){
       stop: function(event,ui){
         $(this).removeClass('resize');
         isStart = false;
+        $(this).removeClass('rotate');
         if (sens=="horizontal"){
           var colDesact = (lengthTab-getHauteurBateau())+2;
           for(var i = 0; i <= 10; i++){
@@ -140,7 +146,6 @@ $(function(){
                 $('td[data-y="'+i+'"][data-x="'+j+'"] button').droppable( "option", "disabled", false );
                 $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("teal");
                 $('td[data-y="'+i+'"][data-x="'+j+'"] button').removeClass("red");
-                $('td[data-y="'+i+'"][data-x="'+j+'"] button').addClass("lighten-2");
             }
           }
         }
@@ -150,7 +155,6 @@ $(function(){
             for(var j = colDesact; j<=10; j++){
                 $('td[data-x="'+i+'"][data-y="'+j+'"] button').droppable( "option", "disabled", false );
                 $('td[data-x="'+i+'"][data-y="'+j+'"] button').addClass("teal");
-                $('td[data-x="'+i+'"][data-y="'+j+'"] button').addClass("lighten-2");
                 $('td[data-x="'+i+'"][data-y="'+j+'"] button').removeClass("red");
             }
           }
@@ -172,19 +176,20 @@ $(function(){
         boatHeight = $(ui.draggable).data('height');
 
         // On change la couleur de la case sous l'image
-        $(this).addClass("green");
+        $(this).addClass("light-green");
         $(this).removeClass('teal');
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
+            if(nextFrame.hasClass('dropDisabled'))
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
-            nextFrame.addClass('green')
+            nextFrame.addClass('light-green')
             nextFrame.removeClass('teal');
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
-            nextFrame.addClass('green')
+            nextFrame.addClass('light-green')
             nextFrame.removeClass('teal');
           }
         }
@@ -195,20 +200,20 @@ $(function(){
         dataX = $(this).parent().data('x');
         dataY = $(this).parent().data('y');
 
-        $(this).removeClass('green');
+        $(this).removeClass('light-green');
         $(this).addClass('teal');
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('teal')
-            nextFrame.removeClass('green');
+            nextFrame.removeClass('light-green');
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
             nextFrame.addClass('teal')
-            nextFrame.removeClass('green');
+            nextFrame.removeClass('light-green');
           }
         }
 
@@ -226,8 +231,11 @@ $(function(){
 
         // Changement de la couleur de la case
         $(this).removeClass('teal');
-        $(this).removeClass('lighten-2')
-        $(this).addClass('blue');
+        $(this).removeClass('green');
+        $(this).removeClass('light-green')
+        $(this).addClass('green');
+
+        $(this).addClass('dropDisabled')
 
         // Desactivation du droppable sur la case drop
         $(this).droppable('option', 'disabled', true);
@@ -237,17 +245,21 @@ $(function(){
           for(var i = 1; i < boatHeight; i++){
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('green');
-            nextFrame.removeClass('lighten-2');
+            nextFrame.removeClass('light-green')
             nextFrame.removeClass('teal');
             nextFrame.addClass(idBoat);
+            nextFrame.addClass('dropDisabled')
+            nextFrame.droppable('option', 'disabled', true);
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
             nextFrame = $('td[data-x='+dataX+'][data-y='+(dataY+i)+'] button')
-            nextFrame.addClass('green')
-            nextFrame.removeClass('lighten-2');
+            nextFrame.addClass('green');
+            nextFrame.removeClass('light-green')
             nextFrame.removeClass('teal');
             nextFrame.addClass(idBoat);
+            nextFrame.addClass('dropDisabled')
+            nextFrame.droppable('option', 'disabled', true);
           }
         }
 

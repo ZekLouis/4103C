@@ -148,7 +148,6 @@ $(function(){
               //modifs d'affichages
 
                 $(".btnAdv").addClass("disabled");
-                console.log(modalTurn_opened);
                 if (full == true && modalTurn_opened == false){
 
                     $("#modalTurn").modal('open');
@@ -163,6 +162,7 @@ $(function(){
                 full = true;
             } else if (data['nbJoueurs'] == 1 && full == true ){
                 $("#modal3").modal('open');
+                $("#modalTurn").modal('close');
             }
 
         });
