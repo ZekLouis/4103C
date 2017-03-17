@@ -123,8 +123,11 @@ function modifierLeTourDeJeu($fichierPartie){
   else{
       $json->{'infos_partie'}->{'tour'} = "j1";
   }
-
-  file_put_contents($fichierPartie.".json",json_encode($json));
+  if($fichierPartie==null){
+      die("Le fichier de partie est null.");
+  }else{
+      file_put_contents($fichierPartie.".json",json_encode($json));
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////
