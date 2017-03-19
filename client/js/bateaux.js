@@ -61,7 +61,6 @@ $(function(){
                 nextFrame.droppable( "option", "disabled", false );
                 nextFrame.addClass("teal");
                 nextFrame.removeClass("red");
-                nextFrame.removeClass("dropDisabled");
             }
           }
           // Ajout de la couleur rouge sur les cases (en horizontal)
@@ -69,7 +68,6 @@ $(function(){
             for(var j = colDesact; j<=10; j++){
                 nextFrame = $('td[data-y="'+i+'"][data-x="'+j+'"] button')
                 nextFrame.droppable( "option", "disabled", true );
-                nextFrame.addClass("dropDisabled");
                 nextFrame.addClass("red");
                 nextFrame.removeClass("teal");
             }
@@ -82,7 +80,6 @@ $(function(){
             for(var j = colDesact; j<=10; j++){
                 nextFrame = $('td[data-y="'+i+'"][data-x="'+j+'"] button')
                 nextFrame.droppable( "option", "disabled", false );
-                nextFrame.removeClass("dropDisabled");
                 nextFrame.addClass("teal");
                 nextFrame.removeClass("red");
             }
@@ -92,7 +89,6 @@ $(function(){
             for(var j = colDesact; j<=10; j++){
                 nextFrame = $('td[data-x="'+i+'"][data-y="'+j+'"] button');
                 nextFrame.droppable( "option", "disabled", true );
-                nextFrame.addClass("dropDisabled");
                 nextFrame.addClass("red");
                 nextFrame.removeClass("teal");
             }
@@ -127,6 +123,25 @@ $(function(){
       revert: 'invalid',
       // Evenement déclanché lors de la selection d'un bateau
       start: function(event, ui){
+
+
+        var hauteur = $(this).data('height');
+        var listeOccupe = $('[class*="bateau"]');
+
+
+
+        for(var i = 0; i < listeOccupe.length; i++){
+          var currentFrame = $(listeOccupe[i]).parent();
+          var xCurrentFrame = currentFrame.data('x');
+          var yCurrentFrame = currentFrame.data('y');
+          for(var j = 0; j < hauteur; j++){
+            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+            frameAbove.droppable( "option", "disabled", true );
+          }
+        }
+
+
+
         $(this).addClass('resize');
         sens = "vertical";
         setBateauDrag($(this));
@@ -159,6 +174,20 @@ $(function(){
             }
           }
         }
+        var hauteur = $(this).data('height');
+        var listeOccupe = $('[class*="bateau"]');
+
+
+
+        for(var i = 0; i < listeOccupe.length; i++){
+          var currentFrame = $(listeOccupe[i]).parent();
+          var xCurrentFrame = currentFrame.data('x');
+          var yCurrentFrame = currentFrame.data('y');
+          for(var j = 0; j < hauteur; j++){
+            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+            frameAbove.droppable( "option", "disabled", false );
+          }
+        }
       }
     });
 
@@ -181,7 +210,6 @@ $(function(){
 
         if(sens=="horizontal"){
           for(var i = 1; i < boatHeight; i++){
-            if(nextFrame.hasClass('dropDisabled'))
             nextFrame = $('td[data-x='+(dataX+i)+'][data-y='+dataY+'] button')
             nextFrame.addClass('light-green')
             nextFrame.removeClass('teal');
@@ -193,6 +221,7 @@ $(function(){
             nextFrame.removeClass('teal');
           }
         }
+
 
       },
       out: function(event,ui){
@@ -234,9 +263,7 @@ $(function(){
         $(this).removeClass('green');
         $(this).removeClass('light-green')
         $(this).addClass('green');
-
-        $(this).addClass('dropDisabled')
-
+        $(this).addClass('unavailable')
         // Desactivation du droppable sur la case drop
         $(this).droppable('option', 'disabled', true);
 
@@ -248,8 +275,8 @@ $(function(){
             nextFrame.removeClass('light-green')
             nextFrame.removeClass('teal');
             nextFrame.addClass(idBoat);
-            nextFrame.addClass('dropDisabled')
             nextFrame.droppable('option', 'disabled', true);
+            nextFrame.addClass('unavailable')
           }
         }else if(sens=="vertical"){
           for(var i = 1; i < boatHeight; i++){
@@ -258,8 +285,8 @@ $(function(){
             nextFrame.removeClass('light-green')
             nextFrame.removeClass('teal');
             nextFrame.addClass(idBoat);
-            nextFrame.addClass('dropDisabled')
             nextFrame.droppable('option', 'disabled', true);
+            nextFrame.addClass('unavailable')
           }
         }
 
