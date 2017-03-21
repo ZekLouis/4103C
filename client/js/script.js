@@ -193,11 +193,14 @@ $(function(){
 
       $.ajax({"url":"/4103C/server/request.php","data":"no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,"dataType":"json",
       "success": function(data){
-        if(data.res){
+        console.log(data);
+        if(data.res.toucher){
           $this.addClass("red");
           Materialize.toast('Touché', 2000);
-        }
-        else{
+          if(data.res.couler){
+            Materialize.toast('Coulé', 2000);
+          }
+        }else{
           $this.addClass("green");
           Materialize.toast('Dans l\'eau ...', 2000);
         }
@@ -262,6 +265,14 @@ $(function(){
                     y: dataY
                 }
 
+                var compteur = {
+                    boat2 : {cp: 0, max:2},
+                    boat3 : {cp: 0, max:3},
+                    boat3bis : {cp: 0, max:3},
+                    boat4 : {cp: 0, max:4},
+                    boat5 : {cp: 0, max:5},
+                }
+
                 if ($(this).hasClass("bateau2")){
                     boat2.push(position);
                 }
@@ -282,6 +293,7 @@ $(function(){
                 }
             }
         });
+
         if (typeof boat2 !== 'undefined' && boat2.length > 0 &&
         typeof boat3a !== 'undefined' && boat3a.length > 0 &&
         typeof boat3b !== 'undefined' && boat3b.length > 0 &&
@@ -292,6 +304,7 @@ $(function(){
             resB3b = JSON.stringify(boat3b);
             resB4 = JSON.stringify(boat4);
             resB5 = JSON.stringify(boat5);
+            //resCompteur = JSON.stringify(compteur);
             $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
             $(".boats-container").slideUp(300);
             $('.btnValider').slideUp(300);

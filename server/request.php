@@ -78,12 +78,12 @@ switch($_GET['no_req']){
         $boat3b = $_GET['boat3b'];
         $boat4 = $_GET['boat4'];
         $boat5 = $_GET['boat5'];
+        //$compteur = $_GET['compteur'];
         playersReady($pseudo, $nomPartie);
 
         $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
         foreach ($bateaux as $nomBateau => $bateau) {
             insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
-            
         }
         break;
 
@@ -347,12 +347,26 @@ function recupInfosPartie($fichierPartie){
 function checkCase($pseudo,$nomPartie,$x,$y){
     $json = json_decode(file_get_contents($nomPartie.".json"));
     foreach($json->{$pseudo} as $key => $value){
+        $cle = $key;
         foreach($json->{$pseudo}->{$key} as $key => $value){
-            if($value->{"x"}==$x and $value->{"y"}==$y){
-                return TRUE;
+            if($cle != "compteur"){
+                if($value->{"x"}==$x and $value->{"y"}==$y){
+                    $cp = $json->{$pseudo}->{"compteur"}->{$cle}->{"cp"};
+                    $json->{$pseudo}->{"compteur"}->{$cle}->{"cp"} += 1;
+                    file_put_contents($nomPartie.".json", json_encode($json));
+                    // echo $cp;
+                    // echo $json->{$pseudo}->{"compteur"}->{$cle}->{"max"};
+                    if($cp+1 == $json->{$pseudo}->{"compteur"}->{$cle}->{"max"}){
+                        return array("toucher"=>True,"couler"=>True);
+                    }else{
+                        return array("toucher"=>True,"couler"=>False);
+                    }
+                    
+                }
             }
+            
         }
     }
-    return FALSE;
+    return array("toucher"=>False,"couler"=>False);
 }
 ?>
