@@ -102,7 +102,7 @@ $(function(){
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
-            console.info("Joining : "+nomPartie);
+            console.info("Joining : "+nomPartieTemp);
             $(".loader").slideDown(300);
             /**
              * Requete permettant d'insérer un un joueur dans une partie
@@ -279,22 +279,23 @@ $(function(){
                 }
             }
         });
-        console.log(boat2);
-        console.log(boat3a);
-        console.log(boat3b);
-        console.log(boat4);
-        console.log(boat5);
+        if (typeof boat2 !== 'undefined' && boat2.length > 0 &&
+        typeof boat3a !== 'undefined' && boat3a.length > 0 &&
+        typeof boat3b !== 'undefined' && boat3b.length > 0 &&
+        typeof boat4 !== 'undefined' && boat4.length > 0 &&
+        typeof boat5 !== 'undefined' && boat5.length > 0) {
+            resB2 = JSON.stringify(boat2);
+            resB3 = JSON.stringify(boat3a);
+            resB3b = JSON.stringify(boat3b);
+            resB4 = JSON.stringify(boat4);
+            resB5 = JSON.stringify(boat5);
+            $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
+            $(".boats-container").slideUp(300);
+            $('.btnValider').slideUp(300);
+        }else{
+            Materialize.toast('Placez tous vos bateaux avant de valider', 4000);
+        }
 
-
-        resB2 = JSON.stringify(boat2);
-        resB3 = JSON.stringify(boat3a);
-        resB3b = JSON.stringify(boat3b);
-        resB4 = JSON.stringify(boat4);
-        resB5 =JSON.stringify(boat5);
-
-        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
-
-        $(this).hide();
     });
 
 });
