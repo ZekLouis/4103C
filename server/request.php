@@ -83,6 +83,7 @@ switch($_GET['no_req']){
         $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
         foreach ($bateaux as $nomBateau => $bateau) {
             insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
+            
         }
         break;
 
@@ -91,7 +92,7 @@ switch($_GET['no_req']){
         if($nomPartie==""){
             die("Le nom de partie est null.");
         }
-        $json = file_get_contents($nomPartie.".json");
+        $json = json_decode(file_get_contents($nomPartie.".json"));
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
             $idJoueur = "joueur2";
         }else{
@@ -338,6 +339,8 @@ function recupInfosPartie($fichierPartie){
           "pseudotour"=> $pseudoArecuperer,
           "ready_j1"=> $json->{'infos_partie'}->{'ready_j1'},
           "ready_j2"=> $json->{'infos_partie'}->{'ready_j2'},
+          "pseudo_j1"=> $json->{'infos_partie'}->{'pseudo_j1'},
+          "pseudo_j2"=> $json->{'infos_partie'}->{'pseudo_j2'},
         );
 
         return $tab_result;

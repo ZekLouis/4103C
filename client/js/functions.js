@@ -24,7 +24,7 @@ function generateTabAdv(){
             $("#"+j+"").append("<th>"+char+"</th>");
             var i = 1;
             for(i=1; i<=10; i = i+1){
-                $("#"+j+"").append('<td><button data-yA='+(j-10)+' data-xA='+i+' class="btn teal btnAdv lighten-2 btn-small waves-effect disabled waves-light" name="action"></button></td>');
+                $("#"+j+"").append('<td><button data-yA='+(j-10)+' data-xA='+i+' class="btn teal btnAdv lighten-2 btn-small waves-effect  waves-light" name="action"></button></td>');
             }
             char = nextChar(char);
         $("#adversaire").append("</tr>");

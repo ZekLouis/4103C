@@ -23,6 +23,9 @@ var pseudo = "";
 var sens= "vertical";
 var full = false;
 var modalTurn_opened = false;
+var pseudo_tour = "";
+var pseudo_j1;
+var pseudo_j2;
 
 $(function(){
     /*
@@ -43,57 +46,59 @@ $(function(){
     generateTabJou();
     generateTabAdv();
 
+
     /*
         Requete permettant de récupérer la liste des parties
     */
-    $.getJSON("/4103C/server/request.php?no_req=8",function(data){
-        //console.log(data);
-        var listePartie = data['liste_partie'];
-        var taillePartie = listePartie.length;
-        for(var i = 0; i < taillePartie; i ++){
-                var statut = "";
-                var classe = "";
+   setInterval(function(){
+       $.getJSON("/4103C/server/request.php?no_req=8",function(data){
+            //console.log(data);
+            var listePartie = data['liste_partie'];
+            var taillePartie = listePartie.length;
+            for(var i = 0; i < taillePartie; i ++){
+                    var statut = "";
+                    var classe = "";
 
-                switch (listePartie[i]['nbJoueurs']){
-                    case 0:
-                        statut = "Partie vide";
-                        break;
+                    switch (listePartie[i]['nbJoueurs']){
+                        case 0:
+                            statut = "Partie vide";
+                            break;
 
-                    case 1:
-                        statut = "Partie en attente";
-                        break;
+                        case 1:
+                            statut = "Partie en attente";
+                            break;
 
-                    case 2:
-                        statut = "Partie complète";
-                        classe = "disabled";
-                        break;
+                        case 2:
+                            statut = "Partie complète";
+                            classe = "disabled";
+                            break;
 
-                    default:
-                        statut = "Erreur";
-                        break;
-                }
-                /*
-                    On modifie le tableau pour y faire figurer toutes les infos de chaque partie
-                */
+                        default:
+                            statut = "Erreur";
+                            break;
+                    }
+                    /*
+                        On modifie le tableau pour y faire figurer toutes les infos de chaque partie
+                    */
 
-                var nomDePartie = listePartie[i]['name'];
-                nomDePartie = nomDePartie.split(".");
-                nomDePartie = nomDePartie[0];
-                $("#listePartieTab").append('<tr id="'+nomDePartie
-                +'"><td>'+nomDePartie
-                +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
-        };
+                    var nomDePartie = listePartie[i]['name'];
+                    nomDePartie = nomDePartie.split(".");
+                    nomDePartie = nomDePartie[0];
+                    $("#listePartieTab").html('<tr id="'+nomDePartie
+                    +'"><td>'+nomDePartie
+                    +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
+                    +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+            };
 
-        /**
-         * Quand on click sur rejoindre une partie
-         */
-        $(".join").click(function() {
-            $("#modal1").modal('open');
-            nomPartieTemp = $(this).data('partie');
+            /**
+             * Quand on click sur rejoindre une partie
+             */
+            $(".join").click(function() {
+                $("#modal1").modal('open');
+                nomPartieTemp = $(this).data('partie');
+            });
         });
-    });
-
+    },1000);
     /**
      * Quand on confirme après avoir rentré un pseudo
      */
@@ -102,7 +107,7 @@ $(function(){
         if(pseudo==""){
             Materialize.toast('Erreur : saisissez un pseudo', 4000);
         }else{
-            console.info("Joining : "+nomPartie);
+            console.info("Joining : "+nomPartieTemp);
             $(".loader").slideDown(300);
             /**
              * Requete permettant d'insérer un un joueur dans une partie
@@ -135,9 +140,18 @@ $(function(){
     setInterval(function(){
         if(nomPartie!=""){
             $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
+
+                pseudo_tour = data['pseudotour'];
+                pseudo_j1 = data['pseudo_j1'];
+                pseudo_j2 = data['pseudo_j2'];
+
+                $('#situationTour').text("Tour de "+pseudo_tour);
+                $('#j1').text(pseudo_j1);
+                $('#j2').text(pseudo_j2);
+
                 if (data['pseudotour'] == pseudo){
                   //modifs d'affichages
-                    $(".btnAdv").removeClass("disabled");
+                    //$(".btnAdv").removeClass("disabled");
 
                     if (full == true && modalTurn_opened == true){
 
@@ -149,7 +163,7 @@ $(function(){
                 else{
                   //modifs d'affichages
 
-                    $(".btnAdv").addClass("disabled");
+                    //$(".btnAdv").addClass("disabled");
 
                     if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
 
@@ -193,10 +207,12 @@ $(function(){
       $.ajax({"url":"/4103C/server/request.php","data":"no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,"dataType":"json",
       "success": function(data){
         if(data.res){
-          $this.addClass("green");
+          $this.addClass("red");
+          Materialize.toast('Touché', 2000);
         }
         else{
-          $this.addClass("red");
+          $this.addClass("green");
+          Materialize.toast('Dans l\'eau ...', 2000);
         }
 
       },
@@ -279,22 +295,24 @@ $(function(){
                 }
             }
         });
-        console.log(boat2);
-        console.log(boat3a);
-        console.log(boat3b);
-        console.log(boat4);
-        console.log(boat5);
+        if (typeof boat2 !== 'undefined' && boat2.length > 0 &&
+        typeof boat3a !== 'undefined' && boat3a.length > 0 &&
+        typeof boat3b !== 'undefined' && boat3b.length > 0 &&
+        typeof boat4 !== 'undefined' && boat4.length > 0 &&
+        typeof boat5 !== 'undefined' && boat5.length > 0) {
+            resB2 = JSON.stringify(boat2);
+            resB3 = JSON.stringify(boat3a);
+            resB3b = JSON.stringify(boat3b);
+            resB4 = JSON.stringify(boat4);
+            resB5 = JSON.stringify(boat5);
+            $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
+            $(".boats-container").slideUp(300);
+            $('.btnValider').slideUp(300);
+            $(".btnAdv").removeClass("disabled");
+        }else{
+            Materialize.toast('Placez tous vos bateaux avant de valider', 4000);
+        }
 
-
-        resB2 = JSON.stringify(boat2);
-        resB3 = JSON.stringify(boat3a);
-        resB3b = JSON.stringify(boat3b);
-        resB4 = JSON.stringify(boat4);
-        resB5 =JSON.stringify(boat5);
-
-        $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
-
-        $(this).hide();
     });
 
 });
