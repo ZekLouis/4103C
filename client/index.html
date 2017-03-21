@@ -68,7 +68,7 @@
 
         <div id="modalTurn" class="modal bottom-sheet">
             <div class="modal-content">
-                <p style="text-align:center">Au tour de l'adversaire, veuillez patienter</p>
+                <p id="turnText" style="text-align:center">Tour de votre adversaire, veuillez patienter.</p>
                 <div class="progress">
                     <div class="indeterminate"></div>
                 </div>
@@ -110,6 +110,11 @@
                 <!-- Côté jouable -->
                 <div class="col s6">
                     <h2 class="center-align">Vous</h2>
+
+
+
+                    <table id="joueur" class="row"></table>
+                    <div class="row divider"></div>
                     <div class="row boats-container">
                       <div class="col push-s5">
                         <div class="boats blue">
@@ -121,11 +126,6 @@
                         </div>
                       </div>
                     </div>
-
-
-
-                    <table id="joueur" class="row"></table>
-                    <div class="row divider"></div>
                     <button class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4 btnValider" type="submit" name="action">Valider</button>
                     <button id="quit" class="row btn teal lighten-2 waves-effect waves-light col s4 offset-s4" type="submit" name="quit">Quitter</button>
                 </div>
@@ -142,7 +142,7 @@
         </div>
 
         <script>
-            $("#main").hide();
+            //$("#main").hide();
         </script>
 
     </body>

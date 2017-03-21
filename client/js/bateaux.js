@@ -1,5 +1,10 @@
 $(function(){
 
+  // $('btn').each(function(){
+  //   console.log($(this));
+  //   $(this).removeClass('light-green')
+  //   $(this).addClass('teal')
+  // })
 /*  Placement des bateaux */
     var heightTab = 10;
     var lengthTab = 10;
@@ -27,8 +32,20 @@ $(function(){
     function changeOrientation(orient, image){
       if(orient=="horizontal"){
         image.addClass('rotate');
+        $("button.light-green").each(function(){
+          console.log($(this));
+          console.log(this);
+          $(this).removeClass('light-green');
+          $(this).addClass('teal');
+        })
       }else if(orient=="vertical"){
         image.removeClass('rotate');
+        $("button.light-green").each(function(){
+          console.log($(this));
+          console.log(this);
+          $(this).removeClass('light-green');
+          $(this).addClass('teal');
+        })
       }
     }
 
@@ -53,7 +70,6 @@ $(function(){
       if (isStart == true){
         if (sens=="horizontal"){
           var colDesact = (lengthTab-getHauteurBateau())+2;
-
           // Suppression de la couleur rouge sur les cases (en vertical)
           for(var i = 0; i <= 10; i++){
             for(var j = colDesact; j<=10; j++){
@@ -96,6 +112,8 @@ $(function(){
         }
       }
       $("button[class*='bateau']").droppable('option', 'disabled', true);
+
+
     }
 
     // Démarrage du timer de check des cases
@@ -123,31 +141,42 @@ $(function(){
       revert: 'invalid',
       // Evenement déclanché lors de la selection d'un bateau
       start: function(event, ui){
-
-
-        var hauteur = $(this).data('height');
-        var listeOccupe = $('[class*="bateau"]');
-
-
-
-        for(var i = 0; i < listeOccupe.length; i++){
-          var currentFrame = $(listeOccupe[i]).parent();
-          var xCurrentFrame = currentFrame.data('x');
-          var yCurrentFrame = currentFrame.data('y');
-          for(var j = 0; j < hauteur; j++){
-            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
-            frameAbove.droppable( "option", "disabled", true );
-          }
-        }
-
-
-
         $(this).addClass('resize');
-        sens = "vertical";
+        sens = "vertical"
         setBateauDrag($(this));
         setHauteurBateau($(this).data('height'));
         dragged = $(this);
         isStart = true;
+
+
+      },
+      drag: function(event, ui){
+        if(sens=="vertical"){
+            var hauteur = $(this).data('height');
+            var listeOccupe = $('[class*="bateau"]');
+            for(var i = 0; i < listeOccupe.length; i++){
+              var currentFrame = $(listeOccupe[i]).parent();
+              var xCurrentFrame = currentFrame.data('x');
+              var yCurrentFrame = currentFrame.data('y');
+              for(var j = 0; j < hauteur; j++){
+                var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+                frameAbove.droppable( "option", "disabled", true );
+              }
+            }
+        }
+        if(sens=="horizontal"){
+            var hauteur = $(this).data('height');
+            var listeOccupe = $('[class*="bateau"]');
+            for(var i = 0; i < listeOccupe.length; i++){
+              var currentFrame = $(listeOccupe[i]).parent();
+              var xCurrentFrame = currentFrame.data('x');
+              var yCurrentFrame = currentFrame.data('y');
+              for(var j = 0; j < hauteur; j++){
+                var frameAbove = $('td[data-y='+(yCurrentFrame)+'][data-x='+(xCurrentFrame-j)+'] button');
+                frameAbove.droppable( "option", "disabled", true );
+              }
+            }
+        }
       },
       // Evenement déclanché lors du relachement d'un bateau
       stop: function(event,ui){
@@ -174,20 +203,33 @@ $(function(){
             }
           }
         }
-        var hauteur = $(this).data('height');
-        var listeOccupe = $('[class*="bateau"]');
-
-
-
-        for(var i = 0; i < listeOccupe.length; i++){
-          var currentFrame = $(listeOccupe[i]).parent();
-          var xCurrentFrame = currentFrame.data('x');
-          var yCurrentFrame = currentFrame.data('y');
-          for(var j = 0; j < hauteur; j++){
-            var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
-            frameAbove.droppable( "option", "disabled", false );
+          if(sens=="vertical"){
+            var hauteur = $(this).data('height');
+            var listeOccupe = $('[class*="bateau"]');
+            for(var i = 0; i < listeOccupe.length; i++){
+              var currentFrame = $(listeOccupe[i]).parent();
+              var xCurrentFrame = currentFrame.data('x');
+              var yCurrentFrame = currentFrame.data('y');
+              for(var j = 0; j < hauteur; j++){
+                var frameAbove = $('td[data-y='+(yCurrentFrame-j)+'][data-x='+xCurrentFrame+'] button');
+                frameAbove.droppable( "option", "disabled", false );
+              }
+            }
           }
-        }
+
+          if(sens=="horizontal"){
+            var hauteur = $(this).data('height');
+            var listeOccupe = $('[class*="bateau"]');
+            for(var i = 0; i < listeOccupe.length; i++){
+              var currentFrame = $(listeOccupe[i]).parent();
+              var xCurrentFrame = currentFrame.data('x');
+              var yCurrentFrame = currentFrame.data('y');
+              for(var j = 0; j < hauteur; j++){
+                var frameAbove = $('td[data-y='+(yCurrentFrame)+'][data-x='+(xCurrentFrame-j)+'] button');
+                frameAbove.droppable( "option", "disabled", false );
+              }
+            }
+          }
       }
     });
 
