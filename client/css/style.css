@@ -33,3 +33,8 @@ div#main table{
   margin:3px;
   z-index:999;
 }
+
+#modalTurn{
+  width:570px;
+  border-radius: 5px;
+}
