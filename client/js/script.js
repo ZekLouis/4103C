@@ -46,54 +46,55 @@ $(function(){
     /*
         Requete permettant de récupérer la liste des parties
     */
-    $.getJSON("/4103C/server/request.php?no_req=8",function(data){
-        //console.log(data);
-        var listePartie = data['liste_partie'];
-        var taillePartie = listePartie.length;
-        for(var i = 0; i < taillePartie; i ++){
-                var statut = "";
-                var classe = "";
+   setInterval(function(){
+       $.getJSON("/4103C/server/request.php?no_req=8",function(data){
+            //console.log(data);
+            var listePartie = data['liste_partie'];
+            var taillePartie = listePartie.length;
+            for(var i = 0; i < taillePartie; i ++){
+                    var statut = "";
+                    var classe = "";
 
-                switch (listePartie[i]['nbJoueurs']){
-                    case 0:
-                        statut = "Partie vide";
-                        break;
+                    switch (listePartie[i]['nbJoueurs']){
+                        case 0:
+                            statut = "Partie vide";
+                            break;
 
-                    case 1:
-                        statut = "Partie en attente";
-                        break;
+                        case 1:
+                            statut = "Partie en attente";
+                            break;
 
-                    case 2:
-                        statut = "Partie complète";
-                        classe = "disabled";
-                        break;
+                        case 2:
+                            statut = "Partie complète";
+                            classe = "disabled";
+                            break;
 
-                    default:
-                        statut = "Erreur";
-                        break;
-                }
-                /*
-                    On modifie le tableau pour y faire figurer toutes les infos de chaque partie
-                */
+                        default:
+                            statut = "Erreur";
+                            break;
+                    }
+                    /*
+                        On modifie le tableau pour y faire figurer toutes les infos de chaque partie
+                    */
 
-                var nomDePartie = listePartie[i]['name'];
-                nomDePartie = nomDePartie.split(".");
-                nomDePartie = nomDePartie[0];
-                $("#listePartieTab").append('<tr id="'+nomDePartie
-                +'"><td>'+nomDePartie
-                +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
-        };
+                    var nomDePartie = listePartie[i]['name'];
+                    nomDePartie = nomDePartie.split(".");
+                    nomDePartie = nomDePartie[0];
+                    $("#listePartieTab").html('<tr id="'+nomDePartie
+                    +'"><td>'+nomDePartie
+                    +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
+                    +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+            };
 
-        /**
-         * Quand on click sur rejoindre une partie
-         */
-        $(".join").click(function() {
-            $("#modal1").modal('open');
-            nomPartieTemp = $(this).data('partie');
+            /**
+             * Quand on click sur rejoindre une partie
+             */
+            $(".join").click(function() {
+                $("#modal1").modal('open');
+                nomPartieTemp = $(this).data('partie');
+            });
         });
-    });
-
+    },2000);
     /**
      * Quand on confirme après avoir rentré un pseudo
      */
@@ -193,10 +194,12 @@ $(function(){
       $.ajax({"url":"/4103C/server/request.php","data":"no_req=10&pseudo="+pseudo+"&nomPartie="+nomPartie+"&x="+ dataX+"&y="+dataY,"dataType":"json",
       "success": function(data){
         if(data.res){
-          $this.addClass("green");
+          $this.addClass("red");
+          Materialize.toast('Touché', 2000);
         }
         else{
-          $this.addClass("red");
+          $this.addClass("green");
+          Materialize.toast('Dans l\'eau ...', 2000);
         }
 
       },
