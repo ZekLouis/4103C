@@ -137,7 +137,7 @@ $(function(){
             $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
                 if (data['pseudotour'] == pseudo){
                   //modifs d'affichages
-                    $(".btnAdv").removeClass("disabled");
+                    //$(".btnAdv").removeClass("disabled");
 
                     if (full == true && modalTurn_opened == true){
 
@@ -149,7 +149,7 @@ $(function(){
                 else{
                   //modifs d'affichages
 
-                    $(".btnAdv").addClass("disabled");
+                    //$(".btnAdv").addClass("disabled");
 
                     if (full == true && modalTurn_opened == false && data['ready_j2'] == true){
 

@@ -91,7 +91,7 @@ switch($_GET['no_req']){
         if($nomPartie==""){
             die("Le nom de partie est null.");
         }
-        $json = file_get_contents($nomPartie.".json");
+        $json = json_decode(file_get_contents($nomPartie.".json"));
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
             $idJoueur = "joueur2";
         }else{
@@ -332,7 +332,7 @@ function recupInfosPartie($fichierPartie){
         }
         //récupération des informations
         $tab_result = array(
-          
+
           "tour"=> $json->{'infos_partie'}->{'tour'},
           "nbJoueurs"=> $json->{'infos_partie'}->{'nbjoueurs'},
           "pseudotour"=> $pseudoArecuperer,
