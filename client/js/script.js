@@ -292,6 +292,7 @@ $(function(){
             $.getJSON("/4103C/server/request.php?no_req=9&pseudo="+pseudo+"&nomPartie="+nomPartie+"&boat2="+resB2+"&boat3a="+resB3+"&boat3b="+resB3b+"&boat4="+resB4+"&boat5="+resB5);
             $(".boats-container").slideUp(300);
             $('.btnValider').slideUp(300);
+            $(".btnAdv").removeClass("disabled");
         }else{
             Materialize.toast('Placez tous vos bateaux avant de valider', 4000);
         }
