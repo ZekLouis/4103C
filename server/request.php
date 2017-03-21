@@ -83,11 +83,15 @@ switch($_GET['no_req']){
         $bateaux = array("boat2"=>$boat2,"boat3a"=>$boat3a,"boat3b"=>$boat3b,"boat4"=>$boat4,"boat5"=>$boat5);
         foreach ($bateaux as $nomBateau => $bateau) {
             insererBateau($bateau,$nomBateau,$pseudo,$nomPartie);
+            
         }
         break;
 
     case 10:
         $nomPartie = $_GET['nomPartie'];
+        if($nomPartie==""){
+            die("Le nom de partie est null.");
+        }
         $json = file_get_contents($nomPartie.".json");
         if($json->{'infos_partie'}->{'pseudo_j1'}==$_GET['pseudo']){
             $idJoueur = "joueur2";
@@ -141,7 +145,7 @@ function modifierLeTourDeJeu($fichierPartie){
       $json->{'infos_partie'}->{'tour'} = "j1";
   }
   if($fichierPartie==null){
-      die("Le fichier de partie est null.");
+      die("Le nom de partie est null.");
   }else{
       file_put_contents($fichierPartie.".json",json_encode($json));
   }
@@ -185,11 +189,17 @@ function creerPartie(){
 }
 
 function SaisirJoueur($pseudoJ, $fichierPartie){
+        if($fichierPartie==""){
+            die("Le nom de partie est null.");
+        }
         $fichierPartie = $fichierPartie.".json";
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
-        $config->{"liste_partie"}[0]->{"nbJoueurs"} += 1;
+
+
+        //Cela ne marchera qu'avec la partie 1
+        $config->{"liste_partie"}[0]->{"nbJoueurs"} = $config->{"liste_partie"}[0]->{"nbJoueurs"}+1;
         file_put_contents('config.json', json_encode($config));
 
 
@@ -215,6 +225,9 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 
 function RetirerJoueur($pseudoJ, $fichierPartie){
         $fichierPartie = $fichierPartie.".json";
+        if($fichierPartie==""){
+            die("Le nom de partie est null.");
+        }
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
@@ -249,6 +262,9 @@ function RetirerJoueur($pseudoJ, $fichierPartie){
  * @param fichier $fichierPartie le fichier a reset
  */
 function resetFichierPartie($fichierPartie){
+    if($fichierPartie==null){
+        die("Le nom de la partie est null.");
+    }
     $modele = file_get_contents('model.json');
     file_put_contents($fichierPartie, $modele);
 }
@@ -288,6 +304,9 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 
 
     var_dump($json);
+    if($partie==""){
+        die("Le nom de la partie est null.");
+    }
     file_put_contents($partie.".json", json_encode($json));
 
     echo "for ".$joueur." dans ".$partie."\n";
@@ -299,7 +318,11 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
 //pour mettre à jour l'état de la partie
 function recupInfosPartie($fichierPartie){
         //ouverture du fichier
+        if($fichierPartie==""){
+            die("Le nom de la partie est null.");
+        }
         $fichierPartie = $fichierPartie.".json";
+
         $json = json_decode(file_get_contents($fichierPartie));
 
         if ($json->{'infos_partie'}->{'tour'} == "j1"){
