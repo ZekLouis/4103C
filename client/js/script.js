@@ -94,7 +94,7 @@ $(function(){
                 nomPartieTemp = $(this).data('partie');
             });
         });
-    },2000);
+    },1000);
     /**
      * Quand on confirme après avoir rentré un pseudo
      */
