@@ -23,6 +23,9 @@ var pseudo = "";
 var sens= "vertical";
 var full = false;
 var modalTurn_opened = false;
+var pseudo_tour = "";
+var pseudo_j1;
+var pseudo_j2;
 
 $(function(){
     /*
@@ -42,6 +45,7 @@ $(function(){
     // Génération des tableaux de jeux
     generateTabJou();
     generateTabAdv();
+
 
     /*
         Requete permettant de récupérer la liste des parties
@@ -135,6 +139,15 @@ $(function(){
     setInterval(function(){
         if(nomPartie!=""){
             $.getJSON("/4103C/server/request.php?no_req=0&nomPartie="+nomPartie,function(data){
+
+                pseudo_tour = data['pseudotour'];
+                pseudo_j1 = data['pseudo_j1'];
+                pseudo_j2 = data['pseudo_j2'];
+
+                $('#situationTour').text("Tour de "+pseudo_tour);
+                $('#j1').text(pseudo_j1);
+                $('#j2').text(pseudo_j2);
+
                 if (data['pseudotour'] == pseudo){
                   //modifs d'affichages
                     //$(".btnAdv").removeClass("disabled");

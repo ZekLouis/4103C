@@ -339,6 +339,8 @@ function recupInfosPartie($fichierPartie){
           "pseudotour"=> $pseudoArecuperer,
           "ready_j1"=> $json->{'infos_partie'}->{'ready_j1'},
           "ready_j2"=> $json->{'infos_partie'}->{'ready_j2'},
+          "pseudo_j1"=> $json->{'infos_partie'}->{'pseudo_j1'},
+          "pseudo_j2"=> $json->{'infos_partie'}->{'pseudo_j2'},
         );
 
         return $tab_result;
