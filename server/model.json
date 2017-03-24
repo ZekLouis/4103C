@@ -5,7 +5,11 @@
         "pseudo_j2":"",
         "tour":"j1",
         "ready_j1":false,
-        "ready_j2":false
+        "ready_j2":false,
+        "last_case":{
+          "x":"4",
+          "y":"6"
+        }
     },
 
     "joueur1":{
