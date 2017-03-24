@@ -165,8 +165,6 @@ function creerPartie(){
 
     $i = 0;
     $taille=count($config->{"liste_partie"});
-    echo $taille;
-
     $partie = (object) [
         'name' => 'partie'.($taille+1).'.json',
         'nbJoueurs' => 0
