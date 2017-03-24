@@ -145,6 +145,8 @@ $(function(){
                 pseudo_tour = data['pseudotour'];
                 pseudo_j1 = data['pseudo_j1'];
                 pseudo_j2 = data['pseudo_j2'];
+                last_case_x = data['last_case_x'];
+                last_case_y = data['last_case_y'];
 
                 $('#situationTour').text("Tour de "+pseudo_tour);
                 $('#j1').text(pseudo_j1);
@@ -158,7 +160,7 @@ $(function(){
 
                         $("#modalTurn").modal('close');
                         modalTurn_opened = false;
-
+                        $("td[data-y='"+last_case_y+"'][data-x='"+last_case_x+"'] button").addClass("orange");
                     }
                 }
                 else{

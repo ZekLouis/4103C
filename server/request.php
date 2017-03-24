@@ -328,6 +328,9 @@ function recupInfosPartie($fichierPartie){
           "ready_j2"=> $json->{'infos_partie'}->{'ready_j2'},
           "pseudo_j1"=> $json->{'infos_partie'}->{'pseudo_j1'},
           "pseudo_j2"=> $json->{'infos_partie'}->{'pseudo_j2'},
+          "last_case_x"=> $json->{'infos_partie'}->{'last_case'}->{'x'},
+          "last_case_y"=> $json->{'infos_partie'}->{'last_case'}->{'y'}
+
         );
 
         return $tab_result;
@@ -335,6 +338,12 @@ function recupInfosPartie($fichierPartie){
 
 function checkCase($pseudo,$nomPartie,$x,$y){
     $json = json_decode(file_get_contents($nomPartie.".json"));
+
+    $json->{"infos_partie"}->{"last_case"}->{"x"}=$x;
+    $json->{"infos_partie"}->{"last_case"}->{"y"}=$y;
+    file_put_contents($nomPartie.".json", json_encode($json));
+    $json = json_decode(file_get_contents($nomPartie.".json"));
+
     foreach($json->{$pseudo} as $key => $value){
         $cle = $key;
         foreach($json->{$pseudo}->{$key} as $key => $value){
@@ -342,6 +351,7 @@ function checkCase($pseudo,$nomPartie,$x,$y){
                 if($value->{"x"}==$x and $value->{"y"}==$y){
                     $cp = $json->{$pseudo}->{"compteur"}->{$cle}->{"cp"};
                     $json->{$pseudo}->{"compteur"}->{$cle}->{"cp"} += 1;
+
                     file_put_contents($nomPartie.".json", json_encode($json));
                     // echo $cp;
                     // echo $json->{$pseudo}->{"compteur"}->{$cle}->{"max"};
@@ -350,10 +360,10 @@ function checkCase($pseudo,$nomPartie,$x,$y){
                     }else{
                         return array("toucher"=>True,"couler"=>False);
                     }
-                    
+
                 }
             }
-            
+
         }
     }
     return array("toucher"=>False,"couler"=>False);
