@@ -302,6 +302,7 @@ function insererBateau($bateau,$idBateau,$joueur,$partie){
         $json->{$idJoueur}->{$idBateau} = json_decode($bateau);
     }
 
+    $json->{$idJoueur}->{"compteur"}->{$idBateau}->{"cp"} = 0;
 
     var_dump($json);
     if($partie==""){

@@ -38,8 +38,8 @@
         },
         "compteur":{
             "boat2":{"cp":0,"max":2},
-            "boat3":{"cp":0,"max":3},
-            "boat3bis":{"cp":0,"max":3},
+            "boat3a":{"cp":0,"max":3},
+            "boat3b":{"cp":0,"max":3},
             "boat4":{"cp":0,"max":4},
             "boat5":{"cp":0,"max":5}
         }
@@ -75,8 +75,8 @@
         },
         "compteur":{
             "boat2":{"cp":0,"max":2},
-            "boat3":{"cp":0,"max":3},
-            "boat3bis":{"cp":0,"max":3},
+            "boat3a":{"cp":0,"max":3},
+            "boat3b":{"cp":0,"max":3},
             "boat4":{"cp":0,"max":4},
             "boat5":{"cp":0,"max":5}
         }
