@@ -52,7 +52,8 @@ $(function(){
     */
    setInterval(function(){
        $.getJSON("/4103C/server/request.php?no_req=8",function(data){
-            //console.log(data);
+            console.log(data);
+            $("#listePartieTab").html('')
             var listePartie = data['liste_partie'];
             var taillePartie = listePartie.length;
             for(var i = 0; i < taillePartie; i ++){
@@ -87,7 +88,7 @@ $(function(){
                     $("#listePartieTab").html('<tr id="'+nomDePartie
                     +'"><td>'+nomDePartie
                     +'</td><td>'+statut+'</td><td>'+listePartie[i]['nbJoueurs']
-                    +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>');
+                    +'/2</td><td><button id="joinButton" data-partie="'+nomDePartie+'" class="btn '+classe+' waves-effect waves-light join">Rejoindre</button></td></tr>'+$("#listePartieTab").html());
             };
 
             /**
@@ -251,6 +252,10 @@ $(function(){
         });
     });
 
+    $("#creerNouvellePartie").on("click",function(){
+        console.log("Création d'une nouvelle partie");
+        $.getJSON("/4103C/server/request.php?no_req=11");
+    });
 
     $(window).on("beforeunload", function() {
         if(nomPartie!=""){
