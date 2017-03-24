@@ -109,6 +109,10 @@ switch($_GET['no_req']){
 
         break;
 
+    case 11:
+        creerPartie();
+        break;
+
     default:
         echo "Erreur : pas de param";
 
@@ -161,30 +165,16 @@ function creerPartie(){
 
     $i = 0;
     $taille=count($config->{"liste_partie"});
+    echo $taille;
 
-    foreach($config->{"liste_partie"} as $partie){
-        if($partie->{"nbJoueurs"} <= 1){
-            $partie->{"nbJoueurs"}+=1;
-            file_put_contents('config.json', json_encode($config));
-            break;
-        }
-        else if($partie->{"nbJoueurs"} == 2){
-            //rien
-        }
-      $i += 1;
-    }
-    if($i == $taille){
-        //création de l'objet
-        $object = new stdClass();
-        $object->name="partie".($taille+1).".json";
-        $object->nbJoueurs=1;
-        $config->{"liste_partie"}[$i]=$object;
+    $partie = (object) [
+        'name' => 'partie'.($taille+1).'.json',
+        'nbJoueurs' => 0
+    ];
 
-
-        //création du fichier
-        //fopen("partie".($taille+1).".json", "a+");
-        shell_exec('cp ./model.json ./partie'.($taille+1).".json");
-    }
+    shell_exec('cp ./model.json ./partie'.($taille+1).".json");
+    print_r($config->{"liste_partie"});
+    array_push($config->{"liste_partie"},$partie);
     file_put_contents('config.json', json_encode($config));
 }
 
@@ -196,10 +186,8 @@ function SaisirJoueur($pseudoJ, $fichierPartie){
 
         // Modification du fichier de config
         $config = json_decode(file_get_contents("config.json"));
-
-
-        //Cela ne marchera qu'avec la partie 1
-        $config->{"liste_partie"}[0]->{"nbJoueurs"} = $config->{"liste_partie"}[0]->{"nbJoueurs"}+1;
+        $numberPartie = intval($fichierPartie[strlen($fichierPartie)-6]);
+        $config->{"liste_partie"}[$numberPartie-1]->{"nbJoueurs"} = $config->{"liste_partie"}[0]->{"nbJoueurs"}+1;
         file_put_contents('config.json', json_encode($config));
 
 
